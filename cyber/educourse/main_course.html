@@ -1,0 +1,243 @@
+<? include "../include/header.html"; ?>
+<?
+if($CategoryB){
+	$where[] = "a.Category2 LIKE '%$CategoryB%'";
+}
+$where[] = "a.PackageYN='N'";
+$where[] = "a.Del='N'";
+$where[] = "a.UseYN='Y'";
+$where[] = "a.ctype='B'";
+
+$where = implode(" AND ",$where);
+if($where) $where = "WHERE $where";
+
+$SQLA = "SELECT COUNT(*) FROM CourseCyber AS a $where ";
+$ResultA = mysqli_query($connect, $SQLA);
+$RowA = mysqli_fetch_array($ResultA);
+$TOT_NO = $RowA[0];
+mysqli_free_result($ResultA);
+?>
+<script>
+	//카테고리에 맞게 베너및타이틀 설정
+    $(document).ready(function() {
+    	var CategoryB = $("#CategoryB").val();
+    	
+    	if(CategoryB == "1"){
+    		$("#banner01").show();
+    		$("#banner02").hide();
+    		$("#banner03").hide();
+    		$("#banner04").hide();
+    		
+    		$("#title01").show();
+    		$("#title02").hide();
+    		$("#title03").hide();
+    		$("#title04").hide();
+    	}else if(CategoryB == "2"){
+    		$("#banner01").hide();
+    		$("#banner02").show();
+    		$("#banner03").hide();
+    		$("#banner04").hide();
+    		
+    		$("#title01").hide();
+    		$("#title02").show();
+    		$("#title03").hide();
+    		$("#title04").hide();
+    	}else if(CategoryB == "3"){
+    		$("#banner01").hide();
+    		$("#banner02").hide();
+    		$("#banner03").show();
+    		$("#banner04").hide();
+    		
+    		$("#title01").hide();
+    		$("#title02").hide();
+    		$("#title03").show();
+    		$("#title04").hide();
+    	}else if(CategoryB == "4"){
+    		$("#banner01").hide();
+    		$("#banner02").hide();
+    		$("#banner03").hide();
+    		$("#banner04").show();
+    		
+    		$("#title01").hide();
+    		$("#title02").hide();
+    		$("#title03").hide();
+    		$("#title04").show();
+    	}
+	});
+</script>
+<body>
+	<input type="hidden" name="CategoryB" id="CategoryB" value="<?=$CategoryB?>">
+    <!--NCS직업교육-->
+    <div class="main_banner_wrap" id="banner01" style="display:none;">
+        <div class="main_banner active" style="background-image: url(../img/educourse/banner/main_banner01.png); background-color: #77CFD8;">
+            <div id="wrap">
+                <strong>NSC 직업교육 수료증으로 <br>
+                    이직자신감 UP!</strong>
+                <p>#공기업 취뽀 #프로이직러</p>
+            </div>
+        </div>
+    </div>
+    <!-- //NCS직업교육-->
+    
+    <!--일반사무직-->
+    <div class="main_banner_wrap" id="banner02" style="display:none;">
+        <div class="main_banner active" style="background-image: url(../img/educourse/banner/main_banner02.png); background-color:#F2D68F;">
+            <div id="wrap">
+                <strong>자신감 있는 업무처리 <br>
+                    일반사무직</strong>
+                <p>#소통 #사무행정 #인사 #총무</p>
+            </div>
+        </div>
+    </div>
+    <!--//일반사무직 -->
+    
+    <!-- IT·4차산업-->
+    <div class="main_banner_wrap" id="banner03" style="display:none;">
+        <div class="main_banner active" style="background-image: url(../img/educourse/banner/main_banner03.png); background-color: #84B7FE;">
+            <div id="wrap">
+                <strong>어렵지 않아요! 요즘 대세 <br>
+                    IT·4차산업</strong>
+                <p>#AI #빅데이터 #챗GPT</p>
+            </div>
+        </div>
+    </div>
+    <!-- //IT·4차산업 -->
+    
+    <!--병원-->
+    <div class="main_banner_wrap" id="banner04" style="display:none;">
+        <div class="main_banner active" style="background-image: url(../img/educourse/banner/main_banner04.png); background-color: #EAB5C5;">
+            <div id="wrap">
+                <strong>의료종사자를 위한 <br>
+                    A부터 Z까지</strong>
+                <p>#병원안내 #요양지원</p>
+            </div>
+        </div>
+    </div>
+    <!--//병원-->
+    
+    <div id="wrap">
+        <div class="top_section">
+            <!--NCS직업교육-->
+            <div class="title" id="title01" style="display:none;">
+                <span class="main_course_title">아는것이 곧 나의 능력! 커리어 스킬 업</span>
+            </div>
+            <!-- //NCS직업교육-->
+            
+            <!--일반사무직-->
+            <div class="title" id="title02" style="display:none;">
+                <span class="main_course_title">직장인을 위한 HRDe만의 필수 강의</span>
+            </div>
+            <!--//일반사무직-->
+            
+            <!-- IT·4차산업-->
+            <div class="title" id="title03" style="display:none;">
+                <span class="main_course_title">요즘 가장 주목받는  IT·4차산업 강의</span>
+            </div>
+            <!-- //IT·4차산업-->
+            
+            <!--병원-->
+            <div class="title" id="title04" style="display:none;">
+                <span class="main_course_title">HRDe사이버연수원에서만 만날 수 있는 의료종사자를 위한 강의</span>
+            </div>
+            <!--//병원-->
+        </div>
+        
+        <div class="course">
+            <ul>
+            	<?
+				$i = 0;
+				$SQL = "SELECT a.* FROM CourseCyber a  $where  ORDER BY a.RegDate DESC, a.idx DESC LIMIT 0, 8";
+				//echo $SQL;
+				$QUERY = mysqli_query($connect, $SQL);
+				if($QUERY && mysqli_num_rows($QUERY)){
+					while($ROW = mysqli_fetch_array($QUERY)){
+						extract($ROW);
+						$Keyword = str_replace(' ', '', $Keyword);
+						$Keyword_array = explode('#',$Keyword);
+						$Keyword_arrayA = array_slice($Keyword_array, 1, 3);
+						$ImgUrl = "/upload/Course/".$PreviewImage;
+				?>
+				<li>
+	            	<div class="course_img" style="background-image: url(<?=$ImgUrl?>); background-color: #e8ece7;" onclick="window.open('../edudetail/edudetail.html?LectureCode=<?=$LectureCode?>')">
+						<span><?=$Keyword_array[1]?></span>					
+						<button class="course_save_btn"><img src="../img/educourse/white heart.png" alt=""></button>
+					</div>
+					<div class="course_title"><?=$ContentsName?></div>
+					<div class="course_tag">
+					<? 
+					while (list($key,$value)=each($Keyword_arrayA)){
+					?>
+					 	<span>#<?=$value?></span>
+					<?
+					}
+					?>
+					</div>
+				</li>
+				<?
+						$i++;
+					}
+				}
+				?>
+            </ul>
+            <span style="display: none;">더이상 조회되는 컨텐츠가 없습니다.</span>
+    	</div>
+    	<? 
+   		if($TOT_NO > 0){
+			if($TOT_NO > 8){
+   		?>
+    	<div class="more_btn" id="load">
+        	<button>+ 과정 더보기 </button>
+    	</div>
+    	<?
+    		}
+    	}else{
+    	?>
+    	<div class="more_btn" id="load">
+        	<span>조회되는 컨텐츠가 없습니다.</span>
+    	</div>
+    	<?}?>
+	</div>
+</body>
+<? include "../include/footer.html"; ?>
+
+
+
+<!--메뉴-->
+<script>
+    $(function(){
+        $('.gnb > ul > li.menu').mouseover(function(){
+            $(this).find('.sub_menu').stop().slideDown();
+        })
+        $('.gnb > ul > li.menu').mouseout(function(){
+            $(this).find('.sub_menu').stop().slideUp()
+        })
+    })
+
+</script>
+
+<!--more load-->
+<script>
+$(function(){
+	var clickNum = 1; //버튼을 클릭한 수
+	
+	$("#load").click(function(e){
+		var Category = "all";
+		var CategoryB = $("#CategoryB").val();
+		
+		var totNo = <?=$TOT_NO?>; //컨텐츠 총개수
+	   	var showNo = $(".course li").length; //현재 보여지는 컨텐츠 개수
+	   	var hiddenNo = totNo - showNo; //아직 보여지지 않은 컨텐츠 개수
+		
+		var pageStart = clickNum * 8;
+	   	
+		CourseCyberAdd(totNo, showNo, hiddenNo, pageStart, Category, CategoryB); //과정더보기		
+		clickNum ++;
+		
+		//컨텐츠가 없으면 버튼도 숨김처리
+		if(hiddenNo < 1){
+			$(".course span").show();
+			$('#load').fadeOut(100);
+	   	}
+    });
+})
+</script>

@@ -1,0 +1,410 @@
+<? include "../include/header.html"; ?>
+
+<body>
+    <div class="payment_right_wrap">
+        <div class="payment_right">
+            <strong>주문확인</strong>
+            <div class="total">
+                <span>총판매금액</span>
+                <span><b>71,600</b>원</span>
+            </div>
+            <div class="support">
+                <span>정부지원금</span>
+                <span><b>39,080</b>원</span>
+            </div>
+            <div class="discount">
+                <span>추가할인</span>
+                <span><b>0</b>원</span>
+            </div>
+            <div class="expense">
+                <span>자비부담금</span>
+                <span><b>31,980</b>원</span>
+            </div>
+            <div class="agree">
+                <input type="checkbox" name="agree" id="">
+                <label for="agree">결제조건 확인 및 개인정보 제공에 동의
+                    합니다.</label>
+            </div>
+            <button class="prev">
+                이전
+            </button>
+            <button class="pay" onclick="location.href='payment_complete.html'">
+                결제하기
+            </button>
+        </div>
+    </div>
+
+    <div class="payment_top_section">
+        <div id="wrap">
+            <h1>주문 / 결제</h1>
+            <ol>
+                <li>과정선택<i class="ph-fill ph-fast-forward"></i></li>
+                <li><span class="fcred">주문 / 결제</span><i class="ph-fill ph-fast-forward"></i></li>
+                <li>결제완료</li>
+            </ol>
+        </div>
+    </div>
+    <div id="wrap">
+        <div class="payment_left">
+            <!--주문정보-->
+            <div class="con order_info">
+                <div class="title">주문정보</div>
+                <table>
+                    <colgroup>
+                        <col width="50%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>상품명</th>
+                            <th>학습기간</th>
+                            <th>교재</th>
+                            <th>판매가</th>
+                            <th>정부지원금</th>
+                            <th>자비부담금 </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <strong>NCS기반 총무업무 실무 마스터 과정 직원들이 만족하는 회사 만들기</strong> <button>새창<i class="ph-fill ph-caret-right"></i></button>
+                                <select name="" id="">
+                                    <option value="">국민내일배움카드(재직자) / 2024-03-20</option>
+                                </select>
+                            </td>
+                            <td class="ac">1개월</td>
+                            <td class="ac">없음</td>
+                            <td class="ac"><b>71,060</b>원</td>
+                            <td class="ac">39,020 원</td>
+                            <td class="fcred ac"><b>31,980</b>원</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--주문정보-->
+            <!--결제정보-->
+            <div class="con pay_info">
+                <div class="title">결제정보</div>
+                <div class="subtitle">할인적용</div>
+                <table>
+                    <colgroup>
+                        <col width="80px">
+                        <col width="80px">
+                        <col>
+                        <col width="160px">
+                        <col width="160px">
+                    </colgroup>
+                    <tr>
+                        <th colspan="2">정부지원금</th>
+                        <td><b>39,080</b>원</td>
+                        <th>할인금액</th>
+                        <td class="ar">0원</td>
+                    </tr>
+                    <tr>
+                        <th rowspan="2">추가할인</th>
+                        <th>지식쿠폰</th>
+                        <td>
+                            <input type="number" placeholder="0">원  <button class="red modal-btn" href="#modal01">쿠폰적용</button><span>*사용가능쿠폰: 0개</span>
+                        </td>
+                        <th>할인금액</th>
+                        <td class="ar">0원</td>
+                    </tr>
+                    <tr>
+                        <th>지식쿠폰</th>
+                        <td>
+                            <input type="number" placeholder="0">원 <button class="grey">최대사용</button><span>*보유 포인트: <b>20,000</b>원 <br> *최대 사용가능 포인트: <b>20,000</b>원 </span>
+                            <em>(결제금액의 50%까지 사용가능)</em>
+                        </td>
+                        <th>할인금액</th>
+                        <td class="ar">0원</td>
+                    </tr>
+                </table>
+            </div>
+            <!--결제정보-->
+            <!--학습목적 등록-->
+            <div class="con study_purpose">
+                <div class="title">학습목적 등록</div>
+                <div class="content">
+                    <input type="radio" name="" id=""><label for="">승진 </label> 
+                    <input type="radio" name="" id=""><label for="">이직 </label> 
+                    <input type="radio" name="" id=""><label for="">연봉인상 </label> 
+                    <input type="radio" name="" id=""><label for="">회사지원 </label> 
+                    <input type="radio" name="" id=""><label for="">지인추천 </label> 
+                    <input type="radio" name="" id=""><label for="">업무역량강화 </label> 
+                    <input type="radio" name="" id=""><label for="">교양/힐링 </label> 
+                    <input type="radio" name="" id=""><label for="">목표없음 </label> <br>
+                    <input type="radio" name="" id=""><label for="">기타 </label> 
+                    <input type="text" name="" id="" placeholder="내용을 입력하세요">
+                </div>
+            </div>
+            <!--학습목적 등록-->
+            <!--결제방법-->
+            <div class="con pay_method">
+                <div class="title">결제방법</div>
+                <div class="content">
+                    <span class="subtitle">결제수단선택</span> 
+                    <input type="radio" name="method" id="" oninput="ApplyTypeChange('A')" checked><label for="">신용카드 </label> 
+                    <input type="radio" name="method" id=""><label for="">PAYCO </label> 
+                    <input type="radio" name="method" id=""><label for="">삼성페이 </label> 
+                    <input type="radio" name="method" id=""><label for="">SSG페이 </label> 
+                    <input type="radio" name="method" id="" oninput="ApplyTypeChange('B')"><label for="">ARS카드결제 </label> 
+                    <input type="radio" name="method" id="" oninput="ApplyTypeChange('C')"><label for="">은행계좌이체 </label> 
+                    <input type="radio" name="method" id="" oninput="ApplyTypeChange('C')"><label for="">무통장입금 </label> 
+                </div>
+                <!--신용카드-->
+                <div class="content" id="ApplyTypeResult1">
+                    <span>
+                        *고용보험 환급과정일 경우 필히 법인카드로만 결제를 하셔야 합니다. <br>
+                        - 개인카드로 결제하실 경우 환급을 받을 수 없습니다. <br>
+                        - 단, 개인 이름으로 되어 있는 법인카드의 경우 사용 가능
+                    </span>
+                </div>
+                <!--ARS카드결제-->
+                <div class="content" id="ApplyTypeResult2" style="display: none;">
+                    <div class="flex_box">
+                        <div>
+                            <span>
+                                <b>*고용보험 환급과정</b>일 경우 필히 법인카드로만 결제를 하셔야 합니다.<br>
+                                - 개인카드로 결제하실 경우 환급을 받을 수 없습니다.<br>
+                                - 단, 개인 이름으로 되어 있는 법인카드의 경우 사용 가능
+                            </span>
+                        </div>    
+                        <div>
+                            <span>
+                                신용카드 ARS 카드결제<br>
+                                공인인증서 없이 전화상으로 카드결제를 하실 수 있습니다.<br>
+                                결제하기 버튼을 눌러 주문을 완료하시면 예약번호가 전송됩니다.<br>
+                                가상번호로 전화하신 후 안내에 따라 결제를 완료하시면 과정수강이 가능합니다.
+                            </span>
+                            <div class="phonenumber_input">
+                                <select name="" id="">
+                                    <option value="">LG U+</option>
+                                    <option value="">KT</option>
+                                    <option value="">SKT</option>
+                                </select>-
+                                <input type="text">-
+                                <input type="text">-
+                                <input type="text">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--계좌이체, 무통장입금-->
+                <div class="content pb15" id="ApplyTypeResult3" style="display: none;">
+                    ※ 자신의 계좌에서 실시간으로 이체를 하실 수 있습니다. <br>
+                    ※ 증빙서류는 현금영수증 또는 전자세금계산서 둘 중 한 가지만 발급이 가능합니다.<br>
+                        전자세금계산서 발행은 익월 10일 까지 발급 가능합니다. (익월 7일 이내 신청 권장)<br>
+                        <br>
+                    ※ 2021년 1월 1일부터 소득세법시행령 별표3의3에 의거하여 해당 되는 사업장은 의무적으로 현금영수증 발행 처리되고 있습니다. <br> <br>
+                    <input type="radio" name="method2" id=""><label for="">현금영수증</label> 
+                    <input type="radio" name="method2" id="" checked><label for="">세금계산서</label> 
+                </div>
+            </div>
+            <!--결제방법-->
+            <!--전자세금계산서발행-->
+            <div class="con tax_bill" id="ApplyTypeResult3-2" style="display: none;">
+                <div class="title">전자세금계산서 발행 <span>*전자세금계산서 의무화 정책에 따라 현금결제 시 결제일 기준으로 세금계산서를 함께 발행합니다. 아래 정보를 입력하신 후 결제를 진행해주세요. </span> </div>
+                <table>
+                    <colgroup>
+                        <col width="110px">
+                        <col>
+                        <col width="110px">
+                        <col width="320px">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th colspan="2">
+                                <div class="subtitle">공급받는자 정보</div>
+                            </th>
+                            <th colspan="2">
+                                <div class="subtitle">귀사의 (세금)계산서 업무 담당자 정보</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>상호(법인명)</th>
+                            <td>
+                                <input type="text" name="" id="">
+                                <span>*사업자등록증에 있는 회사명과 동일하게 입력해 주십시오</span>
+                            </td>
+                            <th>담당자 성명</th>
+                            <td>
+                                <input type="text" name="" id="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>사업자등록번호</th>
+                            <td>
+                                <input type="text" name="" id="">
+                                <span>* (-)없이 입력하세요.</span>
+                            </td>
+                            <th>연락처</th>
+                            <td>
+                                <input type="text" name="" id="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>성명(대표자)</th>
+                            <td>
+                                <input type="text" name="" id="">
+                                <span>(0/30)</span>
+                            </td>
+                            <th>이메일</th>
+                            <td>
+                                <input type="text" name="" id="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>사업장 소재지</th>
+                            <td>
+                                <input type="text" name="" id="">
+                                <span>*사업자등록증에 있는 회사명과 동일하게 입력해 주십시오</span>
+                            </td>
+                            <th></th>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>업태</th>
+                            <td>
+                                <input type="text" name="" id="">
+                                <span>(20자 이내)</span>
+                            </td>
+                            <th></th>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>종목</th>
+                            <td>
+                                <input type="text" name="" id="">
+                                <span>(20자 이내)</span>
+                            </td>
+                            <th></th>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--전자세금계산서발행-->
+            
+            <!--회원정보-->
+            <div class="con member_info">
+                <div class="title">회원정보</div>
+                <table>
+                    <colgroup>
+                        <col width="160px">
+                        <col>
+                        <col width="160px">
+                        <col width="320px">
+                    </colgroup>
+                    <tr>
+                        <th>주문자</th>
+                        <td colspan="3">홍길동</td>
+                    </tr>
+                    <tr>
+                        <th>연락처(휴대폰)</th>
+                        <td>010-1234-5678 <button>변경</button></td>
+                        <th>이메일</th>
+                        <td>abcdefg@naver.com <button>변경</button></td>
+                    </tr>
+            </table>
+            </div>
+        <!--결제정보-->
+        </div>
+    </div>
+    <!--wrap-->
+</body>
+
+
+<? include "../include/footer.html"; ?>
+
+<!--결제방법별 TABLE변경-->
+<script>
+    
+    function ApplyTypeChange(str) {
+
+	if (str == 'A') {
+		$('#ApplyTypeResult1').show();
+		$('#ApplyTypeResult2').hide();
+        $('#ApplyTypeResult3').hide();
+        $('#ApplyTypeResult3-2').hide();
+	}
+	if (str == 'B') {
+		$('#ApplyTypeResult1').hide();
+		$('#ApplyTypeResult2').show();
+        $('#ApplyTypeResult3').hide();
+        $('#ApplyTypeResult3-2').hide();
+	}
+    if (str == 'C') {
+		$('#ApplyTypeResult1').hide();
+		$('#ApplyTypeResult2').hide();
+        $('#ApplyTypeResult3').show();
+        $('#ApplyTypeResult3-2').show();
+	}
+}
+</script>
+
+
+<!--모달팝업-->
+
+<script>
+        jQuery(document).ready(function() {
+    $('.modal-btn').each(function() {
+        var modalID = $(this).attr('href');
+    
+        $(this).on('click', function(e) {
+            e.preventDefault();
+
+            $('.modal-bg').fadeIn();
+            
+            $(modalID).show();
+
+            $('html').css({overflow: 'hidden'});
+        });
+
+        $('.close-btn').on('click', function() {
+            $('.modal-bg').fadeOut();
+            $(modalID).hide();
+            $(modalID).removeAttr('style');
+
+            $('html').removeAttr('style');
+        });
+    });
+});
+</script>
+<style> 
+    .modal-bg {display:none;width:100%;height:100%;position:fixed;top:0;left:0;right:0;background: rgba(0, 0, 0, 0.8);z-index:999;}
+    .modal-wrap {display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;z-index:1000;padding: 50px; width: 800px;}
+    .close-btn{position: absolute;right: 30px;top: 22px; cursor: pointer;}
+    .close-btn i{font-size: 30px;}
+    .modal-wrap h2{font-size: 30px; font-weight: bold;display: block;border-bottom: 1px solid; line-height: 45px;padding-bottom: 10px; }
+    .modal-wrap select{    margin: 20px auto; width: 422px;display: block;font-size: 14px; }
+</style>
+<!--modal01-->
+<div class="modal-bg"></div> 
+<div id="modal01" class="modal-wrap">
+    <div class="close-btn">
+        <i class="ph-thin ph-x"></i>
+    </div>
+    <h2>지식쿠폰 적용</h2>
+    <div class="txt">
+        <p><i>·</i>사용가능한 쿠폰만 보여집니다.</p>
+        <p><i>·</i>상품별 쿠폰과 주문 쿠폰은 중복적용이 불가합니다.</p>
+    </div>
+    <select name="" id="">
+        <option value="">회원가입 축하 5% 할인쿠폰(최대할인 5,000원) (~2023-4-13)</option>
+    </select>
+    <div class="discount_amount">
+        =총 쿠폰할인 금액: <strong>5,000</strong>원
+    </div>
+    <div class="button_wrap">
+        <button class="apply">쿠폰 적용하기</button>
+        <button class="cancel">적용 취소하기</button>
+    </div>
+
+</div>
+<!--modal01-->

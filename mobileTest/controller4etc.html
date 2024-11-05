@@ -1,0 +1,84 @@
+<html>
+<head>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<!-- notice_list.php -->
+<b>notice_list.php</b><br>
+	<button type='button' onclick='get_notice_list()'>get notice list</button>
+	<div>
+		리턴값 <br>
+		notiInfo1 <div id = 'noti_info1'></div><br>
+		notiInfo2 <div id = 'noti_info2'></div><br>
+	</div>
+	<br>------------------------------------------<br>
+<!-- notice_detail.php -->
+<b>notice_detail.php</b><br>
+	<form name = 'noticeDetailForm'>
+		seq <input type='text' id='noti_idx' name='idx' value=''><br>
+		<button type='button' onclick='get_notice_detail()'>get notice detail</button>
+	</form>
+	<div>
+		리턴값 <br>
+		title <div id = 'title'></div><br>
+		regDate <div id = 'reg_date'></div><br>
+		hit <div id = 'hit'></div><br>
+		content <div id = 'content'></div><br>
+		fileName1 <div id = 'file_name1'></div><br>
+		realFileName1 <div id = 'real_file_name1'></div><br>
+		fileName2 <div id = 'file_name2'></div><br>
+		realFileName2 <div id = 'real_file_name2'></div><br>
+		fileName3 <div id = 'file_name3'></div><br>
+		realFileName3 <div id = 'real_file_name3'></div><br>
+		fileName4 <div id = 'file_name4'></div><br>
+		realFileName4 <div id = 'real_file_name4'></div><br>
+		fileName5 <div id = 'file_name5'></div><br>
+		realFileName5 <div id = 'real_file_name5'></div><br>
+	</div>
+	<br>------------------------------------------<br>
+<!-- faq_array.php -->
+<b>faq_array.php</b><br>
+	<button type='button' onclick='get_faq_array()'>get faq array</button>
+	<div>
+		리턴값 <br>
+		faqArray <div id = 'faq_array'></div><br>
+
+	</div>
+	<br>------------------------------------------<br>
+<!-- faq_search_list.php -->
+<b>faq_search_list.php</b><br>
+	<form name = 'faqSearchListForm'>
+		searchedWord <input type='text' id='searched_word' name='searched_word' value=''><br>
+		<button type='button' onclick='get_faq_search_list()'>get faq search list</button>
+	</form>
+	<div>
+		리턴값 <br>
+		faqTitle <div id = 'faq_title'></div><br>
+
+	</div>
+	<br>------------------------------------------<br>
+<!-- faq_category_list.php -->
+<b>faq_category_list.php</b><br>
+	<form name = 'faqCategoryListForm'>
+		category <input type='text' id='category' name='category' value=''><br>
+		<button type='button' onclick='get_faq_category_list()'>get faq category list</button>
+	</form>
+	<div>
+		리턴값 <br>
+		faqTitle2 <div id = 'faq_title2'></div><br>
+
+	</div>
+	<br>------------------------------------------<br>
+<!-- faq_detail.php -->
+<b>faq_detail.php</b><br>
+	<form name = 'faqDetailForm'>
+		idx <input type='text' id='idx' name='idx' value=''><br>
+		<button type='button' onclick='get_faq_detail()'>get faq detail</button>
+	</form>
+	<div>
+		리턴값 <br>
+		faqTitle2 <div id = 'faq_detail'></div><br>
+	</div>
+	<script src="./ajax.js"></script>
+</body>
+</html>

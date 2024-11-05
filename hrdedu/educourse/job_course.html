@@ -1,0 +1,140 @@
+<? include '../include/header.html'; ?>
+<?
+$PCategory = Replace_Check_XSS2($PCategory);
+if (!$PCategory) $PCategory = $Menu01ParentCategory;
+$Category = Replace_Check_XSS2($Category);
+
+$CategoryA;
+if($Category == "all"){
+	$CategoryA = 0;
+}else{
+	$CategoryA = $Category;
+}
+
+##-- 검색 조건
+$where = array();
+
+$where[] = "Del='N'";
+$where[] = "UseYN='Y'";
+$where[] = "PackageYN='N'";
+$where[] = "Category1=$PCategory";
+			
+if($Category) {
+	if($Category != "all"){
+		$where[] = "Category2=$Category";
+	}
+}
+
+$where = implode(" AND ",$where);
+if($where) $where = "WHERE $where";
+
+##-- 정렬조건
+if($orderby=="") {
+	$str_orderby = "ORDER BY RegDate DESC, idx DESC";
+}else{
+	$str_orderby = "ORDER BY $orderby";
+}
+
+$SQLA = "SELECT COUNT(*) FROM Course AS a $where ";
+$ResultA = mysqli_query($connect, $SQLA);
+$RowA = mysqli_fetch_array($ResultA);
+$TOT_NO = $RowA[0];
+mysqli_free_result($ResultA);
+?>
+<body>
+<!-- 메인배너 -->
+<div class="mainbanner_wrap mb30">
+    <div class="mainbanner small ac" style="background-image: url(../img/educourse/job_banner.png); height:264px;    background-color: #e2f6f4;">
+        <div id="wrap">
+            <strong>직무능력향상교육</strong>
+            <span class="bottom mt10">근로자의 직무 능력을 향상시키는 교육과정으로 <br>기업의 경쟁력 강화와 인전자원 개발을 위한 가치있는 투자입니다.</span>
+        </div>
+    </div>
+    <ul class="sub_gnb job_course">
+    	<li <?if($Category == "all"){?> class="on" <?}?> ><a href="/hrdedu/educourse/job_course.html?PCategory=<?=$Menu02ParentCategory?>&Category=all">전체</a></li>
+    <?
+	$SQL = "SELECT * FROM CourseCategory WHERE Deep=2 AND ParentCategory=$Menu02ParentCategory AND Del='N' ORDER BY OrderByNum ASC, idx ASC";
+	$QUERY = mysqli_query($connect, $SQL);
+	if($QUERY && mysqli_num_rows($QUERY)){
+    	while($ROW = mysqli_fetch_array($QUERY)){
+	?>
+    	<li <?if($Category == $ROW['idx']){?> class="on" <?}?> ><a href="/hrdedu/educourse/job_course.html?PCategory=<?=$Menu02ParentCategory?>&Category=<?=$ROW['idx']?>"><?=$ROW['CategoryName']?></a></li>
+	<?
+		}
+	}
+	?>
+	</ul>
+</div>
+<!-- //메인배너 -->
+
+<div id="wrap">
+    <div class="course">
+        <ul>
+        	<?
+			$i = 0;
+			$SQL = "SELECT * FROM Course $where $str_orderby LIMIT 0, 8";
+			//echo $SQL;
+			$QUERY = mysqli_query($connect, $SQL);
+			if($QUERY && mysqli_num_rows($QUERY)){
+				while($ROW = mysqli_fetch_array($QUERY)){
+					extract($ROW);
+					$ImgUrl = "/upload/Course/".$PreviewImage;
+            ?>
+            <li>
+                <div class="course_img" style="background-image: url(<?=$ImgUrl?>);" onclick="window.open('../edudetail/edudetail.html?LectureCode=<?=$LectureCode?>')"></div>
+                <div class="course_title"><?=$ContentsName?></div>
+                <div class="course_tag">내용전문가 : <?=$Professor?> | <?=$Chapter?>차시<em> / </em><?=$ContentsTime?>시간</div>
+            </li>
+            <?
+            		$i++;
+				}
+			}
+			?>
+        </ul>
+        <span style="display: none;">더이상 조회되는 컨텐츠가 없습니다.</span>
+    </div>
+    <? 
+   	if($TOT_NO > 0){
+		if($TOT_NO > 8){
+   	?>
+    <div class="more_btn" id="load">
+       	<button>+ 과정 더보기 </button>
+    </div>
+    <?
+    	}
+    }else{
+    ?>
+    <div class="more_btn" id="load">
+       	<span>조회되는 컨텐츠가 없습니다.</span>
+    </div>
+    <?}?>
+</div>
+
+<? include "../include/footer.html"; ?>
+
+<!--more load-->
+<script>
+$(function(){
+	var clickNum = 1; //버튼을 클릭한 수
+	
+	$("#load").click(function(e){
+		var PCategory = <?=$PCategory?>;
+		var Category = <?=$CategoryA?>;
+		
+		var totNo = <?=$TOT_NO?>; //컨텐츠 총개수
+	   	var showNo = $(".course li").length; //현재 보여지는 컨텐츠 개수
+	   	var hiddenNo = totNo - showNo; //아직 보여지지 않은 컨텐츠 개수
+		
+		var pageStart = clickNum * 8;
+	   	
+	   	CourseAdd(hiddenNo, pageStart, PCategory, Category); //과정더보기		
+		clickNum ++;
+		
+		//컨텐츠가 없으면 버튼도 숨김처리
+		if(hiddenNo < 1){
+			$(".course span").show();
+			$('#load').fadeOut(100);
+	   	}
+    });
+})
+</script>

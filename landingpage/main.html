@@ -1,0 +1,255 @@
+<?php
+include $_SERVER['DOCUMENT_ROOT'] . "/include/include_function.php"; //DB연결 및 각종 함수 정의
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="<?=$SiteName?>" />
+    <meta property="og:description" content="스마트한 직무능력향상 <?=$SiteName?>" />
+    <meta property="og:image" content="<?=$SiteURL?>/common/img/og.png" />
+    <meta property="og:url" content="<?=$SiteURL?>" />
+    <meta name="description" content="스마트한 직무능력향상 <?=$SiteName?>">
+    <title><?=$SiteName?></title>
+    <script type="text/javascript" src="../common/js/jquery-2.1.4.js"></script>
+    <link rel="stylesheet" href="../common/css/base.css?ver=240514">
+    <link rel="stylesheet" href="../common/css/common.css?ver=240514">
+    <link rel="stylesheet" href="css/main.css?ver=240924">
+    <script src="js/main.js"></script>
+    <script src="https://kit.fontawesome.com/ebace215db.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="../lib/swiper-4.5.0/swiper.css">
+<script src="../lib/swiper-4.5.0/swiper.js"></script>
+</head>
+<body>
+    <div class="visual">
+        <header>
+          <div id="wrap">
+            <div class="logo">
+              <img src="../common/img/logo-white.png" alt="ABC교육원" style="width:200px;">
+          </div>
+          <div class="menu">
+              <a href="/hrdedu/group/introduce.html" class="login">COMPANY</a>
+              <? if(empty($_SESSION['LoginMemberID'])) { ?>
+              <a href="/public/member/login.html" class="login">LOGIN</a>
+            <?}else{?>
+            <a href="/public/member/logout.php?path=L" class="login">LOGOUT</a>
+            <?}?>
+              <a href="/public/mypage/lecture_status.html" class="point">
+                  <span><img src="img/monitor.png" alt=""></span>
+                  나의 학습실
+              </a>
+          </div>
+          </div>
+      </header>
+      <div class="gallery">
+          <ul>
+            <li class="link1" style="display: none;">
+              <img src="img/main01.png" alt=""> 
+              <div class="slogan">
+                <div class="dock">
+                  <span class="num"></span>
+                  <span class="mbutton btn1" style="background: rgba(255, 255, 255, 0.5); width: 24px;"></span>
+                  <span class="max">3</span>
+                  <span class="ps"><i class="ph-fill ph-pause"></i></span>
+                </div>
+                <div class="up" style="top: 30px; opacity: 0;">
+                    <span>ABC교육원 기업교육</span>
+                    <strong>하이브리드 워크 시대, <br>
+                        일하는 방식 대전환!</strong>
+                </div>
+              </div>
+            </li>
+            <li class="link2" style="display: none;">
+              <img src="img/main02.png" alt="">
+              <div class="slogan">
+                <div class="dock">
+                  <span class="num"></span>
+                  <span class="mbutton btn2" style="background: rgba(255, 255, 255, 0.5); width: 24px;"></span>
+                  <span class="max">3</span>
+                  <span class="ps"><i class="ph-fill ph-pause"></i></span>
+                </div>
+                  <div class="up" style="top: 30px; opacity: 0;">
+                    <span>ABC교육원 국민내일배움카드</span>
+                    <strong>직무역량 개발에 필요한 클래스, <br>
+                        부담없이 수강하세요!</strong>
+                  </div>
+              </div>
+            </li>
+            <li class="link3" style="display: none;">
+              <img src="img/main03.png" alt="">
+              <div class="slogan">
+                <div class="dock">
+                  <span class="num"></span>
+                  <span class="mbutton btn3" style="background: rgba(255, 255, 255, 0.5); width: 24px;"></span>
+                  <span class="max">3</span>
+                  <span class="ps"><i class="ph-fill ph-pause"></i></span>
+                </div>
+                <div class="up" style="top: 0px; opacity: 1;">
+                    <span>ABC교육원 HRD FLEX</span>
+                    <strong>모든 컨텐츠를 자유롭게 <br>
+                        무제한 학습!</strong>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <!--gallery-->
+        <div id="wrap">
+            <div class="bottom">
+                <ul>
+                    <li><a href="/hrdedu/main/main.html">사업주훈련<i class="ph-light ph-arrow-up-right"></i></a></li>
+                    <li><a href="/cyber/main/main.html">국민내일배움카드<i class="ph-light ph-arrow-up-right"></i></a></li>
+                    <li><a href="/hrdflex/main/main.html">사이버연수원<i class="ph-light ph-arrow-up-right"></i></a></li>
+                </ul>
+            </div>
+        </div>
+        <a class="scroll" href="#">
+          <p>Scroll Down</p>
+          <i class="ph ph-caret-down"></i>
+        </a>   
+    </div>
+    <!--visual-->
+    <!--con1-->
+    <div class="main_con con1">
+        <div id="wrap">
+            <div class="title">
+                <strong>CONTENTS</strong>
+            </div>
+            <div class="content">
+                <ul class="arcodian_list">
+                    <li class="arcodian_item">
+                        <a href="#" class="arcodian_btn">
+                            <img src="img/banner1.png" alt="산업안전보건교육 이미지">
+                            <strong>산업안전보건교육</strong>
+                            <span>제조, 건설, 보건, 유통, 서비스, 기타 등  <br>
+                                6개 분야의 모든 콘텐츠를 보유</span>
+                        </a>
+                    </li>
+                    <li class="arcodian_item">
+                        <a href="#" class="arcodian_btn">
+                            <img src="img/banner2.png" alt="국민내일배움카드 이미지">
+                            <strong>국민내일배움카드</strong>
+                            <span>국민 스스로가 자기개발을 할 수 있도록 직업 능력<br>
+                                개발 훈련비를 지원해 주는 제도</span>
+                        </a>
+                    </li>
+                    <li class="arcodian_item">
+                        <a href="#" class="arcodian_btn">
+                            <img src="img/banner3.png" alt="직무역량교육 이미지">
+                            <strong>직무역량교육</strong>
+                            <span>근로자의 직무능력을 개발하고 향상시키기 위한 교육으로  <br>
+                                실무에 바로 적용이 가능한 커리큘럼 제공</span>
+                        </a>
+                    </li>
+                    <li class="arcodian_item">
+                        <a href="#" class="arcodian_btn">
+                            <img src="img/banner4.png" alt="법정의무교육 이미지">
+                            <strong>법정의무교육</strong>
+                            <span>ABC교육원는 법령에서 정한 모든 법정교육을 <br>
+                                기관, 직무별로 100여 개 보유하고 있습니다.</span>
+                        </a>
+                    </li>
+                    <li class="arcodian_item">
+                        <a href="#" class="arcodian_btn">
+                            <img src="img/banner5.png" alt="디지털융합교육 이미지">
+                            <strong>디지털융합교육</strong>
+                            <span>디지털 신기술의 이해 및 활용을 위한<br>
+                                커리큘럼을 제공</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--wrap-->
+    </div>
+    <!--con1-->
+    <div class="main_con con2">
+        <div id="wrap">
+            <div class="title">
+                <strong>ABC교육원는<br>
+                  <span class="point">
+                    훈련생을 최우선으로
+                  </span>
+                  생각합니다.
+                </strong>
+                <p>
+                  학습자의 입장에서 한번 더 생각한 UX/UI를 사용함으로써 <br>
+                  편하고 직관적인 학습환경을 제공해 드립니다.
+                </p>
+            </div>
+            <div class="img">
+                <img src="img/con2.png" alt="">
+            </div>
+        </div>
+    </div>
+    <!--con2-->
+    <div class="main_con con3">
+      <div id="wrap">
+          <div class="title">
+              <strong>
+                <span class="point">
+                    ABC교육원
+                </span>와 <br>
+                함께하는 <br>
+                정부지원교육
+              </strong>
+              <p class="fs20 mt5">
+                ABC교육원와 함께<br>
+                부담없이 정부지원 교육을 진행하세요
+              </p>
+          </div>
+          <div class="content">
+            <div class="card1">
+                <div class="txt">
+                    <strong>기업직업훈련카드</strong>
+                    <p>
+                        중소기업 교육비<br>
+                        <em>100%</em>
+                        <span>지원</span>
+                    </p>
+                </div>
+                <div class="img">
+                    <img src="img/con3-1.png" alt="기업직업훈련카드">
+                </div>
+            </div>
+            <div class="card2">
+                <div class="txt">
+                    <strong>국민내일배움카드</strong>
+                    <p>
+                        개인당<br>
+                        <em>300~500만원</em>
+                        <span>지원</span>
+                    </p>
+                </div>
+                <div class="img">
+                    <img src="img/con3-2.png" alt="국민내일배움카드">
+                </div>
+            </div>
+          </div>
+      </div>
+  </div>
+  <!--con3-->
+  <div class="bottom_banner">
+    <p>다양한 교육의 혁신! 오늘부터 경험해보세요</p>
+    <!-- <button>교육 상담 문의하기</button> -->
+  </div>
+</body>
+<? include "../common/include/footer.html"; ?>
+
+<script>
+  // [ESG] Link Event
+  const btnEsg = document.querySelectorAll(".arcodian_btn");
+  btnEsg.forEach((item) => {
+    item.addEventListener("mouseover", () => {
+      btnEsg.forEach((otherItem) => {
+        if (otherItem !== item) {
+          otherItem.parentElement.classList.remove("is_active");
+        }
+      });
+      item.parentElement.classList.add("is_active");
+    });
+  });
+  </script>
+

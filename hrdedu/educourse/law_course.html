@@ -1,0 +1,186 @@
+<? include '../include/header.html'; ?>
+<?
+$PCategory = Replace_Check_XSS2($PCategory);
+if (!$PCategory) $PCategory = $Menu01ParentCategory;
+$Category = Replace_Check_XSS2($Category);
+
+$CategoryA;
+if($Category == "all"){
+	$CategoryA = 0;
+}else{
+	$CategoryA = $Category;
+}
+
+##-- 검색 조건
+$where = array();
+
+$where[] = "Del='N'";
+$where[] = "UseYN='Y'";
+$where[] = "PackageYN='N'";
+$where[] = "Category1=$PCategory";
+			
+if($Category) {
+	if($Category != "all"){
+		$where[] = "Category2=$Category";
+	}
+}
+
+$where = implode(" AND ",$where);
+if($where) $where = "WHERE $where";
+
+##-- 정렬조건
+if($orderby=="") {
+	$str_orderby = "ORDER BY RegDate DESC, idx DESC";
+}else{
+	$str_orderby = "ORDER BY $orderby";
+}
+
+$SQLA = "SELECT COUNT(*) FROM Course AS a $where ";
+$ResultA = mysqli_query($connect, $SQLA);
+$RowA = mysqli_fetch_array($ResultA);
+$TOT_NO = $RowA[0];
+mysqli_free_result($ResultA);
+?>
+<script>
+$(document).ready(function() {
+	var Cateogry = <?=$CategoryA?>;
+	if(Cateogry==7 || Cateogry==8 || Cateogry==9 || Cateogry==10 || Cateogry==11 || Cateogry==12){
+		$("#sanA").show();
+	}else{
+		$("#sanA").hide();
+	}
+	
+});
+</script>
+
+<body>
+<!-- 메인배너 -->
+<div class="mainbanner_wrap mb30">
+    <div class="mainbanner small  ac" style="background-image: url(../img/educourse/law_banner.png); height:264px;background-color: #f3e6e5;">
+        <div id="wrap">
+            <strong>법정의무교육</strong>
+            <span class="bottom mt10">법정의무교육이란 건강한 직장 생활을 위해 근로자들을 대상으로 <br>
+                사업주가 매년 의무적으로 시행해야 하는 교육입니다.</span>
+        </div>
+    </div>
+    <ul class="sub_gnb law_course">
+    	<li <?if($Category == "all"){?> class="on" <?}?> ><a href="/hrdedu/educourse/law_course.html?PCategory=<?=$Menu01ParentCategory?>&Category=all">전체</a></li>
+		<?
+        $i=0;
+        $Category_array = array();
+		$SQL = "SELECT * FROM CourseCategory WHERE Deep=2 AND ParentCategory=$Menu01ParentCategory AND Del='N' ORDER BY OrderByNum ASC, idx ASC";
+		$QUERY = mysqli_query($connect, $SQL);
+		if($QUERY && mysqli_num_rows($QUERY)){
+			while($ROW = mysqli_fetch_array($QUERY)){
+				$CategoryName = $ROW['CategoryName'];
+				$pos = strpos($CategoryName, "산업안전보건");
+				if($pos !== false){
+					$Category_array[$ROW['idx']] = $CategoryName;
+					if($i == 0){
+		?>
+		<li <?if($Category == $ROW['idx']){?> class="on" <?}?> ><a href="/hrdedu/educourse/law_course.html?PCategory=<?=$Menu01ParentCategory?>&Category=<?=$ROW['idx']?>">산업안전보건교육</a></li>
+		<?
+					}
+					$i++;
+				}else{
+		?>
+        <li <?if($Category == $ROW['idx']){?> class="on" <?}?> ><a href="/hrdedu/educourse/law_course.html?PCategory=<?=$Menu01ParentCategory?>&Category=<?=$ROW['idx']?>"><?=$CategoryName?></a></li>
+		<?
+				}
+			}
+		}
+        ?>
+	</ul>
+</div>
+<!-- //메인배너 -->
+
+<!-- 산업안정보건교육 카테고리 -->
+<div class="sub_sub_gnb" id="sanA" style="display:none;">
+    <ul>
+    	<?
+		while (list($key,$value)=each($Category_array)){
+			$text = explode('_', $value);
+		?>
+	    <li <?if($key == $Category){?>class="on"<?}?> ><a href="/hrdedu/educourse/law_course.html?PCategory=<?=$Menu01ParentCategory?>&Category=<?=$key?>"><?=$text[1]?></a></li>
+	    <?
+		}
+		?>
+    </ul>
+</div>
+<!-- //산업안정보건교육 카테고리 -->
+
+<div id="wrap">
+    <div class="course">
+        <ul>
+        	<?
+			$i = 0;
+			$SQL = "SELECT * FROM Course $where $str_orderby LIMIT 0, 8";
+			//echo $SQL;
+			$QUERY = mysqli_query($connect, $SQL);
+			if($QUERY && mysqli_num_rows($QUERY)){
+				while($ROW = mysqli_fetch_array($QUERY)){
+					extract($ROW);
+					if($PreviewImage){
+						$ImgUrl = "/upload/Course/".$PreviewImage;
+					}else{
+						$ImgUrl = "/common/img/img-ready.png";
+					}
+            ?>
+            <li>
+                <div class="course_img" style="background-image: url(<?=$ImgUrl?>);" onclick="window.open('../edudetail/edudetail.html?LectureCode=<?=$LectureCode?>')"></div>
+                <div class="course_title"><?=$ContentsName?></div>
+                <div class="course_tag">내용전문가 : <?=$Professor?> | <?=$Chapter?>차시<em> / </em><?=$ContentsTime?>시간</div>
+            </li>
+            <?
+            		$i++;
+				}
+			}
+			?>
+        </ul>
+        <span style="display: none;">더이상 조회되는 컨텐츠가 없습니다.</span>
+    </div>
+    <? 
+   	if($TOT_NO > 0){
+		if($TOT_NO > 8){
+   	?>
+    <div class="more_btn" id="load">
+       	<button>+ 과정 더보기 </button>
+    </div>
+    <?
+    	}
+    }else{
+    ?>
+    <div class="more_btn" id="load">
+       	<span>조회되는 컨텐츠가 없습니다.</span>
+    </div>
+    <?}?>
+</div>
+
+<? include "../include/footer.html"; ?>
+
+<!--more load-->
+<script>
+$(function(){
+	var clickNum = 1; //버튼을 클릭한 수
+	
+	$("#load").click(function(e){
+		var PCategory = <?=$PCategory?>;
+		var Category = <?=$CategoryA?>;
+		
+		var totNo = <?=$TOT_NO?>; //컨텐츠 총개수
+	   	var showNo = $(".course li").length; //현재 보여지는 컨텐츠 개수
+	   	var hiddenNo = totNo - showNo; //아직 보여지지 않은 컨텐츠 개수
+		
+		var pageStart = clickNum * 8;
+	   	
+	   	CourseAdd(hiddenNo, pageStart, PCategory, Category); //과정더보기		
+		clickNum ++;
+		
+		//컨텐츠가 없으면 버튼도 숨김처리
+		if(hiddenNo < 1){
+			$(".course span").show();
+			$('#load').fadeOut(100);
+	   	}
+    });
+})
+</script>

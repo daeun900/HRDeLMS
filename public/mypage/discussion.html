@@ -1,0 +1,99 @@
+<? include "../include/mypage_header.html"; ?>
+<? include "../include/login_check.php"; ?>
+<?
+$pg = Replace_Check_XSS2($pg);
+
+##-- 페이지 조건
+if(!$pg) $pg = 1;
+$page_size = 25;
+$block_size = 10;
+
+##-- 검색 조건
+$where = array();
+
+$where[] = "ID='$LoginMemberID'";
+
+$where = implode(" AND ",$where);
+if($where) $where = "WHERE $where";
+
+##-- 정렬조건
+if($orderby=="") {
+	$str_orderby = "ORDER BY RegDate DESC, idx DESC";
+}else{
+	$str_orderby = "ORDER BY $orderby";
+}
+
+##-- 검색 등록수
+$Sql = "SELECT COUNT(*) FROM DiscussionAnswer $where";
+$Result = mysqli_query($connect, $Sql);
+$Row = mysqli_fetch_array($Result);
+$TOT_NO = $Row[0];
+
+##-- 페이지 클래스 생성
+include_once("../../include/include_page.php");
+
+$PAGE_CLASS = new Page($pg,$TOT_NO,$page_size,$block_size); ##-- 페이지 클래스
+$BLOCK_LIST = $PAGE_CLASS->blockList(); ##-- 페이지 이동관련
+$PAGE_UNCOUNT = $PAGE_CLASS->page_uncount; ##-- 게시물 번호 한개씩 감소
+?>
+        <div class="mypage_content">
+            <div class="sb_box">
+                <h1>자료관리</h1>
+                <div class="navi"><i class="ph-light ph-house-line"></i>&nbsp;<i class="ph ph-caret-right"></i>&nbsp;나의학습실<i class="ph ph-caret-right"></i>&nbsp;자료관리</div>
+            </div>
+            <div class="content">
+                <h2>토론방</h2>
+                <?
+            	$SQL = "SELECT COALESCE(co.ContentsName, cc.ContentsName) AS ContentsName, t.Topic,da.* FROM DiscussionAnswer AS da
+						INNER JOIN Chapter AS ca ON da.Chapter_Seq = ca.Seq 
+						INNER JOIN DiscussionTopic AS t ON ca.Sub_idx = t.idx 
+						LEFT JOIN Course AS co ON da.LectureCode = co.LectureCode
+						LEFT JOIN CourseCyber AS cc ON da.LectureCode = cc.LectureCode
+						$where $str_orderby LIMIT $PAGE_CLASS->page_start, $page_size";
+				//echo $SQL;
+            	$QUERY = mysqli_query($connect, $SQL);
+            	if($QUERY && mysqli_num_rows($QUERY)){
+                	while($ROW = mysqli_fetch_array($QUERY)){
+                    	extract($ROW);
+						$RegDate = date("Y-m-d", strtotime($RegDate));
+            	?>
+            	<div class="topic">
+                    <div class="top">
+                        <div class="left">
+                            <div class="title" onclick="location.href='discussion_view.html?idx=<?=$idx?>'"><?=$ContentsName?></div>
+                            <div class="detail">등록일 <i class="bar"></i><?=$RegDate?></div>
+                        </div>
+                       <div class="right">
+                            <button><?if(strlen($TutorRemark) > 0 ) echo "답변완료"; else echo "대기중";?>
+						</div>
+                    </div>
+                    <div class="bottom">
+                        <strong>토픽</strong>
+                        <div class="content" onclick="location.href='discussion_view.html?idx=<?=$idx?>'" ><?=$Topic?></div>
+                    </div>
+                </div>
+                <?
+                	}
+            	}else{
+            	?>
+            	<tr>
+              		<td colspan="5">토론내역이 없습니다.</td>
+            	</tr>
+            	<? } ?>
+            </div>
+            <?=$BLOCK_LIST?>
+            <!--content-->
+        </div>
+        <!--mypage_content-->
+    </div>
+    <!--wrap-->
+</body>
+<? include "../../common/include/footer.html"; ?>
+<script>
+    $(document).ready(function(){
+        $('.mypage_menu .data').addClass("on");
+        $('.mypage_menu .data ul').css('display','block');
+        $('.mypage_menu .data ul .discuss').addClass("on");
+        $('.mypage_menu .data a').find('i').toggleClass("ph-caret-up ph-caret-down");
+    });
+</script>

@@ -1,0 +1,328 @@
+.vouch_con1 {
+  padding: 80px 0 130px 0;
+  background-image: url(../img/voucher/illustration.png);
+  background-repeat: no-repeat;
+  background-size: 640px;
+  background-position: 75% -27%;
+}
+@media (max-width: 1100px) {
+  .vouch_con1 {
+    background-image: none;
+  }
+}
+@media (max-width: 1000px) {
+  .vouch_con1 {
+    padding: 0 0 40px 0;
+  }
+}
+.vouch_con1 h1 {
+  font-size: 40px;
+  font-weight: bold;
+  line-height: 60px;
+  margin-bottom: 20px;
+}
+@media (max-width: 1000px) {
+  .vouch_con1 h1 {
+    font-size: 25px;
+    line-height: 40px;
+    margin-bottom: 10px;
+  }
+}
+@media (max-width: 400px) {
+  .vouch_con1 h1 {
+    font-size: 20px;
+    line-height: 30px;
+  }
+}
+.vouch_con1 p {
+  font-size: 20px;
+  line-height: 36px;
+}
+@media (max-width: 1000px) {
+  .vouch_con1 p {
+    font-size: 15px;
+    line-height: 30px;
+  }
+}
+@media (max-width: 400px) {
+  .vouch_con1 p {
+    font-size: 13px;
+  }
+}
+
+.vouch_con2 {
+  background-color: whitesmoke;
+  padding: 60px 0 120px 0;
+}
+@media (max-width: 1000px) {
+  .vouch_con2 {
+    padding: 20px 0;
+  }
+}
+.vouch_con2 h2 {
+  font-size: 30px;
+  font-weight: bold;
+  float: left;
+  margin-right: 40px;
+  line-height: 44px;
+  width: 112px;
+}
+@media (max-width: 1000px) {
+  .vouch_con2 h2 {
+    width: auto;
+    font-size: 24px;
+    margin-right: 0px;
+    margin-bottom: 10px;
+    line-height: 35px;
+    float: none;
+  }
+}
+@media (max-width: 400px) {
+  .vouch_con2 h2 {
+    font-size: 20px;
+    line-height: 30px;
+  }
+}
+.vouch_con2 .content1 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 50px;
+  background-color: #fff;
+  padding: 20px 40px;
+  border-radius: 25px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.16);
+}
+@media (max-width: 1000px) {
+  .vouch_con2 .content1 {
+    grid-template-columns: 1fr;
+    padding: 10px 20px;
+  }
+}
+@media (max-width: 400px) {
+  .vouch_con2 .content1 {
+    padding: 15px;
+  }
+}
+.vouch_con2 .content1 > div {
+  display: flex;
+}
+@media (max-width: 1000px) {
+  .vouch_con2 .content1 > div {
+    display: block;
+  }
+}
+.vouch_con2 .content1 > div > span {
+  font-weight: bold;
+  min-width: 120px;
+  line-height: 48px;
+}
+.vouch_con2 .content1 > div > span img {
+  width: 30px;
+  margin-right: 10px;
+}
+.vouch_con2 .content1 > div p {
+  line-height: 25px;
+}
+.vouch_con2 .content1 > div p span {
+  font-size: 15px;
+  color: #9c9c9c;
+  margin-top: 5px;
+  display: inline-block;
+}
+@media (max-width: 1000px) {
+  .vouch_con2 .content1 > div p span {
+    font-size: 14px;
+  }
+}
+@media (max-width: 400px) {
+  .vouch_con2 .content1 > div p span {
+    font-size: 12px;
+  }
+}
+.vouch_con2 .content2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+@media (max-width: 400px) {
+  .vouch_con2 .content2 {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}
+.vouch_con2 .content2 > div {
+  width: 320px;
+  height: 100px;
+  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.16);
+  background-color: #fff;
+  border-radius: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 13px;
+  text-align: center;
+  position: relative;
+}
+@media (max-width: 1100px) {
+  .vouch_con2 .content2 > div {
+    width: 94%;
+    height: 100%;
+  }
+}
+@media (max-width: 1000px) {
+  .vouch_con2 .content2 > div {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+}
+.vouch_con2 .content2 > div span.step {
+  font-size: 12px;
+  color: #a8e8dd;
+  line-height: 10px;
+}
+.vouch_con2 .content2 > div span.num {
+  font-size: 18px;
+  color: #a2c6f6;
+}
+.vouch_con2 .content2 > div strong {
+  line-height: 25px;
+  margin-top: 5px;
+}
+@media (max-width: 1000px) {
+  .vouch_con2 .content2 > div strong {
+    line-height: 19px;
+  }
+}
+@media (max-width: 400px) {
+  .vouch_con2 .content2 > div strong {
+    font-size: 14px;
+  }
+}
+.vouch_con2 .content2 > div p {
+  font-size: 14px;
+}
+@media (max-width: 1000px) {
+  .vouch_con2 .content2 > div p {
+    display: none;
+  }
+}
+.vouch_con2 .content2 > div a {
+  position: absolute;
+  bottom: -58px;
+  width: 100%;
+  border-radius: 50px;
+  padding: 7px 0;
+  background-color: #2eb5af;
+  color: #fff;
+  font-weight: 500;
+}
+@media (max-width: 1000px) {
+  .vouch_con2 .content2 > div a {
+    display: none;
+  }
+}
+.vouch_con2 .content2 > div a i {
+  font-size: 13px;
+  margin-left: 8px;
+}
+.vouch_con2 .content2 > div::after {
+  position: absolute;
+  right: -56px;
+  top: 37px;
+  width: 0;
+  height: 0;
+  border-bottom: 14px solid transparent;
+  border-top: 14px solid transparent;
+  border-left: 17px solid #fff;
+  border-right: 17px solid transparent;
+  content: "";
+}
+.vouch_con2 .content2 > div:nth-of-type(3)::after {
+  border-left: none;
+}
+
+.vouch_con3 {
+  padding: 70px 0 100px 0;
+}
+@media (max-width: 1000px) {
+  .vouch_con3 {
+    padding: 20px 0 40px 0;
+  }
+}
+.vouch_con3 h2 {
+  font-size: 30px;
+  line-height: 50px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+@media (max-width: 1000px) {
+  .vouch_con3 h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+}
+@media (max-width: 400px) {
+  .vouch_con3 h2 {
+    font-size: 20px;
+    line-height: 30px;
+  }
+}
+.vouch_con3 ul {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 20px;
+}
+@media (max-width: 1000px) {
+  .vouch_con3 ul {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 600px) {
+  .vouch_con3 ul {
+    grid-template-columns: 1fr;
+  }
+}
+.vouch_con3 ul li {
+  height: 235px;
+  text-align: center;
+  background-color: #e8f4f2;
+  padding: 20px;
+  border-radius: 24px;
+}
+@media (max-width: 1000px) {
+  .vouch_con3 ul li {
+    height: 100%;
+  }
+}
+@media (max-width: 400px) {
+  .vouch_con3 ul li {
+    padding: 15px;
+  }
+}
+.vouch_con3 ul li strong {
+  font-size: 20px;
+  color: #2eb5af;
+  display: block;
+  height: 67px;
+  margin-top: 10px;
+  line-height: 27px;
+}
+@media (max-width: 1000px) {
+  .vouch_con3 ul li strong {
+    font-size: 17px;
+    height: auto;
+    line-height: 30px;
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+}
+@media (max-width: 400px) {
+  .vouch_con3 ul li strong {
+    font-size: 14px;
+    line-height: 20px;
+    margin-bottom: 7px;
+  }
+}
+.vouch_con3 ul li p {
+  line-height: 26px;
+  text-align: left;
+}/*# sourceMappingURL=voucher.css.map */

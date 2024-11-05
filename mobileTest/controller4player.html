@@ -1,0 +1,167 @@
+<html>
+<head>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<!-- player.php -->
+<b>player.php</b>
+	<form name = 'playerForm'>
+		i d <input type='text' id='id' name='id' value='test06'><br>
+		lectureCode <input type='text' id='lectureCode' name='lectureCode' value='LAWH01'><br>
+		studySeq <input type='text' id='studySeq' name='studySeq' value='9'><br>
+		chapterSeq <input type='text' id='chapterSeq' name='chapterSeq' value='478'><br>
+		contentsIdx <input type='text' id='contentsIdx' name='contentsIdx' value='402'><br>
+<!-- 		progressIdx <input type='text' id='progressIdx' name='progressIdx' value=''><br> -->
+		playMode <input type='text' id='playMode' name='playMode' value='S'><br>
+		progressStep <input type='text' id='progressStep' name='progressStep' value='1'><br>
+		<button type='button' onclick='show_player()'>show player</button>
+	</form>
+	<div>
+		리턴값 <br>
+		개발자모드 콘솔 참조 
+<!-- 		able2Play <div id = 'able2Play'></div><br> -->
+<!-- 		contentsName <div id = 'contentsName'></div><br> -->
+<!-- 		attachFile <div id = 'attachFile'></div><br> -->
+<!-- 		contentsTitle <div id = 'contentsTitle'></div><br> -->
+<!-- 		serviceType <div id = 'serviceType'></div><br> -->
+<!-- 		lectureTermeIdx <div id = 'lectureTermeIdx'></div><br> -->
+<!-- 		studyTime <div id = 'studyTime'></div><br> -->
+<!-- 		contentsDetailSeq <div id = 'contentsDetailSeq'></div><br> -->
+<!-- 		contentsType <div id = 'contentsType'></div><br> -->
+<!-- 		contentsDetailCnt <div id = 'contentsDetailCnt'></div><br> -->
+<!-- 		completeTime <div id = 'completeTime'></div><br> -->
+<!-- 		needMobileAuth <div id = 'needMobileAuth'></div><br> -->
+<!-- 		needMobileAuth2 <div id = 'needMobileAuth2'></div><br> -->
+<!-- 		authMsg <div id = 'authMsg'></div><br> -->
+<!-- 		chapterNum <div id = 'chapterNum'></div><br> -->
+<!-- 		lectureCode <div id = 'lectureCode'></div><br> -->
+<!-- 		studySeq <div id = 'studySeq'></div><br> -->
+<!-- 		contentsIdx <div id = 'contentsIdx'></div><br> -->
+<!-- 		mode <div id = 'mode'></div><br> -->
+<!-- 		chapterSeq <div id = 'chapterSeq'></div><br> -->
+<!-- 		playPath <div id = 'playPath'></div><br> -->
+<!-- 		contentsURLSelect <div id = 'contentsURLSelect'></div><br> -->
+<!-- 		lastStudy <div id = 'lastStudy'></div><br> -->
+<!-- 		playNum <div id = 'playNum'></div><br> -->
+<!-- 		progress <div id = 'progress'></div><br> -->
+<!-- 		alert <div id = 'alert'></div><br> -->
+<!-- 		caption <div id = 'caption'></div><br> -->
+	</div>
+	
+	<br>------------------------------------------<br>
+<!-- store_progress.php -->
+<b>store_progress.php</b>
+	<form name = 'lectureProgressForm'>
+		i d <input type='text' id='id' name='id' value='test06'><br>
+		chapterNumber <input type='text' id='chapterNumber' name='chapterNumber' value='1'><br>
+		lectureCode <input type='text' id='lectureCode' name='lectureCode' value='HALFCC'><br>
+		studySeq <input type='text' id='studySeq' name='studySeq' value='1'><br>
+		chapterSeq <input type='text' id='chapterSeq' name='chapterSeq' value='2465'><br>
+		contentsIdx <input type='text' id='contentsIdx' name='contentsIdx' value='1483'><br>
+		contentsDetailSeq <input type='text' id='contentsDetailSeq' name='contentsDetailSeq' value='1467'><br>
+		progressTime <input type='text' id='progressTime' name='progressTime' value='203'><br>
+		lastStudy <input type='text' id='lastStudy' name='lastStudy' value='/HALF/C/C/001/01/index.html'><br>
+		completeTime <input type='text' id='completeTime' name='completeTime' value='1200'><br>
+		progressStep <input type='text' id='progressStep' name='progressStep' value='End'><br>
+		<button type='button' onclick='store_progress()'>store_progress</button>
+	</form>
+	<div>
+		리턴값 <br>
+		개발자모드 콘솔 참조 
+	</div>
+	
+	<br>------------------------------------------<br>
+<!-- player_cert_insert.php -->
+<b>player_cert_insert.php</b>
+	<form name = 'playerCertInsertForm'>
+		id <input type='text' id='id' name='id' value='test06'><br>
+		lectureCode <input type='text' id='lectureCode' name='lectureCode' value='HALFCC'><br>
+		studySeq <input type='text' id='studySeq' name='studySeq' value='1'><br>
+		certType <input type='text' id='certType' name='certType' value='user'><br>
+		AGTID <input type='text' id='AGTID' name='AGTID' value='hrde1746'><br>
+		COURSE_AGENT_PK <input type='text' id='COURSE_AGENT_PK' name='COURSE_AGENT_PK' value='HALFCC'><br>
+		CLASS_AGENT_PK <input type='text' id='CLASS_AGENT_PK' name='CLASS_AGENT_PK' value='HALFCC13115'><br>
+		m_Ret <input type='text' id='m_Ret' name='m_Ret' value='T'><br>
+		m_retCD <input type='text' id='m_retCD' name='m_retCD' value='000000'><br>
+		m_trnID <input type='text' id='m_trnID' name='m_trnID' value='HALFCC_20240826154530'><br>
+		m_trnDT <input type='text' id='m_trnDT' name='m_trnDT' value='2024-08-26 11:53:00'><br>
+		<button type='button' onclick='store_motp()'>store_mtop</button>
+	</form>
+	<div>
+		리턴값 <br>
+		개발자모드 콘솔 참조 
+	</div>
+	
+	<br>------------------------------------------<br>
+<!-- player_captcha_session.php -->
+<b>player_captcha_session.php</b>
+	<form name = 'playerCaptchaSessionForm'>
+		chapterNum <input type='text' id='chapterNum' name='chapterNum' value='1'><br>
+		lectureCode <input type='text' id='lectureCode' name='lectureCode' value='HALFCC'><br>
+		studySeq <input type='text' id='studySeq' name='studySeq' value='1'><br>
+		chapterSeq <input type='text' id='chapterSeq' name='chapterSeq' value='2465'><br>
+		<button type='button' onclick='give_session_motp()'>give_session_motp</button>
+	</form>
+	<div>
+		리턴값 <br>
+		개발자모드 콘솔 참조 
+	</div>
+	
+	<br>------------------------------------------<br>
+<!-- create_encoded_data.php -->
+<b>create_encoded_data.php</b>
+	<form name = 'createEncodedDataForm'>
+		lectureCode <input type='text' id='lectureCode' name='lectureCode' value='HALFCC'><br>
+		<button type='button' onclick='create_encoded_data()'>give_encoded_data</button>
+	</form>
+	<div>
+		리턴값 <br>
+		개발자모드 콘솔 참조 
+	</div>
+	
+	<br>------------------------------------------<br>
+<!-- checkplus_success.php -->
+<b>checkplus_success.php</b>
+	<form name = 'checkplusSuccessForm'>
+		encData <input type='text' id='encData' name='encData' value='AgAFQlkzNTbxagrEy1A6k57Oe+y4ueLsXWBFpShT2leTheG7Fz1qF7y/RRi98K5GoT1Osu2m/iAcyebr4K4T4FIlClp6efikQSKNQxmhyIt/pp7xdmF/PYozTi3pPUblR8SYel1GWmBZrui15hlrrzQhU8/eMCNPM8oRPERJaoRaa0cPYXQqU7QxBYtB6ccEAcEuUp/xYhMcMvHpjMTygHhFMahI2209HYduabdk84MLTQpdcQccW+rr6mmUyYdSzHAlOfXGuOvtC4l7uv8A5bqZamGY62uf7J0/UM5sY26C50W4xkGHxzCxKsI0Vt7xUMszaQPdFmSeh12J5SUq0DQUsFg8SPmjiyFK8vlNXAxnY+y3YohXwZQWVk72IeedQZKhcRqjRPquYSvMcStw0/NfWk3eCiRTpYA3V9txtnaDJgvipJwcj1oT24EK4VEYGWXjG/WesGW0bJAxR6k+XaPn3PZZgYHWxrHjmffydi+C4S1DsY77sw=='><br>
+		<button type='button' onclick='checkplus_success()'>checkplus_success</button>
+	</form>
+	<div>
+		리턴값 <br>
+		개발자모드 콘솔 참조 
+	</div>
+	
+	<br>------------------------------------------<br>
+<!-- checkplus_fail.php -->
+<b>checkplus_fail.php</b>
+	<form name = 'checkplusFailForm'>
+		encData <input type='text' id='encData' name='encData' value='AgAFQlkzNTbxagrEy1A6k57Oe+y4ueLsXWBFpShT2leTheG7Fz1qF7y/RRi98K5GoT1Osu2m/iAcyebr4K4T4FIlClp6efikQSKNQxmhyIt/pp7xdmF/PYozTi3pPUblR8SYel1GWmBZrui15hlrrzQhU8/eMCNPM8oRPERJaoRaa0cPYXQqU7QxBYtB6ccEAcEuUp/xYhMcMvHpjMTygHhFMahI2209HYduabdk84MLTQpdcQccW+rr6mmUyYdSzHAlOfXGuOvtC4l7uv8A5bqZamGY62uf7J0/UM5sY26C50W4xkGHxzCxKsI0Vt7xUMszaQPdFmSeh12J5SUq0DQUsFg8SPmjiyFK8vlNXAxnY+y3YohXwZQWVk72IeedQZKhcRqjRPquYSvMcStw0/NfWk3eCiRTpYA3V9txtnaDJgvipJwcj1oT24EK4VEYGWXjG/WesGW0bJAxR6k+XaPn3PZZgYHWxrHjmffydi+C4S1DsY77sw=='><br>
+		<button type='button' onclick='checkplus_fail()'>checkplus_fail</button>
+	</form>
+	<div>
+		리턴값 <br>
+		개발자모드 콘솔 참조 
+	</div>
+	
+	<br>------------------------------------------<br>
+	
+	
+	
+	
+	
+	
+<!-- test.php -->
+<b>test.php</b>
+	<form name = 'returnTestForm'>
+		input <input type='text' id='input' name='input' value=''><br>
+		<button type='button' onclick='show_test_result()'>show test result</button>
+	</form>
+	<div>
+		리턴값 <br>
+		result <div id = 'result'></div><br>
+	</div>
+	<br>------------------------------------------<br>
+
+	<script src="./ajax.js"></script>
+</body>
+</html>

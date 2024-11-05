@@ -1,0 +1,354 @@
+<? include '../include/header.html'; ?>
+<?
+//사이트정보 세션에 담기
+unset($_SESSION["MainCode"]);
+$_SESSION["MainCode"] = "B";
+?>
+<body>
+    <!--mainbanner-->
+    <div class="main_banner_wrap">
+        <div class="main_banner active" style="background-image: url(../img/main/banner/banner0.png ); background-color: #2b262a;">
+            <div id="wrap">
+                <span><?=$SiteName2?>은</span>
+                <strong class="fs40">학습자의 만족도를 <br>
+                최고의 가지로 생각합니다</strong>
+                <p>가치있는 교육은 학습자의 가치를 향상시키는데 기여합니다.<br>
+                우리 교육원은 학습자의 만족도를 최우선으로<br>
+                여러분의 능력 향상을 응원합니다.</p>
+            </div>
+        </div>
+        <div class="main_banner " style="background-image: url(../img/main/banner/banner1.png); background-color: #4476db;">
+            <div id="wrap">
+                <span>고용노동부 국비지원</span>
+                <strong>재직자 국민내일배움카드 과정</strong>
+                <p>챗GPT, 인공지능, 사무행정 등 <br>
+                다양한 직무능력향상교육을 국비지원으로 </p>
+            </div>
+        </div>
+        <div class="main_banner" style="background-image: url(../img/main/banner/banner2.png); background-color: #bdb6ac;">
+            <div id="wrap">
+                <span>원하는 강좌를 자유롭게</span>
+                <strong>평생교육바우처 과정</strong>
+                <p>HRDe의 평소 관심있던 교육을 무료로 수강 가능</p>
+            </div>
+        </div>
+        <div class="main_banner" style="background-image: url(../img/main/banner/banner3.png); background-color: #554bdc;">
+            <div id="wrap">
+                <span>원하는 강좌로 업무 역량 UP!</span>
+                <strong>직무스킬업 과정</strong>
+                <p>핵심 직무스킬 향상을 위한 프리미엄 과정</p>
+            </div> 
+        </div>
+    </div>
+    <!--mainbanner-->
+    <div class="main_con main_con1">
+        <div id="wrap">
+            <div class="title">
+                <span>WHAT YOU NEED</span>
+                <strong>나에게 필요한 과정을 찾아보세요</strong>
+            </div>
+            <ul>
+                <li onclick="location.href='/cyber/educourse/main_course.html?CategoryB=1'">
+                    <div class="img">
+                        <img src="../img/main/con1/icon1.png" alt="아이콘">
+                    </div>
+                    <div class="txt">
+                        <strong>NCS 직업교육</strong>
+                        <span>#공기업취뽀 #프로이직러</span>
+                    </div>
+                </li>
+                <li onclick="location.href='/cyber/educourse/main_course.html?CategoryB=2'">
+                    <div class="img">
+                        <img src="../img/main/con1/icon2.png" alt="아이콘">
+                    </div>
+                    <div class="txt">
+                        <strong>일반 사무직</strong>
+                        <span>#소통 #사무행정 #인사 #총무</span>
+                    </div>
+                </li>
+                <li onclick="location.href='/cyber/educourse/main_course.html?CategoryB=3'">
+                    <div class="img">
+                        <img src="../img/main/con1/icon3.png" alt="아이콘">
+                    </div>
+                    <div class="txt">
+                        <strong>IT · 4차산업</strong>
+                        <span>#AI #빅데이터 #챗GPT</span>
+                    </div>
+                </li>
+                <li onclick="location.href='/cyber/educourse/main_course.html?CategoryB=4'">
+                    <div class="img">
+                        <img src="../img/main/con1/icon4.png" alt="아이콘">
+                    </div>
+                    <div class="txt">
+                        <strong>병원</strong>
+                        <span>#병원안내 #요양지원</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!--wrap-->
+    </div>
+    <!--con1-->
+    <div class="main_con main_con2">
+        <div id="wrap">
+            <div class="title">
+                <span><?=$SiteName2?> PICKS</span>
+                <strong>BEST</strong>
+            </div>
+            <div class="content">
+                <div class="lecture_box">
+                    <div class="more">
+                        <a href="/cyber/educourse/all_course.html">더보기 <i class="ph ph-caret-right"></i></a>
+                    </div>
+                     <ul>
+                     	<?
+                        $i = 0;
+						$SQL = "SELECT a.*, b.ServiceType, b.ContentsName, b.ctype, b.Del, b.UseYN , b.Keyword , b.PreviewImage
+                        		FROM BestContentsList AS a 
+								LEFT OUTER JOIN CourseCyber AS b ON a.LectureCode=b.LectureCode 
+								WHERE b.PackageYN='N' AND b.Del='N' AND a.gubun='0'
+								ORDER BY a.OrderByNum ASC, a.idx ASC LIMIT 4";
+						$QUERY = mysqli_query($connect, $SQL);
+                        if($QUERY && mysqli_num_rows($QUERY)){
+                            while($ROW = mysqli_fetch_array($QUERY)){
+                                extract($ROW);
+								$ImgUrl = "/upload/Course/".$PreviewImage;
+                        ?>
+                        <li onclick="window.open('../edudetail/edudetail.html?LectureCode=<?=$LectureCode?>')">
+                            <div class="img">
+                                <img src="<?=$ImgUrl?>" alt="">
+                            </div>
+                            <div class="ttl">
+                                <!-- <span>명쾌하고 논리적으로 기획하는 </span>  -->
+                                <p><?=$ContentsName?></p>
+                            </div>
+                        </li>
+                        <?
+                        	$i++;
+                            }
+                        }
+                        ?>
+                     </ul>
+                </div>
+                <!--lecturebox-->
+            </div>
+            <!--content-->
+        </div>
+        <!--wrap-->
+    </div>
+    <!--con2-->
+    <div class="main_con main_con3">
+        <div id="wrap">
+            <div class="title">
+                <strong>KEYWORD SEARCH</strong>
+                <span>키워드에 따라 클래스를 발견해보세요</span>
+            </div>
+            <ul class="keyword_list">
+				<?
+				$i = 0;
+                $SQL = "SELECT Keyword, row_number() over(order by OrderByNum desc) AS Num
+						FROM ContentsKeyword
+						WHERE Del = 'N' AND UseYN = 'Y' AND Category = 0
+						ORDER BY OrderByNum LIMIT 0, 15";
+				$QUERY = mysqli_query($connect, $SQL);
+                if($QUERY && mysqli_num_rows($QUERY)){
+                	while($ROW = mysqli_fetch_array($QUERY)){
+                    	extract($ROW);
+				?>
+				<li <?if($keyChkVal == $Keyword){?>class="on"<?}?> ><a id="keyChk<?=$Num?>" href="/cyber/educourse/all_course.html?keyChkVal=<?=$Keyword?>" value="<?=$Keyword?>"><?=$Keyword?></a></li>
+				<?
+					$i++;
+					}
+				}
+				?>
+            </ul>
+        </div>
+        <!--wrap-->
+    </div>
+    <!--con3-->
+    <div class="main_con main_con4">
+        <div id="wrap">
+            <div class="title">
+                <strong>NEW</strong>
+            </div>
+            <div class="content">
+                <div class="lecture_box">
+                    <div class="more">
+                        <a href="/cyber/educourse/all_course.html">더보기 <i class="ph ph-caret-right"></i></a>
+                    </div>
+                     <ul>
+                        <?
+                        $i = 0;
+						$SQL = "SELECT a.*, b.ServiceType, b.ContentsName, b.ctype, b.Del, b.UseYN , b.Keyword , b.PreviewImage
+                        		FROM NewContentsList AS a 
+								LEFT OUTER JOIN CourseCyber AS b ON a.LectureCode=b.LectureCode 
+								WHERE b.PackageYN='N' AND b.Del='N' AND a.gubun='0'
+								ORDER BY a.OrderByNum ASC, a.idx ASC LIMIT 4";
+						$QUERY = mysqli_query($connect, $SQL);
+                        if($QUERY && mysqli_num_rows($QUERY)){
+                            while($ROW = mysqli_fetch_array($QUERY)){
+                                extract($ROW);
+								$ImgUrl = "/upload/Course/".$PreviewImage;
+                        ?>
+                        <li onclick="window.open('../edudetail/edudetail.html?LectureCode=<?=$LectureCode?>')">
+                            <div class="img">
+                                <img src="<?=$ImgUrl?>" alt="">
+                            </div>
+                            <div class="ttl">
+                                <!-- <span>명쾌하고 논리적으로 기획하는 </span>  -->
+                                <p><?=$ContentsName?></p>
+                            </div>
+                        </li>
+                        <?
+                        	$i++;
+                            }
+                        }
+                        ?>
+                     </ul>
+                </div>
+                <!--lecturebox-->
+            </div>
+            <!--content-->
+        </div>
+        <!--wrap-->
+    </div>
+    <!--con4-->
+    <div class="main_con main_con5">
+        <div id="wrap">
+            <div class="content">
+                <div class="side">
+                    <strong>수강후기</strong>
+                    <p>정성이 담긴 수강후기를 남겨주신3분께 푸짐한 선물을 드립니다.</p>
+                    <img src="../img/main/con5/illustration.png" alt="선물박스">
+                </div>
+                <ul>
+                <?
+                $i = 0;
+                $SQL = "SELECT * FROM Review WHERE Del='N' AND MainYN='Y' ORDER BY RegDate ASC LIMIT 4";
+				$QUERY = mysqli_query($connect, $SQL);
+                if($QUERY && mysqli_num_rows($QUERY)){
+                	while($ROW = mysqli_fetch_array($QUERY)){
+                    	extract($ROW);
+                        $Title = strcut_utf8($Title,45);
+						$Star = StarPointViewB($StarPoint);
+						$Contents = strcut_utf8($Contents,100);
+				?>
+					<li class="modal-btn" onclick="Javascript:SurveyPop('<?=$idx?>');">
+                        <span><?=$Title?></span>
+                        <div class="star"><?=$Star?></div>
+                        <div class="lecturename"><?=$ContentsName?></div>
+                        <p><?=$Contents?></p>
+                    </li>
+                <?
+                        $i++;
+					}
+                }
+                ?>
+                </ul>
+            </div>
+        </div>
+        <!--wrap-->
+    </div>
+    <!--con5-->
+    <div class="main_con main_con6">
+        <div id="wrap">
+            <div class="content1">
+                <div class="qna">
+                    <strong>자주묻는 질문</strong>
+                    <a href="../../public/support/faq.html" class="more">전체보기 <i class="ph ph-caret-right"></i></a>
+                    <ul>
+                    	<?
+                        $i = 0;
+                        $SQL = "SELECT * FROM Faq WHERE Del='N' AND UseYN='Y' ORDER BY OrderByNum ASC, RegDate ASC LIMIT 3";
+						$QUERY = mysqli_query($connect, $SQL);
+                        if($QUERY && mysqli_num_rows($QUERY)){
+                            while($ROW = mysqli_fetch_array($QUERY)){
+                                extract($ROW);
+                                $Title = strcut_utf8($Title,45);
+                        ?>
+                        <li><a href="../../public/support/faq.html?MainSend=Y&view_num=<?=$i?>&idx=<?=$idx?>"><?=$Title?></a></li>
+                        <?
+                        	$i++;
+                            }
+                        }
+                        ?>
+                    </ul>
+                </div>
+                <div class="notice">
+                    <strong>공지사항</strong>
+                    <a href="../../public/support/notice.html" class="more">전체보기 <i class="ph ph-caret-right"></i></a>
+                    <ul>
+                    	<?
+                        $i = 0;
+                        $SQL = "SELECT * FROM Notice WHERE Del='N' AND UseYN='Y' AND Notice='N' ORDER BY RegDate DESC, idx DESC LIMIT 3";
+						$QUERY = mysqli_query($connect, $SQL);
+                        if($QUERY && mysqli_num_rows($QUERY)){
+                            while($ROW = mysqli_fetch_array($QUERY)){
+                                extract($ROW);
+                                $Title = strcut_utf8($Title,45);
+                        ?>
+                        <li><a href="../../public/support/notice_view.html?idx=<?=$idx?>"><?=$Title?></a> <span><?=substr($RegDate,0,10)?></span></li>
+                        <?
+                        	$i++;
+                            }
+                        }
+                        ?>
+                    </ul>
+                </div>
+            </div>
+            <div class="content2">
+                <div class="left">
+                    <div class="chatbot">
+                        <span>채팅 상담을 도와드려요</span>
+                        <p>학습 관련 궁금한 사항은<br>
+                            <?=$SiteName2?> 챗봇 러비에게 질문해 주세요</p>
+                        <div class="img">
+                            <img src="../img/main/con6/chatbot.png" alt="챗봇">
+                        </div>
+                    </div>
+                    <div class="remote" onclick="location.href='/public/support/remote.html'">
+                        <span>원격 지원 서비스</span>
+                        <p>학습 지원 및 장애 발생시<br>
+                            신속히 처리해 드리겠습니다.</p>
+                        <div class="img">
+                            <img src="../img/main/con6/computer.png" alt="원격지원">
+                        </div>
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="left">
+                        <span>학습지원센터</span>
+                        <div class="point">학습 지원 · 장애 처리</div>
+                        <p>평일(월~금) 09:00~18:00</p>
+                        <p>점심시간 12:00~13:00</p>
+                    </div>
+                    <div class="right">
+                        <strong><?=$SitePhone?></strong>
+                        <div class="img">
+                            <img src="../img/main/con6/adviser.png" alt="상담시간이 아닌 경우 카톡상담 또는 챗봇 러비를 통해 문의 바랍니다.">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--wrap-->
+    </div>
+    <!--con6-->
+</body>
+
+<? include $_SERVER['DOCUMENT_ROOT'] . "/popup/include_popup.php"; ?>
+<? include "../include/footer.html"; ?>
+<!--메뉴-->
+<script>
+    $(function(){
+        $('.gnb > ul > li.menu').mouseover(function(){
+
+            var ind = $(this).index() ; 
+
+            $('.main_banner').removeClass('active');
+            $('.main_banner').eq(ind).addClass('active');
+        })
+    })
+
+</script>
+

@@ -1,0 +1,258 @@
+<?php
+include $_SERVER['DOCUMENT_ROOT'] . "/include/include_function.php"; //DB연결 및 각종 함수 정의
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="<?=$SiteName?>" />
+    <meta property="og:description" content="스마트한 직무능력향상 <?=$SiteName?>" />
+    <meta property="og:image" content="<?=$SiteURL?>/common/img/og.png" />
+    <meta property="og:url" content="<?=$SiteURL?>" />
+    <meta name="description" content="스마트한 직무능력향상 <?=$SiteName?>">
+    <title><?=$SiteName?></title>
+    <script type="text/javascript" src="../../common/js/jquery-2.1.4.js"></script>
+    <script src="../js/menu.js?ver=240416"></script>
+    <link rel="stylesheet" href="../../common/css/base.css?ver=240514">
+    <link rel="stylesheet" href="../../common/css/common.css?ver=240823">
+    <link rel="stylesheet" href="../css/common.css?ver=240823">
+    <link rel="stylesheet" href="../css/main.css?ver=240823">
+    <link rel="stylesheet" href="../css/group.css?ver=240517">
+    <link rel="stylesheet" href="../css/educourse.css?ver=240517">
+    <link rel="stylesheet" href="../css/edudetail.css?ver=240517">
+    <link rel="stylesheet" href="../css/etc.css?ver=240418-2">
+    <script src="https://kit.fontawesome.com/9e85d89723.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="../../lib/swiper-4.5.0/swiper.css">
+	<script src="../../lib/swiper-4.5.0/swiper.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script type="text/javascript" src="/include/function.js?t=<?=date('YmdHis')?>"></script>
+    <script>
+        var SiteName = "<?=$SiteName?>";
+        var SiteNum = "<?=$SitePhone?>"
+    </script>
+    <script type="text/javascript" src="/chatbot/constants.js" ></script>
+	<script type="text/javascript" src="/chatbot/chatbot.js" ></script>
+    <script>
+		$(document).ready(function() {
+			//챗봇
+			$(".chatbot").on("click",function(){
+				$("#_chatbot").toggle();
+				initChat();
+			});
+		});
+	</script>
+</head>
+<!--플로팅배너-->
+<ul class="float_banner">
+    <li><a href="https://pf.kakao.com/_kEcWxj/chat" target="_blank"><img src="../../common/img/floating_kakao.png"></a></li>
+    <!--<li><a href="https://pf.kakao.com/_kEcWxj/chat" target="_blank"><img src="/images/common/floating_chatbot.png"></a></li>-->
+    <li><img src="../../common/img/chatbot gif.gif" class="chatbot" style="width:70px;" /></li>
+    <li class="float_banner2"></li>
+</ul>
+<!--플로팅배너-->
+
+<div id="_chatbot" style="position:fixed;right:10px;top:60px;z-index:999;display:none">
+    <link rel="stylesheet" href="/chatbot/style.css" />
+    <link rel="stylesheet" href="/chatbot/jquery-ui.css">
+
+    <div id="container" class="container">
+        <div id="chat" class="chat">
+            <div id="close_chatbot">
+                <input type="button" class='chat_close' value=" x " onclick='$("#_chatbot").toggle();initChat()' />
+            </div>
+            <div id="messages" class="messages"></div>
+            <input id="input" type="text" placeholder="질문을 입력해주세요..." autocomplete="off" autofocus="true" />
+            <script>
+            </script>
+        </div>
+    </div>
+</div>
+<header>
+    <div class="top_header">
+        <!--wrap-->
+        <div id="wrap">
+            <ul>
+                <li class="home"><a href="/landingpage/main.html"><i class="ph ph-house"></i></a></li>
+                <li class="on"><a href="/hrdedu/main/main.html">사업주훈련</a></li>
+                <li ><a href="/cyber/main/main.html">내일배움카드</a></li>
+                <li ><a href="/hrdflex/main/main.html">사이버연수원</a></li>
+            </ul>
+            <div class="btn">
+            	<? if(empty($_SESSION['LoginMemberID'])) { ?>
+                <a href="/public/member/login.html">로그인</a>
+                <a href="/public/member/join.html">회원가입</a>
+                <?}else{?>
+                <p style="display: inline-block; margin-left: 15px; padding: 10px 0; font-weight: 500;"><strong style="color:#2c5db4;"><?=$_SESSION['LoginName']?></strong> 훈련생님 반갑습니다.</p>
+                <a href="/public/member/logout.php">로그아웃</a>
+                <?}?>
+                <a href="/public/support/ask.html">1:1 상담</a>
+            </div>
+        </div>
+        <!--wrap-->
+    </div>
+    <div class="header">
+        <div id="wrap">
+            <div class="logo"><a href="/hrdedu/main/main.html"><img src="/common/img/logo.png" alt="회사로고"></a></div>
+            <a class="menuicon">
+                <i class="fa-solid fa-bars"></i>
+            </a>
+            <div class="gnb">
+                <ul class="dropdownmenu">
+                    <li class="menu"><a href="/hrdedu/group/introduce.html" class="depth1">교육원소개</a>
+                        <ul>
+                            <li><a href="/hrdedu/group/introduce.html">교육원 소개</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu"><a href="/hrdedu/educourse/law_course.html?PCategory=1&Category=all" class="depth1">법정의무교육</a>
+                        <ul>
+                        	<li><a href="/hrdedu/educourse/law_course.html?PCategory=1&Category=all" >전체</a></li>
+	                        <?
+	                        $i=0;
+	                        $SQL = "SELECT * FROM CourseCategory WHERE Deep=2 AND ParentCategory=1 AND Del='N' ORDER BY OrderByNum ASC, idx ASC";
+                        	$QUERY = mysqli_query($connect, $SQL);
+                        	if($QUERY && mysqli_num_rows($QUERY)){
+                            	while($ROW = mysqli_fetch_array($QUERY)){
+									$pos = strpos($ROW['CategoryName'], "산업안전보건");
+									if($pos !== false){
+										if($i == 0){
+							?>
+							<li><a href="/hrdedu/educourse/law_course.html?PCategory=1&Category=<?=$ROW['idx']?>">산업안전보건교육</a></li>
+							<?
+										}
+										$i++;
+									}else{
+							?>
+							<li><a href="/hrdedu/educourse/law_course.html?PCategory=1&Category=<?=$ROW['idx']?>"><?=$ROW['CategoryName']?></a></li>
+							<?
+									}
+                        	    }
+	                        }
+	                        ?>
+                        </ul>
+                    </li>
+                    <li class="menu"><a href="/hrdedu/educourse/job_course.html?PCategory=3&Category=all" class="depth1">직무능력향상교육</a>
+                        <ul>
+                            <li><a href="/hrdedu/educourse/job_course.html?PCategory=3&Category=all">전체</a></li>
+                            <?
+	                        $SQL = "SELECT * FROM CourseCategory WHERE Deep=2 AND ParentCategory=3 AND Del='N' ORDER BY OrderByNum ASC, idx ASC";
+                        	$QUERY = mysqli_query($connect, $SQL);
+                        	if($QUERY && mysqli_num_rows($QUERY)){
+                            	while($ROW = mysqli_fetch_array($QUERY)){
+							?>
+							<li><a href="/hrdedu/educourse/job_course.html?PCategory=3&Category=<?=$ROW['idx']?>"><?=$ROW['CategoryName']?></a></li>
+							<?
+								}
+							}
+							?>
+                        </ul>
+                    </li>
+                    <li class="menu"><a href="/public/support/notice.html" class="depth1">학습지원센터</a>
+                        <ul>
+                            <li><a href="/public/support/notice.html">공지사항</a></li>
+                            <li><a href="/public/support/faq.html">자주묻는 질문</a></li>
+                            <li><a href="/public/support/ask.html">1:1 상담 </a></li>
+                            <li><a href="/public/support/remote.html">PC원격지원</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu"><a href="/public/support/edudata.html" class="depth1">학습자료실</a>
+                        <ul>
+                            <li><a href="/public/support/edudata.html?EduCate=A" >경영·사무</a></li>
+                            <li><a href="/public/support/edudata.html?EduCate=B">보건·의료</a></li>
+                            <li><a href="/public/support/edudata.html?EduCate=C">보육</a></li>
+                            <li><a href="/public/support/edudata.html?EduCate=D">4차산업</a></li>
+                            <li><a href="/public/support/edudata.html?EduCate=E">법정의무·기타</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="button">
+                <a href="/public/mypage/lecture_status.html" class="point"><i class="ph ph-sign-out"></i>나의 학습실</a>
+            </div>
+        </div>
+        <!--wrap-->
+        <div class="nav_back"></div>
+
+        <div class="navArea_m">
+            <a href="#" class="menuicon">
+                <i class="fa-solid fa-xmark"></i>
+            </a>
+            <div class="topmenu">
+                <? if(empty($_SESSION['LoginMemberID'])) { ?>
+                <span class="member"><a href="/public/member/login.html">로그인</a></span>
+                <? } else { ?>
+                <span class="member"><a href="/public/member/logout.php">로그아웃</a></span>
+                <? } ?>
+                <span class="point"><a href="/public/mypage/lecture.php">나의학습실</a></span>
+            </div>
+            <div class="topmenu2">
+                <ul>
+                    <li>
+                        <a href="/public/support/notice.html">
+                            <i class="fa-solid fa-circle-exclamation"></i>
+                            공지사항</a></li>
+                    <li>
+                        <a href="/public/support/faq.html">
+                            <i class="fa-regular fa-comment-dots"></i>
+                            자주묻는질문</a></li>
+                    <li>
+                        <a href="/public/support/ask.html">
+                            <i class="fa-solid fa-comments"></i>1:1문의</a></li>
+                </ul>
+            </div>
+            <ul class="dropdownmenu_m">
+                <li class="depth1">
+                    <a href="/hrdedu/group/introduce.html" class="depth1">
+                        교육원소개
+                        <span><i class="fa-solid fa-chevron-down"></i></span>
+                    </a>
+                    <ul>
+                        <li><a href="/hrdedu/group/introduce.html">교육원 소개</a></li>
+                    </ul>
+                </li>
+                <li class="depth1">
+                    <a href="/hrdedu/educourse/law_course.html" class="depth1">
+                        법정의무교육
+                        <span><i class="fa-solid fa-chevron-down"></i></span>
+                    </a>
+                    <ul>
+                        <li><a href="/hrdedu/educourse/law_course.html?PCategory=1&Category=all" >전체</a></li>
+                        <li><a href="/hrdedu/educourse/law_course.html?PCategory=1&Category=2" >법정의무교육</a></li>
+                        <li><a href="/hrdedu/educourse/law_course.html?PCategory=1&Category=7" >산업안전보건교육</a></li>
+                        <li><a href="/hrdedu/educourse/law_course.html?PCategory=1&Category=13" >중대재해처벌법</a></li>
+                        <li><a href="/hrdedu/educourse/law_course.html?PCategory=1&Category=15" >의료기관</a></li>
+                    </ul>
+                </li>
+                <li class="depth1">
+                    <a href="/hrdedu/educourse/job_course.html" class="depth1">
+                        직무능력향상교육
+                        <span><i class="fa-solid fa-chevron-down"></i></span>
+                    </a>
+                    <ul>
+                        <li><a href="/hrdedu/educourse/job_course.html?PCategory=3&Category=all">전체</a></li>
+                        <li><a href="/hrdedu/educourse/job_course.html?PCategory=3&Category=4">디지털융합훈련</a></li>
+                        <li><a href="/hrdedu/educourse/job_course.html?PCategory=3&Category=16">보건</a></li>
+                        <li><a href="/hrdedu/educourse/job_course.html?PCategory=3&Category=17">보육</a></li>
+                        <li><a href="/hrdedu/educourse/job_course.html?PCategory=3&Category=18">일반기업</a></li>
+                    </ul>
+                </li>
+                <li class="depth1"><a href="/public/support/edudata.html" class="depth1">
+                    학습자료실
+                    <span><i class="fa-solid fa-chevron-down"></i></span></a>
+                    <ul>
+                        <li><a href="/public/support/edudata.html?EduCate=A" >경영·사무</a></li>
+                        <li><a href="/public/support/edudata.html?EduCate=B">보건·의료</a></li>
+                        <li><a href="/public/support/edudata.html?EduCate=C">보육</a></li>
+                        <li><a href="/public/support/edudata.html?EduCate=D">4차산업</a></li>
+                        <li><a href="/public/support/edudata.html?EduCate=E">법정의무·기타</a></li>
+                    </ul>
+                </li>
+            </ul>
+    
+        </div>
+    </div>
+    <!--header-->
+</header>

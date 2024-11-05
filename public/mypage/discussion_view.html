@@ -1,0 +1,82 @@
+<? include "../include/mypage_header.html"; ?>
+<? include "../include/login_check.php"; ?>
+<?
+$idx = Replace_Check($idx);
+
+$Sql = "UPDATE DiscussionAnswer SET ViewCount=ViewCount+1 WHERE idx=$idx";
+$Row = mysqli_query($connect, $Sql);
+
+$Sql = "SELECT COALESCE(co.ContentsName, cc.ContentsName) AS ContentsName, t.Topic,da.* FROM DiscussionAnswer AS da
+		INNER JOIN Chapter AS ca ON da.Chapter_Seq = ca.Seq 
+		INNER JOIN DiscussionTopic AS t ON ca.Sub_idx = t.idx 
+		LEFT JOIN Course AS co ON da.LectureCode = co.LectureCode
+		LEFT JOIN CourseCyber AS cc ON da.LectureCode = cc.LectureCode
+		WHERE da.idx=$idx AND da.ID='$LoginMemberID' AND da.Del='N'";
+$Result = mysqli_query($connect, $Sql);
+$Row = mysqli_fetch_array($Result);
+if($Row) {
+	$ID	= $Row['ID'];
+	$ContentsName = $Row['ContentsName'];
+	$Topic = $Row['Topic'];
+	$UserAnswer = $Row['UserAnswer'];
+	$TutorRemark = $Row['TutorRemark'];
+	$RegDate = $Row['RegDate']; //사용자등록일자
+	$RegDate2 = $Row['RegDate2']; //답변등록일자
+}else{
+?>
+<script type="text/javascript">
+<!--
+//	location.href="discussion.html";
+//-->
+</script>
+<?
+	exit;
+}
+?>
+        <div class="mypage_content">
+            <div class="sb_box">
+                <h1>자료관리</h1>
+                <div class="navi">
+                    <i class="ph-light ph-house-line"></i>&nbsp;<i class="ph ph-caret-right"></i>&nbsp;나의학습실<i class="ph ph-caret-right"></i>&nbsp;자료관리
+                </div>
+            </div>
+            <div class="content">
+                <h2>토론방</h2>
+                <div class="topic">
+                    <div class="top">
+                        <div class="left">
+                            <div class="title"><?=$ContentsName?></div>
+                            <div class="detail">등록일 <i class="bar"></i><?=substr($RegDate,0,10)?></div>
+                        </div>
+                       <div class="right">
+                            <button><?if(strlen($TutorRemark) > 0 ) echo "답변완료"; else echo "대기중";?>
+                       </div>
+                    </div>
+                    <div class="bottom">
+                        <strong>토픽</strong>
+                        <div class="content" onclick="location.href='discussion_view.html'" ><?=$Topic?></div>
+                    </div>
+                    <div class="answer"><?=$UserAnswer?></div>
+                    <?if(strlen($TutorRemark) > 0){?>
+                    <div class="comment">
+                        <div class="detail">등록일 <i class="bar"></i><?=substr($RegDate2,0,10)?></div>
+                        <span>답변</span>
+                        <p><?=$TutorRemark?></p>
+                    </div>
+                    <? } ?>
+                </div>
+            </div>
+        </div>
+        <!--mypage_content-->
+    </div>
+    <!--wrap-->
+</body>
+<? include "../../common/include/footer.html"; ?>
+<script>
+    $(document).ready(function(){
+        $('.mypage_menu .data').addClass("on");
+        $('.mypage_menu .data ul').css('display','block');
+        $('.mypage_menu .data ul .discuss').addClass("on");
+        $('.mypage_menu .data a').find('i').toggleClass("ph-caret-up ph-caret-down");
+    });
+</script>

@@ -1,0 +1,167 @@
+<? include "../include/mypage_header.html"; ?>
+<? include "../include/login_check.php"; ?>
+<?
+$sessionID = $_SESSION['LoginMemberID'];
+
+$pg = Replace_Check_XSS2($pg);
+
+##-- 페이지 조건
+if(!$pg) $pg = 1;
+$page_size = 25;
+$block_size = 10;
+
+##-- 검색 조건
+$where = array();
+if($dateData == "1"){
+	$where[] = "a.RegDate < DATE_ADD(NOW(), INTERVAL - 30 DAY) ";	
+}else if($dateData == "3"){
+	$where[] = "a.RegDate < DATE_ADD(NOW(), INTERVAL - 90 DAY) ";	
+}else if($dateData == "6"){
+	$where[] = "a.RegDate < DATE_ADD(NOW(), INTERVAL - 180 DAY) ";	
+}
+if($DateStartB && $DateEndB){
+	//mysql에서 두개의 날짜로 조회를 할 때, 입력한 날짜는 해당되지 않고 조회가 됨.
+	//그래서 날짜를 -1Day/+1Day	해서 조회 해야함.
+	$str_dateStartB = strtotime($DateStartB.'-1 days'); 
+	$str_dateEndB = strtotime($DateEndB.'+1 days');
+	//날짜형식으로 변환
+	$str_dateStartB = date('y-m-d', $str_dateStartB);
+	$str_dateEndB = date('y-m-d', $str_dateEndB);
+
+	$where[] = "a.RegDate BETWEEN  '$str_dateStartB' and '$str_dateEndB'";
+}
+$where[] = "a.Del='N'";
+$where[] = "a.ID = '$sessionID'";
+
+$where = implode(" AND ",$where);
+if($where) $where = "WHERE $where";
+
+##-- 검색 등록수
+$Sql = "SELECT COUNT(*)
+		FROM LectureRequest AS a 
+		LEFT OUTER JOIN Course AS b ON a.LectureCode=b.LectureCode $where";
+$Result = mysqli_query($connect, $Sql);
+$Row = mysqli_fetch_array($Result);
+$TOT_NO = $Row[0];
+
+##-- 페이지 클래스 생성
+include_once("../../include/include_page.php");
+
+$PAGE_CLASS = new Page($pg,$TOT_NO,$page_size,$block_size); ##-- 페이지 클래스
+$BLOCK_LIST = $PAGE_CLASS->blockList(); ##-- 페이지 이동관련
+$PAGE_UNCOUNT = $PAGE_CLASS->page_uncount; ##-- 게시물 번호 한개씩 감소
+?>
+
+        <div class="mypage_content">
+        	<div class="sb_box">
+                <h1>수강신청/결제내역</h1>
+                <div class="navi">
+                    <i class="ph-light ph-house-line"></i>&nbsp;<i class="ph ph-caret-right"></i>&nbsp;나의학습실<i class="ph ph-caret-right"></i>&nbsp;수강신청/결제내역
+                </div>
+            </div>       
+            <div class="content">
+                <h2>수강신청 내역</h2>
+				<form name="dateSearchForm" action="<?=$_SERVER['PHP_SELF']?>" method="GET">
+					<input type="hidden" name="dateData" id="dateData" value="<?=$dateData?>">
+	                <div class="search_box">
+	                    <span>조회기간</span>
+	                    <div class="tab_btn">
+	                        <button type="button" <?if($dateData == "0" || $dateData == ""){?> class="on" <?}?> onclick="Javascript:dateSearch('0');">전체</button>
+	                        <button type="button"<?if($dateData == "1"){?> class="on" <?}?> onclick="Javascript:dateSearch('1');">1개월</button>
+	                        <button type="button"<?if($dateData == "3"){?> class="on" <?}?> onclick="Javascript:dateSearch('3');">3개월</button>
+	                        <button type="button" <?if($dateData == "6"){?> class="on" <?}?> onclick="Javascript:dateSearch('6');">6개월</button>
+	                    </div>
+	                    <div class="date_input">
+	                        <input type="text" id="DateStartB" name="DateStartB" <?if($DateStartB){?>value="<?=$DateStartB?>"<?}?> class="input-date"> - 
+	                        <input type="text" id="DateEndB" name="DateEndB" <?if($DateEndB){?>value="<?=$DateEndB?>"<?}?> class="input-date">
+	                        <button type="button" onclick="dateSearch('')"><i class="ph ph-magnifying-glass"></i></button>
+	                    </div>
+	                </div>
+                </form>
+                <table>
+                    <colgroup>
+                        <col width="15%">
+                        <col width="40%">
+                        <col width="25%">
+                        <col width="10%">
+                        <col width="10%">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>신청일</th>
+                            <th>과정명</th>
+                            <th>신청학습기간</th>
+                            <th>상태</th>
+                            <th>취소신청</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?
+                    $SQL = "SELECT b.ContentsName, a.* 
+							FROM LectureRequest AS a 
+							LEFT OUTER JOIN Course AS b ON a.LectureCode=b.LectureCode
+							$where
+							ORDER BY a.RegDate DESC, a.idx DESC LIMIT 0, 30";
+					//echo $SQL;
+					$QUERY = mysqli_query($connect, $SQL);
+					if($QUERY && mysqli_num_rows($QUERY)){
+						while($ROW = mysqli_fetch_array($QUERY)){
+							extract($ROW);
+							$RegDate = date("Y-m-d", strtotime($RegDate));
+					?>
+                        <tr>
+                            <td><?=$RegDate?></td>
+                            <td><?=$ContentsName?></td>
+                            <td><?=$LectureStart?> ~ <?=$LectureEnd?></td>
+                            <td><?if($Status == 'A') echo "승인대기"; else if($Status == 'B') echo "결제승인"; else echo "결제취소";?></button></td>
+                            <td><?if($Status == 'A'){?><button class="small" onclick="Javascript:LectureRequestCancel('<?=$idx?>','A');">취소신청</button><?}?></td>
+                        </tr>
+                    <?
+                    	}
+                   	}else{
+                    ?>
+                    	<tr><td colspan="4">수강신청 내역이 없습니다.</td></tr>
+                    <?}?>
+                    </tbody>
+                </table>
+            </div>
+            <?=$BLOCK_LIST?>
+        </div>
+        <!--mypage_content-->
+    </div>
+    <!--wrap-->
+</body>
+<? include "../../common/include/footer.html"; ?>
+
+
+<script>
+    $(document).ready(function(){
+        $('.mypage_menu .lecture_payment').addClass("on");
+    });
+</script>
+
+<!--datepicker-->
+<script type="text/javascript" src="/include/jquery.ui.datepicker-ko.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#DateStartB, #DateEndB").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            showButtonPanel: true,
+            showOn: "both", //이미지로 사용 , both : 엘리먼트와 이미지 동시사용
+            buttonImage: "../../common/img/calendar-blank.png", //이미지 주소
+            buttonImageOnly: true //이미지만 보이기
+        });
+        //$("#DateStartB, #DateEndB").val("");
+        $("img.ui-datepicker-trigger").attr("style","margin-left:5px; vertical-align:top; cursor:pointer;"); //이미지 버튼 style적용
+    });
+    
+</script>
+<script>
+    $(document).ready(function(){
+        $('.mypage_menu .lecture_payment').addClass("on");
+        $('.mypage_menu .lecture_payment ul').css('display','block');
+        $('.mypage_menu .lecture_payment ul .application').addClass("on");
+        $('.mypage_menu .lecture_payment a').find('i').toggleClass("ph-caret-up ph-caret-down");
+    });
+</script>

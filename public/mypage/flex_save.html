@@ -1,0 +1,146 @@
+<? include "../include/mypage_header.html"; ?>
+<? include "../include/login_check.php"; ?>
+<?
+$where[] = "b.ID = '$LoginMemberID'";
+$where[] = "a.Del='N'";
+$where[] = "a.UseYN='Y'";
+
+$where = implode(" AND ",$where);
+if($where) $where = "WHERE $where";
+
+$SQLA = "SELECT COUNT(*) FROM CourseFlex a LEFT JOIN CourseFlexLike b on a.LectureCode = b.LectureCode $where";
+$ResultA = mysqli_query($connect, $SQLA);
+$RowA = mysqli_fetch_array($ResultA);
+$TOT_NO = $RowA[0];
+mysqli_free_result($ResultA);
+?>
+        <div class="mypage_content">
+        	<div class="sb_box">
+                <h1>관심강의</h1>
+                <div class="navi">
+                    <i class="ph-light ph-house-line"></i>&nbsp;<i class="ph ph-caret-right"></i>&nbsp;나의학습실<i class="ph ph-caret-right"></i>&nbsp;FLEX
+                </div>
+            </div>
+            <div class="content">
+                <div class="top_button">
+                    <div class="left">
+                        <input type="checkbox" id="cbx_chkAll" name="chkAll">
+                        <label for="chkAll">전체선택</label>
+                    </div>
+                    <div class="right">
+                        <button class="delete" onclick="Javascript:CourseFlexCheckDel();">삭제</button>
+                    </div>
+                </div>
+                <ul class="saved_lecture_list">
+                <?
+                $i = 0;
+				$SQL = "SELECT b.idx , b.LectureCode  , a.ContentsName , a.Keyword1 , a.PreviewImage , a.Chapter
+						FROM CourseFlex a
+						LEFT JOIN CourseFlexLike b on a.LectureCode = b.LectureCode
+						$where  ORDER BY b.RegDate DESC, b.idx DESC Limit 0, 4";
+				//echo $SQL;
+				$QUERY = mysqli_query($connect, $SQL);
+				if($QUERY && mysqli_num_rows($QUERY)){
+					while($ROW = mysqli_fetch_array($QUERY)){
+						extract($ROW);
+						$PreviewImageView = "/upload/Course/".$PreviewImage;
+
+						$Keyword1 = str_replace(' ', '', $Keyword1);
+						$Keyword1_array = explode('#',$Keyword1);
+						$Keyword1_arrayA = array_slice($Keyword1_array, 1, 2);
+				?>
+                    <li>
+                        <input type="checkbox" name="chk" id="chk" value="<?=$idx?>">
+                        <div class="left">
+                        	<?if($Chapter == "0"){?>
+                            <div class="lecture_img" onclick="Javascript:ContentsPlayer('<?=$LectureCode?>');"><img src="<?=$PreviewImageView?>" alt="과정이미지"></div>
+                            <?}else{?>
+                            <div class="lecture_img" onclick="Javascript:ContentsPlayer2('<?=$LectureCode?>', '1');"><img src="<?=$PreviewImageView?>" alt="과정이미지"></div>
+                            <?}?>
+                        </div>
+                        <div class="right">
+                            <div class="top">
+                                <strong class="lecture_ttl"><?=$ContentsName?></strong>
+                                <div class="tag_box">
+                                	<? while (list($key,$value)=each($Keyword1_arrayA)){?>
+									<span>#<?=$value?></span>
+									<?}?>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+				<?
+						$i++;
+					}
+				}
+				?>
+                </ul>
+                <div class="hide" style="text-align: center; display: block; font-weight: 500; margin-top: 15px; display: none;">조회되는 컨텐츠가 없습니다.</div>
+                <? 
+	   			if($TOT_NO > 0){
+					if($TOT_NO > 4){
+   				?>
+		        <button id="load">+ 더보기</button>
+	    		<?
+	    			}
+	    		}else{
+	    		?>
+	    		<div style="text-align: center; display: block; font-weight: 500; margin-top: 15px;">조회되는 컨텐츠가 없습니다.</div>
+	    		<?}?>
+                
+            </div>
+        </div>
+    </div>
+</body>
+
+<? include "../../common/include/footer.html"; ?>
+
+<!--check all-->
+<script>
+$(document).ready(function() {
+    $("#cbx_chkAll").click(function() {
+        if($("#cbx_chkAll").is(":checked")) $("input[name=chk]").prop("checked", true);
+        else $("input[name=chk]").prop("checked", false);
+    });
+    
+    $("input[name=chk]").click(function() {
+        var total = $("input[name=chk]").length;
+        var checked = $("input[name=chk]:checked").length;
+        
+        if(total != checked) $("#cbx_chkAll").prop("checked", false);
+        else $("#cbx_chkAll").prop("checked", true); 
+    });
+});
+</script>
+
+<!--more load-->
+<script>
+$(function(){
+	var clickNum = 1; //버튼을 클릭한 수
+	
+	$("#load").click(function(e){		
+		var totNo = <?=$TOT_NO?>; //컨텐츠 총개수
+	   	var showNo = $(".saved_lecture_list li").length; //현재 보여지는 컨텐츠 개수
+	   	var hiddenNo = totNo - showNo; //아직 보여지지 않은 컨텐츠 개수
+		
+		var pageStart = clickNum * 4;
+	   	
+		CourseFlexLikeAdd(totNo, showNo, hiddenNo, pageStart); //과정더보기		
+		clickNum ++;
+		
+		//컨텐츠가 없으면 버튼도 숨김처리
+		if(hiddenNo < 1){
+			$(".content .hide").show();
+			$('#load').fadeOut(100);
+	   	}
+    });
+})
+</script>
+<script>
+    $(document).ready(function(){
+        $('.mypage_menu .flex').addClass("on");
+        $('.mypage_menu .flex ul').css('display','block');
+        $('.mypage_menu .flex ul .flexsave').addClass("on");
+        $('.mypage_menu .flex a').find('i').toggleClass("ph-caret-up ph-caret-down");
+    });
+</script>

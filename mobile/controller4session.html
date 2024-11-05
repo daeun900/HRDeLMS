@@ -1,0 +1,39 @@
+<html>
+<head>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<!-- give_session.php -->
+<b>give_session.php</b>
+	<form name = 'giveSessionForm'>
+		i d <input type='text' id='id' name='id' value=''><br>
+		<button type='button' onclick='give_session()'>give_session</button>
+	</form>
+	<div>
+		리턴값 <br>
+		session value <div id = 'session_value1'></div><br>
+	</div>
+	<br>------------------------------------------<br>
+<!-- check_session.php -->
+<b>check_session.php</b>
+	<form name = 'checkSessionForm'>
+		<button type='button' onclick='check_session()'>check_session</button>
+	</form>
+	<div>
+		리턴값 <br>
+		session value2 <div id = 'session_value2'></div><br>
+	</div>
+	<br>------------------------------------------<br>
+<!-- login_status.php -->
+<b>sign_in_status.php</b>
+	<form>
+		<button type='button' onclick='sign_in_status()'>status</button>
+	</form>
+	<div>
+		리턴값 <br>
+		개발자모드 console 참조
+	</div>
+	<br>------------------------------------------<br>
+	<script src="./ajax.js"></script>
+</body>
+</html>

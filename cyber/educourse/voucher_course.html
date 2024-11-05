@@ -1,0 +1,351 @@
+<? include "../include/header.html"; ?>
+<?
+$ID = $_SESSION['LoginMemberID'];
+
+$RedHeart = "/cyber/img/educourse/red heart.png";
+$WhiteHeart = "/cyber/img/educourse/white heart.png";
+
+if($sw){
+	$where[] = "a.ContentsName LIKE '%$sw%'";
+}
+if($keyChkVal){
+	$where[] = "a.Keyword LIKE '%$keyChkVal%'";
+}
+$where[] = "a.PackageYN='N'";
+$where[] = "a.Del='N'";
+$where[] = "a.UseYN='Y'";
+$where[] = "a.ctype='B'";
+$where[] = "a.Category1 like '%2%'";
+
+$where = implode(" AND ",$where);
+if($where) $where = "WHERE $where";
+
+$SQLA = "SELECT COUNT(*) FROM CourseCyber AS a $where ";
+$ResultA = mysqli_query($connect, $SQLA);
+$RowA = mysqli_fetch_array($ResultA);
+$TOT_NO = $RowA[0];
+mysqli_free_result($ResultA);
+
+//컨텐츠좋아요 list
+$Like_list = array();
+$SQLB = "SELECT * from CourseLike WHERE ID = '$ID'";
+$QUERYB = mysqli_query($connect, $SQLB);
+if($QUERYB && mysqli_num_rows($QUERYB)){
+    while($ROWB = mysqli_fetch_array($QUERYB)){
+        extract($ROWB);
+		$Like_list[$LectureCode] = $LectureCode;
+	}
+}
+?>
+<script>
+    $(document).ready(function() {
+    	//조회할때는 인기/신규과정은 안보이게.
+    	var keyChkVal = $("#keyChkVal").val();
+    	var sw = $("#sw").val();
+    	if(keyChkVal || sw){
+    		$("#hotCourse").hide();
+    		$("#newCourse").hide();
+    	}else{
+    		$("#hotCourse").show();
+    		$("#newCourse").show();
+    	}
+	});
+</script>
+<body>
+    <!--mainbanner-->
+    <div class="main_banner_wrap">
+        <div class="main_banner active bg40" style="background-image: url(../img/educourse/banner/voucherbanner.png); background-color: #504942;">
+            <div id="wrap" class="fcwhite">
+                <strong class="fs40">평생교육바우처 과정안내</strong>
+                <p class="mt5">내가 원하는 과정을 최대 35만 원까지 모두 지원해 드림! </p>
+            </div>
+        </div>
+    </div>
+    <!--//mainbanner-->
+    <div id="wrap"> 
+    	<!--topsection-->
+        <div class="top_section">
+            <div class="title">
+                <span>키워드에 따라 원하는 과정을 이용해보세요</span>
+                <form name="BoardSearchForm" action="<?=$_SERVER['PHP_SELF']?>" method="GET">
+	                <div class="search_box">
+	                    <input name="sw" id="sw" type="text" title="검색어 입력" <?if($sw){?>value="<?=$sw?>"<?}?> placeholder="과정명을 입력해주세요">
+	                    <span class="search_btn" onclick="Javascript:BoardSearch();"><i class="ph ph-magnifying-glass"></i></span>
+	                </div>
+				</form>
+            </div>
+            <div class="categorybtn_box">
+                <form name="BoardSearchFormA" action="<?=$_SERVER['PHP_SELF']?>" method="GET">
+            		<input type="hidden" name="keyChkVal" id="keyChkVal" value="<?=$keyChkVal?>">
+	                <ul>
+					<?
+					$i = 0;
+					$SQL = "SELECT Keyword, row_number() over(order by OrderByNum desc) AS Num
+							FROM ContentsKeyword
+							WHERE Del = 'N' AND UseYN = 'Y' AND Category = '2'  
+							ORDER BY OrderByNum LIMIT 0, 14";
+					$QUERY = mysqli_query($connect, $SQL);
+                	if($QUERY && mysqli_num_rows($QUERY)){
+                		while($ROW = mysqli_fetch_array($QUERY)){
+                    		extract($ROW);
+					?>
+						<li <?if($keyChkVal == $Keyword){?>class="on"<?}?> >#<a name="keyChk" id="keyChk<?=$Num?>" href="Javascript:KeywordSearch(<?=$Num?>);" value="<?=$Keyword?>"><?=$Keyword?></a></li>
+					<?
+							$i++;
+						}
+					}
+					?>
+						<!-- 강제로 키워드 삽입해야할 경우 : 쿼리의 Limit를 14→13으로 변경 후, 아래주석제거 및 value값 넣기 -->
+						<!-- <li <?if($keyChkVal == '4차산업'){?>class="on"<?}?> ><a id="keyChk13" href="Javascript:KeywordSearch('13');" value="4차산업">#4차산업</a></li>  -->
+	                </ul>
+				</form>
+            </div>
+        </div>
+        <!--//topsection-->
+        <!--이달의 인기과정-->
+        <div class="swiper lectureswiper1" id="hotCourse">
+            <h2>이달의 인기 과정</h2>
+            <div class="swiper-wrapper">
+                <?
+				$i = 0;
+				$SQL = "SELECT a.*, b.ServiceType, b.ContentsName, b.ctype, b.Del, b.UseYN , b.Keyword , b.PreviewImage
+                        FROM BestContentsList AS a 
+						LEFT OUTER JOIN CourseCyber AS b ON a.LectureCode=b.LectureCode 
+						WHERE b.PackageYN='N' AND b.Del='N' AND a.gubun='2'
+						ORDER BY a.OrderByNum ASC, a.idx ASC";
+				$QUERY = mysqli_query($connect, $SQL);
+				if($QUERY && mysqli_num_rows($QUERY)){
+					while($ROW = mysqli_fetch_array($QUERY)){
+						extract($ROW);
+						$Keyword = str_replace(' ', '', $Keyword);
+						$Keyword_array = explode('#',$Keyword);
+						$Keyword_arrayA = array_slice($Keyword_array, 1, 3);
+						$ImgUrl = "/upload/Course/".$PreviewImage;
+				?>
+				<div class="swiper-slide">
+                    <div class="course_img" style="background-image: url(<?=$ImgUrl?>);" onclick="window.open('../edudetail/edudetail.html?LectureCode=<?=$LectureCode?>')"></div>
+                    <div class="course_tag">
+                        <?while (list($key,$value)=each($Keyword_arrayA)){?>
+					 	<span>#<?=$value?></span>
+						<?}?>
+                    </div>
+                    <div class="course_title"><?=$ContentsName?></div>
+                </div>
+				<?
+						$i++;
+					}
+				}
+				?>
+            </div>
+            <div class="swiper-button">
+                <div class="swiper-button-prev1"></div>
+                <div class="swiper-button-next1"></div>
+            </div>
+        
+        </div>
+    	<!-- //이달의인기과정 -->
+    	<!--신규과정-->
+    	<div class="swiper lectureswiper2" id="newCourse">
+	        <h2>신규 과정</h2>
+	        <div class="swiper-wrapper">
+	        	<?
+				$i = 0;
+				$SQL = "SELECT a.*, b.ServiceType, b.ContentsName, b.ctype, b.Del, b.UseYN , b.Keyword , b.PreviewImage
+                    	FROM NewContentsList AS a 
+						LEFT OUTER JOIN CourseCyber AS b ON a.LectureCode=b.LectureCode 
+						WHERE b.PackageYN='N' AND b.Del='N' AND a.gubun='2'
+						ORDER BY a.OrderByNum ASC, a.idx ASC";
+				$QUERY = mysqli_query($connect, $SQL);
+				if($QUERY && mysqli_num_rows($QUERY)){
+					while($ROW = mysqli_fetch_array($QUERY)){
+						extract($ROW);
+						$Keyword = str_replace(' ', '', $Keyword);
+						$Keyword_array = explode('#',$Keyword);
+						$Keyword_arrayA = array_slice($Keyword_array, 1, 3);
+						$ImgUrl = "/upload/Course/".$PreviewImage;
+				?>
+				<div class="swiper-slide">
+            		<div class="course_img" style="background-image: url(<?=$ImgUrl?>);" onclick="window.open('../edudetail/edudetail.html?LectureCode=<?=$LectureCode?>')"></div>
+                		<div class="course_tag">
+                    	<?while (list($key,$value)=each($Keyword_arrayA)){?>
+							<span>#<?=$value?></span>
+						<?}?>
+					</div>
+                	<div class="course_title"><?=$ContentsName?></div>
+				</div>
+				<?
+						$i++;
+					}
+				}
+				?>
+        	</div>
+	        <div class="swiper-button">
+	            <div class="swiper-button-prev2"></div>
+	            <div class="swiper-button-next2"></div>
+	        </div>
+    	</div>
+		<!-- //신규과정 -->
+
+		<div class="course pt100">
+    		<ul>
+    		<?
+			$i = 0;
+			$SQL = "SELECT a.* FROM CourseCyber a  $where ORDER BY a.RegDate DESC, a.idx DESC LIMIT 0, 8";
+			//echo $SQL;
+			$QUERY = mysqli_query($connect, $SQL);
+			if($QUERY && mysqli_num_rows($QUERY)){
+				while($ROW = mysqli_fetch_array($QUERY)){
+					extract($ROW);
+					$Keyword = str_replace(' ', '', $Keyword);
+					$Keyword_array = explode('#',$Keyword);
+					$Keyword_arrayA = array_slice($Keyword_array, 1, 3);
+					$ImgUrl = "/upload/Course/".$PreviewImage;
+			?>
+				<li>
+		           	<div class="course_img" style="background-image: url(<?=$ImgUrl?>); background-color: #e8ece7;" onclick="window.open('../edudetail/edudetail.html?LectureCode=<?=$LectureCode?>')" >
+						<span><?=$Keyword_array[1]?></span>					
+						<button class="course_save_btn">
+							<img onclick="CourseLike(this,'<?=$LectureCode?>', '<?=$ID?>')" name="courseLike" id="like_<?=$idx?>" <? if($Like_list[$LectureCode] == $LectureCode){ ?> src="<?=$RedHeart?>" <?}else{?> src="<?=$WhiteHeart?>" <?}?>" >
+						</button>
+					</div>
+					<div class="course_title"><?=$ContentsName?></div>
+					<div class="course_tag">
+					<? while (list($key,$value)=each($Keyword_arrayA)){?>
+						<span>#<?=$value?></span>
+					<?}?>
+					</div>
+				</li>
+				<?
+						$i++;
+					}
+				}
+				?>
+        	</ul>
+        	<span style="display: none;">더이상 조회되는 컨텐츠가 없습니다.</span>
+    	</div>
+    	<?
+    	if($TOT_NO > 0){
+			if($TOT_NO > 8){
+   		?>
+	    <div class="more_btn" id="load">
+	        <button>+ 과정 더보기 </button>
+	    </div>
+    	<?
+    		}
+    	}else{
+    	?>
+	    <div class="more_btn" id="load">
+	       	<span>조회되는 컨텐츠가 없습니다.</span>
+	    </div>
+     	<?}?>
+	</div>
+	<!-- //wrap-->
+</body>
+<? include "../include/footer.html"; ?>
+
+<script>
+$(function(){
+	var clickNum = 1; //버튼을 클릭한 수
+	
+	$("#load").click(function(e){
+		var Category = "2";
+		
+		var totNo = <?=$TOT_NO?>; //컨텐츠 총개수
+	   	var showNo = $(".course li").length; //현재 보여지는 컨텐츠 개수
+	   	var hiddenNo = totNo - showNo; //아직 보여지지 않은 컨텐츠 개수
+		
+		var pageStart = clickNum * 8;
+	   	
+		CourseCyberAdd(totNo, showNo, hiddenNo, pageStart, Category); //과정더보기		
+		clickNum ++;
+		
+		//컨텐츠가 없으면 버튼도 숨김처리
+		if(hiddenNo < 1){
+			$(".course span").show();
+			$('#load').fadeOut(100);
+	   	}
+    });
+})
+</script>
+      
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
+<!-- Initialize Swiper -->
+<script>
+    //이달의 인기 과정
+    var swiper = new Swiper(".lectureswiper1", {
+        speed: 1000,
+        //slidesPerView 2개 이하일 경우에만 작동 loop: true,
+        autoplay: {
+            delay: 2500,
+            disableOnInteraction: false,
+        },
+        navigation: {
+            nextEl: ".swiper-button-next1",
+            prevEl: ".swiper-button-prev1",
+        },
+        slidesPerView: 3,
+        spaceBetween: 30,
+        breakpoints: {
+            1400: {
+                slidesPerView: 3,
+                spaceBetween: 30
+            },
+            930: {
+                slidesPerView: 2,
+                spaceBetween: 20
+            },
+            640: {
+                slidesPerView: 1,
+                spaceBetween: 10
+            },
+            320: {
+                slidesPerView: 1,
+                spaceBetween: 10
+            },
+			120: {
+                slidesPerView: 1,
+                spaceBetween: 10
+            }
+        }
+    });
+
+        //신규 과정
+        var swiper = new Swiper(".lectureswiper2", {
+        speed: 1000,
+        //slidesPerView 2개 이하일 경우에만 작동 loop: true,
+        autoplay: {
+            delay: 2500,
+            disableOnInteraction: false,
+        },
+        navigation: {
+            nextEl: ".swiper-button-next2",
+            prevEl: ".swiper-button-prev2",
+        },
+        slidesPerView: 3,
+        spaceBetween: 30,
+        breakpoints: {
+            1400: {
+                slidesPerView: 3,
+                spaceBetween: 30
+            },
+            930: {
+                slidesPerView: 2,
+                spaceBetween: 20
+            },
+            640: {
+                slidesPerView: 1,
+                spaceBetween: 10
+            },
+            320: {
+                slidesPerView: 1,
+                spaceBetween: 10
+            },
+			120: {
+                slidesPerView: 1,
+                spaceBetween: 10
+            }
+        }
+    });
+</script>

@@ -1,0 +1,84 @@
+<html>
+<head>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<!-- sign_in.php -->
+<b>sign_in.php</b>
+	<form name = 'signInForm'>
+		i d <input type='text' id='id' name='id' value=''><br>
+		pwd<input type='text' id='pwd' name='pwd' value=''><br>
+		<button type='button' onclick='sign_in()'>sign in</button>
+	</form>
+	<div>
+		리턴값 <br>
+		result <div id = 'sign_in_return_value'></div><br>
+		name <div id='userNm'></div>
+	</div>
+	<br>------------------------------------------<br>
+<!-- sign_out.php -->
+<b>sign_out.php</b>
+	<button type='button' onclick='sign_out()'>sign out</button>
+	<br>------------------------------------------<br>
+<!-- lecture_list.php -->
+	<b>lecture_list.php</b>
+	<form name = 'lectureListForm'>
+		i d <input type='text' id='id' name='id' value=''><br>
+		<button type='button' onclick='get_lecture_list()'>get lecture list</button>
+	</form>
+	<div>
+		리턴값 <br>
+		response.data <div id = 'response_data'></div><br>
+<!-- 		Title <div id = 'lecture_title'></div><br> -->
+<!-- 		ClassNum <div id='class_num'></div> -->
+<!-- 		progressNum <div id='progress_num'></div> -->
+<!-- 		progressPercent <div id='progress_percent'></div> -->
+	</div>
+	<br>------------------------------------------<br>
+<!-- lecture_detail.php -->
+	<b>lecture_detail.php</b>
+	<form name = 'lectureDetailForm'>
+		id <input type='text' id='id' name='id' value=''><br>
+		seq <input type='text' id='seq' name='seq' value=''><br>
+		<button type='button' onclick='get_lecture_detail()'>get lecture detail</button>
+	</form>
+	<div>
+		리턴값 <br>
+		
+		title <div id = 'lecture_title'></div><br>
+		lectureStart <div id = 'lecture_start'></div><br>
+		lectureEnd <div id = 'lecture_end'></div><br>
+		daysLeft <div id = 'days_left'></div><br>
+		professor <div id = 'professor'></div><br>
+		classNum <div id='class_num'></div><br>
+		classStatus <div id='class_status'></div><br>
+		progressNum <div id='progress_num'></div><br>
+		chapter <div id='chapter'></div><br>
+		progressPercent <div id='progress_percent'></div><br>
+		<br>
+		attachFile <div id='attach_file'></div><br>
+		<br>
+		chapterInfo <div id='chapter_info'></div><br>
+		returnBack <div id='return_back'></div><br>
+	</div>
+	<br>------------------------------------------<br>
+<!-- lecture_file_download.php -->
+	<b>lecture_file_download.php 미사용</b>
+	<form name = 'lectureFileDownloadForm'>
+		lectureCode <input type='text' id='lectureCode' name='lectureCode' value='TEST01'><br>
+		<button type='button' onclick='lecture_file_download()'>lecture_file_download</button>
+	</form>
+	
+	<form name="TimeCheckForm">
+		<input type="hidden" name="NowTime" id="NowTime" value="0">
+	</form>
+	<script src="./ajax.js"></script>
+	<script>
+		$(document).ready(function() {
+			//setInterval("signOutTimeCheck()",1000); // pc에서는 LogoutTimeCheck()
+			//signOutTimeView(); //pc에서는 LogOutTimeView()
+			setInterval("signInCheck()",6000); //pc에서는 LogInCheck()
+		});
+	</script>
+</body>
+</html>

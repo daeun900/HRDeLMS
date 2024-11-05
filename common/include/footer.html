@@ -1,0 +1,91 @@
+<footer>
+  <style>
+    footer{background-color: #202539; color: #fff;}
+    footer .btn a{color:#fff}
+    footer img{width: 150px; margin: 20px 0;}
+  </style>
+  <div class="btn">
+      <div id="wrap">
+          <div>
+              <a href="/hrdedu/etc/refund.html">고용보험환급 안내</a>
+              <a href="/cyber/card/card.html">내일배움카드 안내</a>
+              <a href="/public/etc/agreement.html" target="_blank">이용약관</a>
+              <a href="/public/etc/privacy.html" target="_blank">개인정보처리방침</a>
+          </div>
+          <div>
+              <a href="/hrd_manager/" class="point">교강사모듈</a>
+              <a href="/hrd_manager/" class="point">관리자모듈</a>
+              <a href="http://www.hrdemoa.com/" target="_blank" class="point">우리끼리</a>
+          </div>
+      </div>
+  </div>
+  <div class="info">
+      <div id="wrap">
+          <strong><img src="/common/img/logo-white.png" alt="ABC교육원"></strong>
+          <ul>
+              <li>대표이사: <?=$SiteCeo?></li><span class="bar"></span>
+              <li>사업자등록번호 : <?=$SiteCompanyNumber?></li><span class="bar"></span>
+              <li>통신판매업신고번호 : <?=$SiteSalesReportNumber?></li> <br>
+              <li>TEL : <?=$SitePhone?></li><span class="bar"></span>
+              <li>Email : <?=$SiteEmail?></li><span class="bar"></span>
+              <li>개인정보관리자 : <?=$SitePersonalInformationManager?></li> <br>
+              <li><?=$SiteAddress?></li><br>
+              <li><?$SiteCopyright?> 본 사이트 내의 컨텐츠는 저작권법 상의 보호를 받고 있습니다.</li>
+          </ul>
+      </div>
+  </div>
+</footer>
+<form name="TimeCheckForm">
+<input type="hidden" name="NowTime" id="NowTime" value="0">
+</form>
+<!-- jQuery로 데이터 처리를 위한 영역 -->
+<div id="SysBg_White" style="position:absolute; left:0; top:0; z-index:10; width: 100%; height: 100%; background-color: #FFFFFF;display:none;"></div>
+<div id="SysBg_Black" style="position:absolute; left:0; top:0; z-index:10; width: 100%; height: 100%; background-color: #000000;display:none;"></div>
+<div id="Roading" style="display:none;z-index:100"><BR /><BR /><BR /><BR /><img src="/images/loader.gif" alt="로딩중" /></div>
+<div id="DataResult" style="display:none;z-index:10000"></div>
+<iframe name="ScriptFrame" border="0" frameborder="0" width="0" height="0" title="데이터 처리를 위한 프레임" style="display:none"></iframe>
+<!-- jQuery로 데이터 처리를 위한 영역 -->
+<? if(isset($_SESSION['LoginMemberID'])) { ?>
+<script type="text/javascript">
+$(document).ready(function() {
+setInterval("LogoutTimeCheck()",1000);
+LogOutTimeView();
+setInterval("LogInCheck()",6000);
+});
+</script>
+<?}?>
+
+<!--초기비밀번호 시-->
+<?php
+if(!empty($_SESSION['LoginMemberID'])) {
+	$LoginMemberID = $_SESSION['LoginMemberID'];
+    
+	$Sql = "SELECT PassChange FROM Member WHERE ID='$LoginMemberID' AND MemberOut='N' AND UseYN='Y'";
+    $Result = mysqli_query($connect, $Sql);
+    $Row = mysqli_fetch_array($Result);
+	if ($Row) {
+		$PassChange = $Row['PassChange'];
+		$Mandatory = $Row['Mandatory'];
+  
+		if ($PassChange == "N" && $Mandatory == "Y") {
+?>
+<script type="text/javascript">
+// 비밀번호를 변경하지 않았으면 리다이렉트
+if (window.location.pathname !== '/public/mypage/memberinfo.html') {
+    window.location.href = '/public/mypage/memberinfo.html';
+}
+</script>
+<?
+		}
+	} else {
+?>
+<script type="text/javascript">
+    alert("회원정보에 문제가 있습니다.\n\n관리자에게 문의하세요.");
+    location.href="/member/logout.php";
+</script>
+<?
+ 	}
+}
+?>
+<!--초기비밀번호 시-->  
+</html>

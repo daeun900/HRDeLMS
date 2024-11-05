@@ -1,0 +1,287 @@
+<? include '../include/header.html'; ?>
+<?
+$ID = $_SESSION['LoginMemberID'];
+
+$where = array();
+
+$where[] = "Del='N'";
+$where[] = "UseYN='Y'";
+$where[] = "PackageYN='N'";
+$where[] = "LectureCode='$LectureCode'";
+
+$where = implode(" AND ",$where);
+if($where) $where = "WHERE $where";
+
+$Sql = "SELECT * FROM Course $where";
+//echo $Sql;
+$Result = mysqli_query($connect, $Sql);
+$Row = mysqli_fetch_array($Result);
+if($Row) {
+    $ctype = $Row['ctype']; //A 사업주과정, B 내일배움카드
+    $ClassGrade = $Row['ClassGrade']; //등급
+    $LectureCode = $Row['LectureCode']; //과정코드
+    $UseYN = $Row['UseYN']; //사이트 노출
+    $PassCode = $Row['PassCode']; //심사코드
+    $HrdCode = $Row['HrdCode']; //HRD-NET 과정코드
+    $Category1 = $Row['Category1']; //과정분류 대분류
+    $Category2 = $Row['Category2']; //과정분류 소분류
+    $ServiceType = $Row['ServiceType']; //서비스 구분
+    $ContentsName = html_quote($Row['ContentsName']); //과정명
+    $CompleteTime = $Row['CompleteTime']; //진도시간 기준
+    $ProgressCheck = $Row['ProgressCheck']; //진도체크방식
+    $Chapter = $Row['Chapter']; //차시수
+    $ContentsTime = $Row['ContentsTime']; //교육시간
+    $Price = $Row['Price']; //교육비용 일반
+    $Price01View = $Row['Price01View']; //교육비용 우선지원 
+    $Price02View = $Row['Price02View']; //교육비용 대규모 1000인 미만 
+    $Price03View = $Row['Price03View']; //교육비용 대규모 1000인 이상 
+    $Price01 = $Row['Price01']; //자부담금 교육비용 우선지원 
+    $Price02 = $Row['Price02']; //자부담금 교육비용 대규모 1000인 미만 
+    $Price03 = $Row['Price03']; //자부담금 교육비용 대규모 1000인 이상 
+    $Professor = $Row['Professor']; //내용전문가 
+    $Limited = $Row['Limited']; //학급정원
+    $ContentsPeriod = substr($Row['ContentsPeriod'],0,10); //컨텐츠 유효기간
+    $ContentsAccredit = substr($Row['ContentsAccredit'],0,10); //인정만료일 시작일
+    $ContentsExpire = substr($Row['ContentsExpire'],0,10); //인정만료일 종료일
+    $Cp = html_quote($Row['Cp']); //cp사
+    $Commission = $Row['Commission']; //cp 수수료
+    $Mobile = $Row['Mobile']; //모바일 지원
+    $BookPrice = $Row['BookPrice']; //교재비
+    $BookIntro = html_quote($Row['BookIntro']); //참고도서설명
+    $attachFile = html_quote($Row['attachFile']); //학습자료
+    $PreviewImage = html_quote($Row['PreviewImage']); //과정 이미지
+    $BookImage = html_quote($Row['BookImage']); //교재 이미지
+    $Mid01EA = $Row['Mid01EA']; //중간평가 객관식 문항수
+    $Mid01Score = $Row['Mid01Score']; //중간평가 객관식 배점
+    $Mid02EA = $Row['Mid02EA']; //중간평가 주관식 문항수
+    $Mid02Score = $Row['Mid02Score']; //중간평가 주관식 배점
+    $Test01EA = $Row['Test01EA']; //최종평가 객관식 문항수
+    $Test01Score = $Row['Test01Score']; //최종평가 객관식 배점
+    $Test02EA = $Row['Test02EA']; //최종평가 주관식 문항수
+    $Test02Score = $Row['Test02Score']; //최종평가 주관식 배점
+    $ReportEA = $Row['ReportEA']; //과제 문항수
+    $ReportScore = $Row['ReportScore']; //과제 배점
+    $TestTime = $Row['TestTime']; //시험제한시간
+    $MidRate = $Row['MidRate']; //반영비율 중간평가 
+    $TestRate = $Row['TestRate']; //반영비율 최종평가 
+    $ReportRate = $Row['ReportRate']; //반영비율 과제
+    $PassProgress = $Row['PassProgress']; //진도율  
+    $TotalPassMid = $Row['TotalPassMid']; //중간평가 : 총점
+    $TotalPassTest = $Row['TotalPassTest']; //최종평가 : 총점
+    $PassTest = $Row['PassTest']; //최종평가 : 득점
+    $TotalPassReport = $Row['TotalPassReport']; //과제 : 총점
+    $PassReport = $Row['PassReport']; //과제 : 득점
+    $PassScore = $Row['PassScore']; //반영비율을 적용한 총점
+    $Intro = nl2br($Row['Intro']); //과정소개
+    $EduTarget = nl2br($Row['EduTarget']); //교육대상
+    $EduGoal = nl2br($Row['EduGoal']); //교육목표
+    $EduGoalArr = explode("<br />",$EduGoal);
+    $Hit = $Row['Hit']; //인기 강의
+}
+
+if($PreviewImage) {
+    $PreviewImageView = "/upload/Course/".$PreviewImage;
+}else{
+    $PreviewImageView = "/common/img/img-ready.png";
+}
+
+if($IE8Compat=="Y") {
+	//$PreviewFun = "CoursePreviewPopup";
+    $PreviewFun = "CoursePreview";
+}else{
+    $PreviewFun = "CoursePreview";
+}
+
+if($ctype=="A") {
+    $CompanyScaleTitle01 = "우선지원 기업";
+    $CompanyScaleTitle02 = "대규모(1,000인 미만)";
+    $CompanyScaleTitle03 = "대규모(10,000인 이상)";
+}
+
+if($ctype=="B") {
+    $CompanyScaleTitle01 = "일반훈련생";
+    $CompanyScaleTitle02 = "취업성공패키지";
+    $CompanyScaleTitle03 = "근로장려금";
+}
+
+if($LoginMemberID) {
+
+	$Sql = "SELECT *, AES_DECRYPT(UNHEX(Email),'$DB_Enc_Key') AS Email, AES_DECRYPT(UNHEX(Mobile),'$DB_Enc_Key') AS Mobile FROM Member WHERE ID='$LoginMemberID'";
+	//echo $Sql;
+	$Result = mysqli_query($connect, $Sql);
+	$Row = mysqli_fetch_array($Result);
+
+	if($Row) {
+
+		$Name = $Row['Name'];
+		$Mobile = $Row['Mobile'];
+		$Email = $Row['Email'];
+
+		$Mobile_Array = explode("-",$Mobile);
+		$Mobile01 = $Mobile_Array[0];
+		$Mobile02 = $Mobile_Array[1];
+		$Mobile03 = $Mobile_Array[2];
+
+	}
+
+}
+?>
+<body>
+    <div id="wrap">
+        <div class="edudetail_top">
+            <div class="lecture_title">
+                <span class="pc">PC</span>
+                <?if($Mobile=="Y") {?><span class="mobile">모바일</span><?}?>
+                <?if($ServiceType=="1") {?><span class="refund">사업주 환급</span><?}?>
+                <strong><?=$ContentsName?></strong>
+            </div>
+            <div class="flex_box">
+                <div class="left">
+                    <div class="lecture_img"><img src="<?=$PreviewImageView?>" alt="과정이미지"></div>
+                    <button onclick="Javascript:<?=$PreviewFun?>('<?=$LectureCode?>', 'A');">과정 맛보기</button>
+                </div>
+                <!--left-->
+                <div class="right" style="width:100%;">
+                    <div class="lecture_detail">
+                        <p><span>교육대상</span><?=$EduTarget?></p>
+                        <p><span>교육시간</span><?=$Chapter?>차시 / <?=$ContentsTime?>시간</p>
+                    </div>
+                    <div class="button_wrap">
+                        <button class="apply" onclick="Javascript:LectureRequest('<?=$LectureCode?>','<?=$Price?>', '<?=$ID?>');">학습신청</button>
+                        <button onclick="Javascript:SimpleAsk()">간편문의</button>
+                    </div>
+                </div>
+            </div>
+        </div>  
+        <div class="edudetail_bottom">
+            <div>
+                <div class="title">학습과정</div>
+                <div class="content">
+                    <img src="../img/edudetail/edu_progress.png" alt="인트로>학습>돌발퀴즈>학습>아웃트로">
+                </div>
+            </div>
+            <div>
+                <div class="title">학습목표</div>
+                <div class="content">
+                	<p><?=$EduGoal?></p>
+                </div>
+            </div>
+            <div>
+                <div class="title">수료기준</div>
+                <div class="content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>항목</th>
+                                <th>진도율</th>
+                                <th>진행단계평가</th>
+                                <th>최종평가</th>
+                                <th>과제형 평가</th>
+                                <th>수료기준</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>평가비율</td>
+                                <td>0%</td>
+                                <td><?=$MidRate?>%</td>
+                                <td><?=$TestRate?>%</td>
+                                <td><?=$ReportRate?>%</td>
+                                <td rowspan="2"><?=$PassScore?> 이상</td>
+                            </tr>
+                            <tr>
+                                <td>수료기준</td>
+                                <td><?=$PassProgress?>% 이상</td>
+                                <td>있음 (총 <?=$TotalPassMid?>점)</td>
+                                <td>있음 (총 <?=$TotalPassTest?>점)</td>
+                                <td class="br">있음 (총 <?=$TotalPassReport?>점)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div>
+                <div class="title">교육비</div>
+                <div class="content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>총비용</th>
+                                <th colspan="6">환급비</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><?=number_format($Price,0)?> 원</td>
+                                <th><?=$CompanyScaleTitle01?></th>
+                                <td><?=number_format($Price01View,0)?> 원</td>
+                                <th><?=$CompanyScaleTitle02?></th>
+                                <td><?=number_format($Price02View,0)?> 원</td>
+                                <th class="br"><?=$CompanyScaleTitle03?></th>
+                                <td><?=number_format($Price03View,0)?> 원</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--wrap-->
+</body>
+<? include "../include/footer.html"; ?>
+
+
+<!--모달팝업-->
+<script>
+jQuery(document).ready(function() {
+    $('.modal-btn').each(function() {
+        var modalID = $(this).attr('href');
+    
+        $(this).on('click', function(e) {
+            e.preventDefault();
+
+            $('.modal-bg').fadeIn();            
+            $('.modal-wrap').hide();
+            $(modalID).show();
+            $('html').css({overflow: 'hidden'});
+        });
+
+        $('[class*=close-btn]').on('click', function() {
+            $('.modal-bg').fadeOut();
+            $(modalID).hide();
+            $(modalID).removeAttr('style');
+
+            $('html').removeAttr('style');
+        });
+    });
+});
+</script>
+<style> 
+    .modal-bg {display:none;width:100%;height:100%;position:fixed;top:0;left:0;right:0;background: rgba(0, 0, 0, 0.6);z-index:999;}
+    .modal-wrap {display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;z-index:1000;  padding: 50px;}
+    .modal-wrap h2{ font-size: 30px; font-weight: bold; line-height: 50px;}
+    .modal-wrap .close-btn { position: absolute;cursor: pointer;  top: 50px; right: 50px;}
+    .modal-wrap .close-btn i {font-size: 35px;}
+</style>
+<!--학습신청 팝업-->
+<div class="modal-bg"></div>
+<div id="modal02" class="modal-wrap">
+    <div class="close-btn">
+        <i class="fa-solid fa-xmark"></i>
+    </div>
+    <h2>학습신청</h2>
+    <div class="tableTypeA">
+        <table>
+            <colgroup>
+                <col width="620px">
+            </colgroup>
+            <tr><th><?=$ContentsName?></th></tr>
+            <tr>
+                <td class="pt40 pb40" id="DateList"></td>
+            </tr>
+        </table>
+    </div>
+    <div class="submit_btn">
+        <button onclick="Javascript:LectureRequestSubmitOk('<?=$LectureCode?>', '<?=$Price?>');">확인</button>
+    </div>
+</div>

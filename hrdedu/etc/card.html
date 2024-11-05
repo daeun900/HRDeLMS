@@ -1,0 +1,158 @@
+<? include '../include/header.html'; ?>
+
+<body>
+    <!-- 메인배너 -->
+    <div class="mainbanner_wrap">
+        <div class="mainbanner" style="background-image: url(../img/etc/card/banner.png);    background-color: #c5daf5;">
+            <div id="wrap">
+                <span class="top" style="font-size: 23px; font-weight: 500;">우리 직원들의 역량 레벨업 찬스!</span>
+                <strong>기업직업훈련카드</strong>
+                <span class="bottom mb5">자부담금 10%도 부담 스러우셨나요?<br>
+                    <?=$SiteName?>에서 자부담금 0원 혜택 제공</span>
+                <button style="background-color: #2C5DB4; width: 140px; padding: 8px 0;" onclick="location.href='../support/ask.html'">헤택받기</button>
+            </div>
+        </div>
+    </div>
+    <!-- 메인배너 -->
+    <div class="card_con con1">
+        <div id="wrap">
+            <div class="title">
+                <strong>기업직업훈련카드가 뭔가요?</strong>
+                <p>한국산업공단의 재직자 직무 능력 향상 훈련 바우처 사업으로, <br>
+                    선착순 20,000개의 우선지원대상기업에 직원 교육비를 100% 지원하는 제도입니다.</p>
+            </div>
+            <div class="content">
+                <div>
+                    <div class="img">
+                        <img src="../img/etc/card/icon1.png" alt="아이콘">
+                    </div>
+                    <div class="txt">
+                        <strong>지원대상</strong>
+                        <p>우선지원대상기업 선착순 20,000개소에 <br>
+                            2024년 12월 31일까지 교육비 지원</p>
+                        <span>* 정해진 예산 초과시 사용기간이 단축 될 수 있으며 이후 기업 자부담으로 회귀</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="img">
+                        <img src="../img/etc/card/icon2.png" alt="아이콘">
+                    </div>
+                    <div class="txt">
+                        <strong>지원금액</strong>
+                        <p>상시 근로자 50인 미만 : <b>500만 원 </b><br>
+                            상시근로자 50인 이상 : <b>고용보험료 x 240%</b>까지 지원</p>
+                        <span>* 정해진 예산 초과시 사용기간이 단축 될 수 있으며 이후 기업 자부담으로 회귀</span>
+                    </div>
+                    <button onclick="window.open('https://www.hrd.go.kr')">한도 확인하기</button>
+                </div>
+            </div>
+        </div>
+        <!--wrap-->
+    </div>
+    <!--con1-->
+    <div class="card_con con2">
+        <div id="wrap">
+            <div class="title">
+                <em>교육비 , 커리큘럼, 교육운영 모두 걱정없이!</em>
+                <span><b><?=$SiteName?></b>가 여러분의 <b>교육여정</b>에 함께하겠습니다.</span>
+            </div>
+            <div class="content">
+                <div class="left">
+                    <span>기업직업훈련카드</span>
+                    <strong>간단한 사용 절차</strong>
+                    <button onclick="window.open('https://www.hrd4u.or.kr/hrd4u_new/contents.do?menuNo=010102')">카드 신청하기</button>
+                </div>
+                <div class="right">
+                    <div>
+                        <span class="step">step</span>
+                        <span class="num">01</span>
+                        <strong>카드신청</strong>
+                        <p>공단 지부 지사를 통해  <br>
+                            기업직업 훈련 카드 신청</p>
+                    </div>
+                    <div>
+                        <span class="step">step</span>
+                        <span class="num">02</span>
+                        <strong>카드발급</strong>
+                        <p>기업요건 확인 후 <br>
+                            공단에서 카드 발급 승인</p>
+                    </div>
+                    <div>
+                        <span class="step">step</span>
+                        <span class="num">03</span>
+                        <strong>교육신청</strong>
+                        <p>HRDE평생교육원에서 <br>
+                            필요한 교육을 자유롭게 신청</p>
+                    </div>
+                    <div>
+                        <span class="step">step</span>
+                        <span class="num">04</span>
+                        <strong>교육진행</strong>
+                        <p>정부 지원 100%  <br>
+                            자부담금 0원으로 교육 시작</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--wrap-->
+    </div>
+    <!--con2-->
+    <div class="card_con con3">
+        <div id="wrap">
+            <div class="title">
+                <strong>자주묻는 질문</strong>
+            </div>
+            <div class="content">
+                <div class="q">
+                    <p id="ContentView">기업직업훈련카드가 뭔가요?<i class="ph-bold ph-caret-up"></i></p>
+                    <div class="a" id="ContentElement">
+                        <p>한국산업인력공단이 진행하는 재직자 직무 능력 향상 훈련 바우처 사업으로, 선착순 20,000개 우선지원대상기업에게 직원 교육비 100% 지원하는 제도입니다.</p>
+                    </div>
+                </div>
+                <div class="q">
+                    <p id="ContentView">저희 회사도 지원받을 수 있을까요? <i class="ph-bold ph-caret-up"></i></p>
+                    <div class="a" id="ContentElement">
+                        <p>우선지원대상기업 중 아래 ① 또는 ②에 해당하는 기업인 경우, 신청 가능합니다. <br>
+                            ①최근 3개년(2021-2023년)간 사업주훈련에 참여한 이력이 없는 기업 <br>
+                            ②상시근로자수 50인 미만 기업 <br>
+                            *상시근로자수는 신청일 기준의 고용보험 DB에서 확인되는 인원으로 산정
+                            </p>
+                    </div>
+                </div>
+                <div class="q">
+                    <p id="ContentView">교육비가 얼마 남았는지 알 수 있을까요?<i class="ph-bold ph-caret-up"></i></p>
+                    <div class="a" id="ContentElement">
+                        <p>사업주훈련포털(HRD-Net) 접속 > 법인인증서 로그인 > My서비스 > 사업주훈련 > 지급가능 금액 조회에서 확인 가능 합니다.</p>
+                    </div>
+                </div>
+                <div class="q">
+                    <p id="ContentView">2024년 달라지는 사항이 있나요? <i class="ph-bold ph-caret-up"></i></p>
+                    <div class="a" id="ContentElement">
+                        <p>지원대상기업 수가 13,000개 기업에서 20,000개 기업으로 확대 되었습니다. *지원 한도 그대로 유지</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--wrap-->
+    </div>
+    <!--con3-->
+
+<? include "../include/footer.html"; ?>
+
+    <!--답변여닫기-->
+<script>
+    $(document).ready(function(){
+        $('.content .q #ContentView').click(function(){
+            if($(this).next($('#ContentElement')).is(":visible")){
+                $(this).find('i').toggleClass("ph-caret-up ph-caret-down");
+                $(this).next($('#ContentElement')).slideUp();
+                $(this).parent().css("background-color","#ecedf7");
+            }else{
+                $(this).find('i').toggleClass("ph-caret-down ph-caret-up");
+                $(this).next($('#ContentElement')).slideDown();
+                $(this).parent().css("background-color","#C7CADF");
+            }
+        });
+    });
+
+</script>

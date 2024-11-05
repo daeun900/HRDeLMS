@@ -1,0 +1,482 @@
+@charset "UTF-8";
+.payment_top_section {
+  border-bottom: 2px solid;
+}
+.payment_top_section #wrap {
+  display: flex;
+  justify-content: space-between;
+  padding: 50px 20px;
+  position: relative;
+  left: 15%;
+  margin: 0;
+}
+.payment_top_section #wrap h1 {
+  font-size: 30px;
+  font-weight: bold;
+}
+.payment_top_section #wrap ol {
+  display: flex;
+  color: #999;
+}
+.payment_top_section #wrap ol li {
+  margin-right: 10px;
+}
+.payment_top_section #wrap ol li i {
+  margin-left: 10px;
+  color: #eee;
+}
+.payment_top_section #wrap ol li span.fcred {
+  font-weight: 600;
+}
+
+.payment_left {
+  padding-right: 270px;
+  padding-top: 30px;
+  padding-bottom: 100px;
+  position: relative;
+  /*주문정보*/
+  /*결제정보*/
+  /*안내사항*/
+  /*학습목적*/
+  /*결제방법*/
+  /*전자세금계산서*/
+  /*회원정보*/
+  /*환불사유*/
+  /*환불계좌정보*/
+  /*강의환불*/
+}
+.payment_left .top {
+  width: 100%;
+  background-color: whitesmoke;
+  text-align: center;
+  padding: 10px 0;
+  font-weight: bold;
+}
+.payment_left .con {
+  margin-top: 30px;
+  font-size: 14px;
+}
+.payment_left .con .title {
+  font-size: 18px;
+  font-weight: bold;
+  border-bottom: 1px solid;
+  padding: 15px 0px;
+}
+.payment_left .con .subtitle {
+  font-weight: bold;
+  margin: 10px 0;
+}
+.payment_left .con .txt {
+  margin: 10px 0;
+}
+.payment_left .con .txt p i {
+  font-weight: 900;
+  margin-right: 10px;
+}
+.payment_left .con table {
+  width: 100%;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+.payment_left .con table tr {
+  border-bottom: 1px solid #ccc;
+}
+.payment_left .con table tr th {
+  background-color: whitesmoke;
+  padding: 10px 0;
+  border-right: 1px solid #ccc;
+  font-size: 15px;
+}
+.payment_left .con table tr td {
+  padding: 10px;
+  border-right: 1px solid #ccc;
+  font-size: 15px;
+}
+.payment_left .con table tr td:last-of-type {
+  border-right: none;
+}
+.payment_left .con .content {
+  padding: 10px 0;
+  border-bottom: 1px solid #ccc;
+}
+.payment_left .con .content input[type=radio] {
+  margin-bottom: 3px;
+  margin-left: 20px;
+}
+.payment_left .con .content label {
+  margin-left: 10px;
+}
+.payment_left .con.order_info table {
+  border-top: none;
+  border-bottom: none;
+}
+.payment_left .con.order_info table tr th {
+  border-right: none;
+}
+.payment_left .con.order_info table tr td {
+  border-right: none;
+}
+.payment_left .con.order_info td button {
+  font-size: 12px;
+  color: #fff;
+  background-color: #d2d2d2;
+  padding: 2px;
+  line-height: 16px;
+  border-radius: 5px;
+  margin-bottom: 3px;
+  margin-left: 3px;
+}
+.payment_left .con.order_info td select {
+  width: 300px;
+  font-size: 13px;
+  margin: 10px 0;
+}
+.payment_left .con.order_info td span {
+  display: block;
+  font-size: 13px;
+}
+.payment_left .con.pay_info table td input {
+  width: 110px;
+  background-color: #f5f5f5;
+  padding: 1px 5px;
+  border: 1px solid #ccc;
+  margin-right: 6px;
+}
+.payment_left .con.pay_info table td button {
+  font-size: 14px;
+  color: #fff;
+  padding: 3px 9px;
+  margin: 0 10px;
+}
+.payment_left .con.pay_info table td button.red {
+  background-color: #f14343;
+}
+.payment_left .con.pay_info table td button.grey {
+  background-color: #767676;
+}
+.payment_left .con.pay_info table td span {
+  position: absolute;
+}
+.payment_left .con.pay_info table td em {
+  display: block;
+  font-size: 13px;
+}
+.payment_left .con.notice .grid_box {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 43px;
+}
+.payment_left .con.notice .grid_box > div > div {
+  margin: 10px 0;
+  line-height: 26px;
+}
+.payment_left .con.notice .grid_box > div > div p {
+  padding-left: 20px;
+  position: relative;
+}
+.payment_left .con.notice .grid_box > div > div p::before {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background-color: #222;
+  border-radius: 50%;
+  top: 10px;
+  left: 6px;
+  content: "";
+}
+.payment_left .con.notice .agree {
+  padding: 20px 10px;
+  background-color: whitesmoke;
+  margin-bottom: 10px;
+}
+.payment_left .con.notice .agree input {
+  margin-bottom: 3px;
+}
+.payment_left .con.notice .agree label {
+  margin-left: 10px;
+}
+.payment_left .con.study_purpose .content {
+  padding: 30px 10px;
+  background-color: whitesmoke;
+  border-bottom: none;
+}
+.payment_left .con.study_purpose .content input[type=text] {
+  background-color: transparent;
+  border-bottom: 1px solid #ccc;
+  padding: 10px;
+}
+.payment_left .con.pay_method .content .flex_box {
+  display: flex;
+}
+.payment_left .con.pay_method .content .flex_box > div:first-of-type {
+  border-right: 1px solid #ccc;
+}
+.payment_left .con.pay_method .content .flex_box > div {
+  width: 50%;
+  padding: 10px;
+}
+.payment_left .con.pay_method .content .flex_box .phonenumber_input {
+  width: 250px;
+  margin: 10px 0;
+}
+.payment_left .con.pay_method .content .flex_box .phonenumber_input select,
+.payment_left .con.pay_method .content .flex_box .phonenumber_input input {
+  width: 22%;
+  border: 1px solid #ccc;
+  padding: 2px 4px;
+  font-size: 12px;
+  border-radius: 5px;
+}
+.payment_left .con.pay_method .content .flex_box .phonenumber_input select {
+  background-color: #e8e8e8;
+}
+.payment_left .con.tax_bill .title span {
+  font-size: 12px;
+  font-weight: 400;
+  margin-left: 10px;
+}
+.payment_left .con.tax_bill table thead th {
+  background-color: transparent;
+  text-align: left;
+}
+.payment_left .con.tax_bill table thead th .subtitle {
+  margin: 0;
+  margin-left: 20px;
+}
+.payment_left .con.tax_bill table tbody tr {
+  border-bottom: none;
+}
+.payment_left .con.tax_bill table tbody tr th {
+  font-size: 14px;
+  text-align: left;
+  padding-left: 7px;
+}
+.payment_left .con.tax_bill table tbody tr td input {
+  border: 1px solid #ccc;
+  width: 150px;
+}
+.payment_left .con.tax_bill table tbody tr td span {
+  font-size: 12px;
+  color: #999;
+  margin-left: 10px;
+}
+.payment_left .con.member_info button {
+  font-size: 14px;
+  color: #fff;
+  background-color: #999;
+  padding: 3px 10px;
+  border-radius: 5px;
+  margin-left: 10px;
+}
+.payment_left .con.cancel_info td {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+.payment_left .con.cancel_info td select {
+  width: 250px;
+  border: 1px solid #ccc;
+  color: #999;
+}
+.payment_left .con.cancel_info td textarea {
+  width: 100%;
+  border: 1px solid #ccc;
+}
+.payment_left .con.cancel_account_info input {
+  width: 100px;
+  border: 1px solid #ccc;
+  padding: 4px;
+}
+.payment_left .con.cancel_account_info input.account {
+  width: 160px;
+}
+.payment_left .con.refund_info p {
+  padding-left: 20px;
+  position: relative;
+}
+.payment_left .con.refund_info p::before {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background-color: #222;
+  border-radius: 50%;
+  top: 10px;
+  left: 6px;
+  content: "";
+}
+
+.payment_left::before {
+  position: absolute;
+  width: 1px;
+  height: 100%;
+  top: 0;
+  right: 0;
+  content: "";
+  background-color: #ccc;
+}
+
+.payment_left::after {
+  position: absolute;
+  width: 1px;
+  height: 100%;
+  top: 0;
+  right: 250px;
+  content: "";
+  background-color: #ccc;
+}
+
+.payment_right_wrap {
+  max-width: 1320px;
+  padding: 0 20px;
+  margin: 0 auto;
+  position: sticky;
+  top: -170px;
+  right: 0;
+  z-index: 10;
+}
+
+.payment_right {
+  width: 250px;
+  float: right;
+  padding-top: 215px;
+}
+.payment_right strong {
+  padding: 20px 10px;
+  display: block;
+}
+.payment_right div {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+.payment_right div.total,
+.payment_right div.support,
+.payment_right div.discount {
+  border-bottom: 1px solid #fff;
+  background-color: #e8e8e8;
+}
+.payment_right div.total b,
+.payment_right div.support b,
+.payment_right div.discount b {
+  font-size: 17px;
+}
+.payment_right div.expense {
+  color: #f14343;
+  border-bottom: 1px solid #ccc;
+  margin-top: 10px;
+}
+.payment_right div.expense b {
+  font-size: 20px;
+}
+.payment_right div.agree {
+  gap: 14px;
+}
+.payment_right button {
+  width: 230px;
+  margin: 0 auto;
+  display: block;
+  padding: 10px 0;
+  margin-bottom: 10px;
+}
+.payment_right button.prev {
+  background-color: #fff;
+  border: 1px solid;
+}
+.payment_right button.pay {
+  background-color: #f14343;
+  color: #fff;
+  font-weight: bold;
+}
+
+/*지식쿠폰*/
+.modal-wrap .txt {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+.modal-wrap .txt p {
+  margin-bottom: 5px;
+}
+.modal-wrap .txt p i {
+  font-weight: 900;
+  margin-right: 10px;
+}
+.modal-wrap .discount_amount {
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  padding: 13px;
+  text-align: right;
+  background-color: #e8f0f8;
+}
+.modal-wrap .discount_amount strong {
+  font-size: 20px;
+}
+.modal-wrap .button_wrap {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+.modal-wrap .button_wrap button {
+  width: 180px;
+  padding: 10px 0;
+  font-weight: bold;
+  color: #fff;
+}
+.modal-wrap .button_wrap button.apply {
+  background-color: #357AF2;
+}
+.modal-wrap .button_wrap button.cancel {
+  background-color: #222;
+}
+
+/*결제완료&결제취소완료*/
+#complete_wrap {
+  max-width: 555px;
+  margin: 0 auto;
+  padding: 100px 0;
+}
+#complete_wrap h2 {
+  font-size: 40px;
+  font-weight: bold;
+  display: block;
+  line-height: 60px;
+  padding: 30px 0;
+  border-bottom: 2px solid;
+  text-align: center;
+}
+#complete_wrap table {
+  width: 100%;
+}
+#complete_wrap table tr {
+  border-bottom: 1px solid #ccc;
+}
+#complete_wrap table tr th {
+  padding: 15px 0;
+  text-align: left;
+  color: #9c9c9c;
+}
+#complete_wrap table tr td {
+  padding: 15px 0;
+  text-align: right;
+}
+#complete_wrap table tr.nobd {
+  border-bottom: none;
+}
+#complete_wrap .button_wrap {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+#complete_wrap .button_wrap button {
+  width: 200%;
+  padding: 15px 0;
+  font-weight: bold;
+  color: #fff;
+}
+#complete_wrap .button_wrap button.prev {
+  background-color: #222;
+}
+#complete_wrap .button_wrap button.home {
+  background-color: #357AF2;
+}/*# sourceMappingURL=payment.css.map */

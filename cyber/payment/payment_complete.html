@@ -1,0 +1,65 @@
+<? include "../include/header.html"; ?>
+<?
+$Sql = "SELECT * FROM LectureRequest2 WHERE paymentId = '$paymentId' AND Del='N'";
+//echo $Sql;
+$Result = mysqli_query($connect, $Sql);
+$Row = mysqli_fetch_array($Result);
+if($Row) {
+	$ContentsName = html_quote($Row['ContentsName']); //과정명
+	$Price = $Row['Price']; //판매가
+	$SubPrice = $Row['SubPrice']; //정부지원금
+	$PointPrice = $Row['PointPrice']; //학습포인트
+	$CouponPrice = $Row['CouponPrice']; //쿠폰
+	$RealPrice = $Row['RealPrice']; //자비부담금
+}
+//할인금액
+$salePrice = $SubPrice + $PointPrice + $CouponPrice;
+?>
+<body>
+    <div class="payment_top_section">
+        <div id="wrap">
+            <h1>결제 완료</h1>
+            <ol>
+                <li>과정선택<i class="ph-fill ph-fast-forward"></i></li>
+                <li>주문 / 결제<i class="ph-fill ph-fast-forward"></i></li>
+                <li><span class="fcred">결제 완료</span></li>
+            </ol>
+        </div>
+    </div>
+   
+    <div id="complete_wrap">
+        <div class="check_icon">
+            <i class="ph ph-check"></i>
+        </div>
+        <h2>결제가 완료되었습니다.</h2>
+        <table>
+            <colgroup>
+                <col width="100px">
+                <col width="100px">
+            </colgroup>
+            <tr>
+                <th>과정명</th>
+                <td><?=$ContentsName?></td>
+            </tr>
+            <tr class="nobd">
+                <th>결제금액</th>
+                <td><b><?=number_format($RealPrice,0)?> </b>원</td>
+            </tr>
+            <tr class="nobd">
+                <th>총 상품금액</th>
+                <td><?=number_format($Price,0)?> 원</td>
+            </tr>
+            <tr>
+                <th>총 할인금액</th>
+                <td><?=number_format($salePrice,0)?> 원</td>
+            </tr>
+        </table>
+        <div class="button_wrap">
+            <button class="prev" onclick="location.href='/public/mypage/lecture_payment.html'">결제 내역 돌아가기</button>
+            <button class="home" onclick="location.href='/cyber/main/main.html'">홈 화면 가기</button>
+        </div>
+    </div>
+</body>
+
+<? include "../include/footer.html"; ?>
+

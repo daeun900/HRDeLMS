@@ -1,0 +1,167 @@
+<?
+include "../include/mypage_header.html";
+include "../include/login_check.php";
+?>
+
+<?
+$LectureCode = Replace_Check_XSS2($LectureCode); //과정코드
+$Study_Seq = Replace_Check_XSS2($Study_Seq); 
+$ServiceType = Replace_Check_XSS2($ServiceType); //A:사업주/B:내배카
+
+## 설문 문항수
+$Sql = "SELECT COUNT(*) FROM PollBank WHERE ExamType='A' AND UseYN='Y' AND Del='N'";
+$Result = mysqli_query($connect, $Sql);
+$Row = mysqli_fetch_array($Result);
+$Survey01EA = $Row[0];
+
+## 설문참여여부 확인
+$Sql = "SELECT * FROM Study WHERE Seq=$Study_Seq AND ID='$LoginMemberID'";
+$Result = mysqli_query($connect, $Sql);
+$Row = mysqli_fetch_array($Result);
+
+if($Row){
+	$Survey = $Row['Survey']; //설문 상태
+	if($Survey!="N") {
+?>
+<script type="text/javascript">
+<!--
+	alert("설문 참여 내역이 이미 존재합니다.");
+	history.back();
+//-->
+</script>
+<?
+		exit;
+	}
+}else{
+?>
+<script type="text/javascript">
+<!--
+	alert("수강정보를 확인할수 없습니다.");
+	history.back();
+//-->
+</script>
+<?
+	exit;
+}
+
+## 과정정보 확인
+$Sql = "SELECT * FROM Course WHERE LectureCode='$LectureCode'";
+$Result = mysqli_query($connect, $Sql);
+$Row = mysqli_fetch_array($Result);
+
+if($Row){
+	$Course_idx = $Row['idx']; //과정 고유번호
+	$ContentsName = $Row['ContentsName']; //과정명
+}else{
+	$SqlA = "SELECT * FROM CourseCyber WHERE LectureCode='$LectureCode'";
+	$ResultA = mysqli_query($connect, $SqlA);
+	$RowA = mysqli_fetch_array($ResultA);
+
+	if($RowA){
+		$Course_idx = $RowA['idx']; //과정 고유번호
+		$ContentsName = $RowA['ContentsName']; //과정명
+	}else{
+?>
+<script type="text/javascript">
+<!--
+	alert("과정정보를 확인할수 없습니다.");
+	history.back();
+//-->
+</script>
+<?
+		exit;
+	}
+}
+?>
+
+<body>
+    <div class="survey_wrap">
+        <div class="top">
+            <h1>설문 / 수강후기</h1>
+            <p> 본 과정이 보다 나은 교육이 될 수 있도록 <br>학습하신 과정의 평가 및 자유로운 수강후기를 남겨주시기 바랍니다.</p>
+        </div>
+        <h2><?=$ContentsName?></h2>
+    	
+    	<form name="SurveyForm" method="POST" action="/public/mypage/survey_ok.php" target="ScriptFrame" >
+    		<input type="hidden" name="ContentsName" id="ContentsName" value="<?=$ContentsName?>">
+    		<input type="hidden" name="ServiceType" id="ServiceType" value="<?=$ServiceType?>">
+    		<input type="hidden" name="LectureCode" id="LectureCode" value="<?=$LectureCode?>">
+    		<input type="hidden" name="Study_Seq" id="Study_Seq" value="<?=$Study_Seq?>">
+    		
+    		<input type="hidden" name="ReviewVal" id="ReviewVal">
+    		
+    		<input type="hidden" name="ATypeEA" id="ATypeEA" value="<?=$Survey01EA?>">
+			<input type="hidden" name="ExamA_idx_value" id="ExamA_idx_value">
+			<input type="hidden" name="ExamA_answer" id="ExamA_answer">
+	        <!-- 수강후기 -->
+	    	<?if($ServiceType == 4){?>
+	        <div class="content">
+	            <div class="title"><strong>과정 추천의향</strong></div>
+	            <div class="input_box bg">
+	                <input type="radio" name="survey1" id="survey1_5" value="5"><label for="survey1_5">5점</label>
+	                <input type="radio" name="survey1" id="survey1_4" value="4"><label for="survey1_4">4점</label>
+	                <input type="radio" name="survey1" id="survey1_3" value="3"><label for="survey1_3">3점</label>
+	                <input type="radio" name="survey1" id="survey1_2" value="2"><label for="survey1_2">2점</label>
+	                <input type="radio" name="survey1" id="survey1_1" value="1"><label for="survey1_1">1점</label>
+	            </div>
+	        </div>
+	        <div class="content">
+	            <div class="title">
+	                <strong>과정 후기</strong>
+	            </div>
+	            <label for="title">제목</label>
+	            <input type="text" name="title" id="title">
+	            <label for="content">내용</label>
+	            <textarea name="content" id="content" cols="30" rows="10" placeholder="1,000자 이내로 작성해 주세요."></textarea>
+	        </div>
+			<?}?>
+	        <!-- //수강후기 -->
+	        
+	        <!-- 설문조사 -->
+	        <div class="content">
+	            <div class="title">
+	                <strong>과정 만족도</strong>
+	                <span>5점=매우 그렇다</span><span>4점=그렇다</span><span> 3점=보통이다</span><span> 2점=그렇지않다</span><span> 1점=매우그렇지않다</span>
+	            </div>
+	            <?
+	            $i = 1;
+				$SQL = "SELECT * FROM PollBank WHERE ExamType='A' AND UseYN='Y' AND Del='N' ORDER BY OrderByNum ASC";
+				$QUERY = mysqli_query($connect, $SQL);
+				if($QUERY && mysqli_num_rows($QUERY)){
+					while($ROW = mysqli_fetch_array($QUERY)){
+						extract($ROW);
+				?>
+				<div class="q">
+	                <span>[<?=$Gubun?>]&nbsp;<?=$Question?></span><input type="hidden" name="ExamA_idx" id="ExamA_idx" value="<?=$idx?>">
+	                <div class="input_box">
+	                	<?if($Example01) {?>
+						<input type="radio" value="5" name="AQ<?=$i?>" id="AQ<?=$i?>_1"><label for="AQ<?=$i?>_1"><?=$Example01?></label>
+						<?}?>
+	                	<?if($Example02) {?>
+						<input type="radio" value="4"name="AQ<?=$i?>" id="AQ<?=$i?>_1"><label for="AQ<?=$i?>_1"><?=$Example02?></label>
+						<?}?>
+	                	<?if($Example03) {?>
+						<input type="radio" value="3" name="AQ<?=$i?>" id="AQ<?=$i?>_1"><label for="AQ<?=$i?>_1"><?=$Example03?></label>
+						<?}?>
+	                	<?if($Example04) {?>
+						<input type="radio" value="2" name="AQ<?=$i?>" id="AQ<?=$i?>_1"><label for="AQ<?=$i?>_1"><?=$Example04?></label>
+						<?}?>
+	                	<?if($Example05) {?>
+						<input type="radio" value="1" name="AQ<?=$i?>" id="AQ<?=$i?>_1"><label for="AQ<?=$i?>_1"><?=$Example05?></label>
+						<?}?>
+	                </div>
+	            </div>
+	            <?
+	            		$i++;
+	            	}
+	            }
+	            ?>
+	        </div>
+	        <!-- //설문조사 -->
+	        <button type="button" class="btn_black" onclick="SurveyValueCheck()" >작성완료</button>
+        </form>
+    </div>
+</div>
+    <!--survey_wrap-->
+</body>
+<? include "../../common/include/footer.html"; ?>

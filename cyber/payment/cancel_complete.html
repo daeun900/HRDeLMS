@@ -1,0 +1,75 @@
+<? include "../include/header.html"; ?>
+<?
+$sessionID = $_SESSION['LoginMemberID'];
+$idx = Replace_Check($idx);
+
+$Sql = "SELECT b.ContentsName , a.Price , a.SubPrice, a.PointPrice , a.CouponPrice , a.RealPrice  
+		FROM LectureCancel a
+		LEFT JOIN LectureRequest2 b ON a.requestIdx = b.idx
+		WHERE a.idx = '$idx'";
+//echo $Sql;
+$Result = mysqli_query($connect, $Sql);
+$Row = mysqli_fetch_array($Result);
+
+if($Row) {
+	$ContentsName = $Row['ContentsName']; //과정명	
+	$Price = $Row['Price']; //판매가
+	$SubPrice = $Row['SubPrice']; //정부지원금
+	$PointPrice = $Row['PointPrice']; //학습포인트
+	$CouponPrice = $Row['CouponPrice']; //쿠폰
+	$RealPrice = $Row['RealPrice']; //자비부담금
+}
+//총할인금액
+$SaleTotal = $SubPrice+$PointPrice+$CouponPrice;
+?>
+<body>
+    <div class="payment_top_section">
+        <div id="wrap">
+            <h1>결제취소 신청</h1>
+            <ol>
+                <li>과정선택<i class="ph-fill ph-fast-forward"></i></li>
+                <li><span class="fcred">환불 신청</span><i class="ph-fill ph-fast-forward"></i></li>
+                <li>환불신청 완료</li>
+            </ol>
+        </div>
+    </div>
+   
+    <div id="complete_wrap">
+        <div class="check_icon">
+            <i class="ph ph-check"></i>
+        </div>
+        <h2>결제취소 신청이 접수되었습니다.</h2>
+        <table>
+            <colgroup>
+                <col width="100px">
+                <col>
+            </colgroup>
+            <tr>
+                <th>주문상품</th>
+                <td><?=$ContentsName?></td>
+            </tr>
+            <tr class="nobd">
+                <th>총 상품금액</th>
+                <td><?=number_format($Price,0)?> 원</td>
+            </tr>
+            <tr class="nobd">
+                <th>총 할인금액</th>
+                <td><?=number_format($SaleTotal,0)?> 원</td>
+            </tr>
+            <tr>
+                <th>결제금액</th>
+                <td><?=number_format($RealPrice,0)?> 원</td>
+            </tr>
+            <tr>
+                <th class="fc222">환불 예정금액</th>
+                <td><strong class="fcred"><?=number_format($RealPrice,0)?></strong>원</td>
+            </tr>
+        </table>
+        <div class="button_wrap">
+            <button class="prev" onclick="location.href='/public/mypage/lecture_payment.html'">결제 내역 돌아가기</button>
+            <button class="home" onclick="location.href='/cyber/main/main.html'">홈 화면 가기</button>
+        </div>
+    </div>
+</body>
+
+<? include "../include/footer.html"; ?>

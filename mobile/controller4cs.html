@@ -1,0 +1,54 @@
+<html>
+<head>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<!-- ask_array.php -->
+<b>ask_array.php</b>
+		<button type='button' onclick='get_ask_array()'>get ask array</button>
+	<div>
+		리턴값 <br>
+		result <div id = 'ask_array'></div><br>
+	</div>
+	<br>------------------------------------------<br>
+<!-- ask.php -->
+<b>ask.php</b>
+	<form name = 'askForm'>
+		i d <input type='text' id='id' name='id' value=''><br>
+		name <input type='text' id='name' name='name' value=''><br>
+		passCode info<input type='text' id='pass_code_info' name='pass_code_info' value=''><br>
+		type <input type='text' id='type' name='type' value=''><br>
+		title <input type='text' id='title' name='title' value=''><br>
+		content <input type='text' id='content' name='content' value=''><br>
+		<button type='button' onclick='insert_ask()'>insert ask</button>
+	</form>
+	<div>
+		리턴값 <br>
+		result <div id = 'insert_ask_result'></div><br>
+	</div>
+	<br>------------------------------------------<br>
+<!-- ask_list.php -->
+<b>ask_list.php</b>
+	<form name = 'askListForm'>
+		i d <input type='text' id='id' name='id' value=''><br>
+		<button type='button' onclick='get_ask_list()'>get ask list</button>
+	</form>
+	<div>
+		리턴값 <br>
+		result <div id = 'ask_list'></div><br>
+	</div>
+	<br>------------------------------------------<br>
+<!-- ask_detail.php -->
+<b>ask_detail.php</b>
+	<form name = 'askDetailForm'>
+		idx <input type='text' id='idx' name='idx' value=''><br>
+		<button type='button' onclick='get_ask_answer()'>get ask detail</button>
+	</form>
+	<div>
+		리턴값 <br>
+		result <div id = 'ask_answer'></div><br>
+	</div>
+	<br>------------------------------------------<br>
+	<script src="./ajax.js"></script>
+</body>
+</html>

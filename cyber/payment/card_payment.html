@@ -1,0 +1,653 @@
+<? include "../include/header.html"; ?>
+<?
+$ID = $_SESSION['LoginMemberID'];
+$today = date("YmdHis");
+$chkPaymentId = $ID.$today;
+?>
+
+<script src="https://cdn.portone.io/v2/browser-sdk.js"></script>
+<script>
+async function requestPayment(seq,lectureName,amount) {
+	var chkPaymentId = "<?=$chkPaymentId?>";
+	var applyType = $("#applyType").val(); //신청유형 (A:국민내일배움카드(재직자)/B:일반(수시)/C:고용보험환급/D:평생교육바우처)
+	var supportType = $("#supportType").val(); //지원유형 (A:재직자 일반)
+	var LectureCode = $("#LectureCode").val(); //과정코드
+	var ContentsName = $("#ContentsName").val(); //과정명	
+	var Price = $("#Price").val(); //판매가	
+	var SubPrice = $("#SubPrice").val(); //정부지원금	
+	var PointPrice = $("#PointPrice").val(); //학습포인트	
+	var CouponPrice = $("#CouponPrice").val(); //쿠폰	
+	var RealPrice = $("#RealPrice").val(); //자비부담금
+	
+	var payMethodA = $("#payMethodA").is(':checked'); //결제방법A
+	var payMethodB = $("#payMethodB").is(':checked'); //결제방법B
+	var confirmA = $("#confirmA").is(':checked'); //재직자확인A
+	var confirmB = $("#confirmB").is(':checked'); //재직자확인B
+	var agree1A = $("#agree1A").is(':checked'); //동의1A
+	var agree1B = $("#agree1B").is(':checked'); //동의1B
+	var agree2A = $("#agree2A").is(':checked'); //동의2A
+	var agree2B = $("#agree2B").is(':checked'); //동의2B
+	var agree = $("#agree").is(':checked'); //최종동의
+	
+	//학습시작일자와 종료일자
+	var LectureStart = $("#LectureStart").val(); //학습시작일자
+	var date = new Date(LectureStart);
+	//학습종료일자 : 학습시작일자+30일
+	var oneMonth = new Date(date);
+	oneMonth.setMonth(date.getMonth() + 1);
+	
+	var yyyy = oneMonth.getFullYear();
+	var mm = oneMonth.getMonth()+1;
+	mm = mm>= 10 ? mm : '0'+mm;
+	var dd = oneMonth.getDate()-1;
+	dd = dd>= 10 ? dd : '0'+dd;	
+	var LectureEnd = yyyy+'-'+mm+'-'+dd;
+	
+	//신청유형 : 평생교육바우처 일때
+	if(applyType == "D"){
+		if(!payMethodB){
+			alert('결제방법을 선택해주세요.');
+			return;
+		}
+		if(!confirmB){
+			alert("대상자를 선택해주세요.");
+			return;
+		}
+		if(!agree1B || !agree2B){
+			alert('안내사항 동의를 선택해주세요.');
+			return;
+		}
+	}else{	
+		if(!payMethodA){
+			alert('결제방법을 선택해주세요.');
+			return;
+		}
+		if(!confirmA){
+			alert("대상자를 선택해주세요.");
+			return;
+		}
+		if(!agree1A || !agree2A){
+			alert('안내사항 동의를 선택해주세요.');
+			return;
+		}
+	}
+	if(!agree){
+		alert('개인정보 제공동의를 선택해주세요.');
+		return;
+	}
+	
+	Yes = confirm("결제하시겠습니까?");
+	if(Yes==true) {
+		const response = await PortOne.requestPayment({
+			storeId: "<?=$storeId?>", // 고객사 storeId로 변경해주세요.
+			paymentId: chkPaymentId, //주문고유번호
+			orderName: lectureName,
+			totalAmount: amount,
+			currency: "CURRENCY_KRW",
+			channelKey: "<?=$channelKey?>", // 콘솔 결제 연동 화면에서 채널 연동 시 생성된 채널 키를 입력해주세요.
+			payMethod: "CARD"
+		});
+		
+		// 오류 발생
+		if (response.code != null) {
+			return alert(response.message);
+		}
+		console.log('Payment response:', response);
+		// 고객사 서버에서 /payment/complete 엔드포인트를 구현해야 합니다.
+		const notified = await fetch("<?=$paymentOkURL?>",
+		{
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			// paymentId와 주문 정보를 서버에 전달합니다
+			body: JSON.stringify({
+				paymentId : 'payment-'+chkPaymentId,
+				applyType : applyType,
+				supportType : supportType,
+				LectureStart : LectureStart,
+				LectureEnd : LectureEnd,
+				LectureCode : LectureCode,
+				ContentsName : ContentsName,
+				Price : Price,
+				SubPrice : SubPrice,
+				PointPrice : PointPrice,
+				CouponPrice : CouponPrice,
+				RealPrice : RealPrice,
+			}),
+		});
+		result = 1;
+		var paymentIdA = 'payment-'+chkPaymentId;
+		handleSuccess(result, paymentIdA);
+	}
+}
+
+// 성공적인 응답 처리를 위한 함수
+function handleSuccess(result, paymentId) {
+	// 성공적인 응답을 처리하는 로직을 여기에 작성하세요.
+	console.log('Payment callback was successful:', result);
+	//packageRegistration(seq);
+	alert('결제가 완료되었습니다.');
+	location.href = "/cyber/payment/payment_complete.html?paymentId="+paymentId;
+}
+</script>
+
+<?
+$Sql = "SELECT * FROM CourseCyber WHERE LectureCode = '$LectureCode' AND Del='N' AND UseYN = 'Y'";
+
+$Result = mysqli_query($connect, $Sql);
+$Row = mysqli_fetch_array($Result);
+
+if($Row) {
+	$idx = $Row['idx'];
+	$LectureCode = $Row['LectureCode']; //강의코드
+	$Keyword = str_replace(' ', '', $Row['Keyword']); //키워드
+	$ContentsName = html_quote($Row['ContentsName']); //과정명	
+	$Price = $Row['Price']; //교육비용 일반
+	$Price01 = $Row['Price01']; //자부담 교육비용 우선지원
+	$BookImage = html_quote($Row['BookImage']); //교재 이미지
+}
+
+//신청유형
+$applyTypeVal;
+if($applyType == "A"){
+	$applyTypeVal = "국민내일배움카드(재직자)";
+}else if($applyType == "B"){
+	$applyTypeVal = "일반(수시)";
+}else if($applyType == "C"){
+	$applyTypeVal = "고용보험환급";
+}else if($applyType == "D"){
+	$applyTypeVal = "평생교육바우처";
+}
+
+//지원유형
+$supportTypeVal;
+if($supportType == "A"){
+	$supportTypeVal = "재직자 일반";
+}
+
+//학습기간
+$LectureTermVal;
+if($LectureStart && $LectureEnd){
+	$LectureStartA = new DateTime($LectureStart);
+	$LectureEndA = new DateTime($LectureEnd);
+	$term = date_diff($LectureStartA,$LectureEndA );
+	$y = $term->format('%y');
+	$m = $term->format('%m');
+	$LectureTermA = $y*12 + $m;
+	$LectureTermB = $term -> days;
+	if($LectureTermA == 0){
+		$LectureTermVal = $LectureTermB."일";
+	}else{
+		$LectureTermVal = $LectureTermA."개월";
+	}
+}
+
+//교재여부
+$BookVal;
+if($BookImage){
+	$BookVal = "있음";
+}else{
+	$BookVal = "없음";
+}
+?>
+<body>
+	<!-- 주문확인 -->
+    <div class="payment_right_wrap">
+    	<input type="hidden" name="LectureStart" id="LectureStart" value="<?=$LectureStart?>">
+    	<input type="hidden" name="supportType" id="supportType" value="<?=$supportType?>">
+    	<input type="hidden" name="LectureCode" id="LectureCode" value="<?=$LectureCode?>">
+    	<input type="hidden" name="ContentsName" id="ContentsName" value="<?=$ContentsName?>">
+    	<input type="hidden" name="Price" id="Price" value="<?=$Price?>">
+    	<input type="hidden" name="SubPrice" id="SubPrice" value="<?=$Price01?>">
+    	<input type="hidden" name="PointPrice" id="PointPrice" value="0">
+    	<input type="hidden" name="CouponPrice" id="CouponPrice" value="0">
+    	<input type="hidden" name="RealPrice" id="RealPrice">
+        <div class="payment_right">
+        	<?
+        	//자비부담금 설정
+			if($applyType == "B") $APrice = "0"; else $APrice = $Price01;
+			$BPrice = $Price - $APrice;
+        	?>
+            <strong>주문확인</strong>
+            <div class="total">
+                <span>총판매금액</span>
+                <span><b><?=number_format($Price,0)?></b>원</span>
+            </div>
+            <div class="support">
+                <span>정부지원금</span>
+                <span id="supportPriceA"><b></b>원</span>
+            </div>
+            <!-- 해당기능 개발완료될때까지 숨김처리 -->
+            <!-- 
+            <div class="discount">
+                <span>추가할인</span>
+                <span><b>0</b>원</span>
+            </div>
+             -->
+            <div class="expense">
+                <span>자비부담금</span>
+                <span id="expensePriceA"><b></b>원</span>
+            </div>
+            <div class="agree">
+                <input type="checkbox" name="agree" id="agree">
+                <label for="agree">결제조건 확인 및 개인정보 제공에 동의합니다.</label>
+            </div>
+            <button class="prev" onclick="javascript:history.back();">이전</button>
+            <button class="pay" onclick="Javascript:requestPayment('<?=$LectureCode?>','<?=$ContentsName?>',<?=$BPrice?>);">결제하기</button>
+             <!-- onclick="CardPayment('<?=$LectureCode?>', '<?=$ID?>')" -->
+             
+        </div>
+    </div>
+    <!-- //주문확인 -->
+    <div></div>
+    <div class="payment_top_section">
+        <div id="wrap">
+            <h1>주문 / 결제</h1>
+            <ol>
+                <li>과정선택<i class="ph-fill ph-fast-forward"></i></li>
+                <li><span class="fcred">주문 / 결제</span><i class="ph-fill ph-fast-forward"></i></li>
+                <li>결제완료</li>
+            </ol>
+        </div>
+    </div>
+    <div id="wrap">
+        <div class="payment_left">
+            <div class="top fcred" id="topDiv">HRDe 교육 접수전 HRD-NTE(www.hrd.go.kr)에서 수강신청을 먼저 완료하여 주시기 바랍니다.</div>
+            <!--주문정보-->
+            <div class="con order_info">
+                <div class="title">주문정보</div>
+                <table>
+                    <colgroup>
+                        <col width="50%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>상품명</th>
+                            <th>학습기간</th>
+                            <th>교재</th>
+                            <th>판매가</th>
+                            <th>정부지원금</th>
+                            <th>자비부담금 </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <strong><?=$ContentsName?></strong>
+                                <button onclick="javascript:history.back();">새창<i class="ph-fill ph-caret-right"></i></button><br>
+                                <select name="applyType" id="applyType" onchange="ApplyTypeChange(this.value)">
+                                    <option value="A" <?if($applyType == 'A') echo "selected";?> >국민내일배움카드(재직자) / <?=$LectureStart?></option>
+                                    <option value="B" <?if($applyType == 'B') echo "selected";?>>일반(수시) / <?=$LectureStart?></option>
+                                    <option value="C" <?if($applyType == 'C') echo "selected";?>>고용보험환급 / <?=$LectureStart?></option>
+                                    <option value="D" <?if($applyType == 'D') echo "selected";?>>평생교육바우처</option>
+                                </select>
+                                <span class="fc999">
+                                    * 선택된 지원유형: <?=$supportTypeVal?> <br>
+                                    * 국민내일배움카드로 결제 시 본인의 국민내일배움카드 한도 내에서 정부지원금은 <br>
+                                    자동으로 차감됩니다.
+                                </span>
+                            </td>
+                            <td class="ac">30일</td>
+                            <td class="ac"><?=$BookVal?></td>
+                            <td class="ac"><b><?=number_format($Price,0)?></b>원</td>
+                            <td class="ac" id="supportPriceB">원</td>
+                            <td class="fcred ac" id="expensePriceB"><b></b>원</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--//주문정보-->
+            <!--결제정보-->
+            <!-- 사용하지않아서 제외처리 24.05.22.YEON [요청차:김지혜주임] -->
+			<!-- 
+            <div class="con pay_info">
+                <div class="title">결제정보</div>
+                <div class="subtitle">할인적용</div>
+                <table>
+                    <colgroup>
+                        <col width="80px">
+                        <col width="80px">
+                        <col>
+                        <col width="160px">
+                        <col width="160px">
+                    </colgroup>
+                    <tr>
+                        <th colspan="2">정부지원금</th>
+                        <td><b><?=number_format($Price01,0)?></b>원</td>
+                        <th>할인금액</th>
+                        <td class="ar"><?=number_format($Price01,0)?>원</td>
+                    </tr>
+                    <tr>
+                        <th rowspan="2">추가할인</th>
+                        <th>지식쿠폰</th>
+                        <td>
+                        	<input type="number" id="couponPrice" name="couponPrice" value="" placeholder="0">원
+                        	<button class="red modal-btn" href="#modal01">쿠폰적용</button>
+                        	<span>*사용가능쿠폰: 1개</span>
+                        </td>
+                        <th>할인금액</th>
+                        <td class="ar">0원</td>
+                    </tr>
+                    <tr>
+                        <th>학습포인트</th>
+                        <td>
+                            <input type="number" placeholder="0" id="pointVal" name="pointVal" value="">원 <button class="grey" onclick="maxPoint()">최대사용</button>
+                            <span>*보유 포인트: <b id="myPoint"></b>원<br>*최대 사용가능 포인트: <b>20,000</b>원</span>
+                            <em>(결제금액의 50%까지 사용가능)</em>
+                        </td>
+                        <th>할인금액</th>
+                        <td class="ar">0원</td>
+                    </tr>
+                </table>
+            </div>
+             -->
+            <!--//결제정보-->
+            
+            <!--TypeA-->
+            <!--결제방법-->
+            <div id="TypeA">
+                <div class="con pay_method">
+                    <div class="title">결제방법</div>
+                    <div class="content">
+                        <span class="subtitle">결제수단선택</span> 
+                        <input type="radio" name="payMethodA" id="payMethodA"><label for="">신용카드 </label> 
+                        <span class="fcred ml40">*자비부담금은 반드시 발급받으신 내일배움카드(NH/신한)로만 결제하셔야 합니다.</span>
+                    </div>
+                </div>
+                <!--//결제방법-->
+                <!--재직자확인-->
+                <div class="con confirm">
+                    <div class="title">재직자확인</div>
+                    <div class="content">
+                        <span class="subtitle">대상자확인</span> 
+                        <input type="radio" name="confirmA" id="confirmA"><label for="">개강일 기준 재직자, 자영업자, 특수고용직에 해당됩니다.</label>
+                    </div>
+                    <div class="content pt25 pb25">
+                        <span class="fcred">*교육진행 중 실업자로 확인될 경우 교육이 취소되며 환불이 불가합니다. <br>*자영업자는 홈택스 기준으로 사업자 등록이 되신 분만 가능합니다. <br>*특수고용근로자는 산재보험 가입이력 또는 재직증명서 등의 증빙이 가능하여야 합니다.</span>
+                    </div>
+                </div>
+                <!--//재직자확인-->
+                <!--안내사항-->
+                <div class="con notice">
+                    <div class="title">안내사항</div>
+                    <div class="content">
+                        <span>본 과정은 국민 평생 직업능력 개발훈련 지원규정 개정으로 인해 추후 지원내용이 변경될 수 있습니다.</span>
+                    </div>
+                    <div class="content grid_box">
+                        <div class="left">
+                            <div>1. 본인인증 절차 필수 진행<p>정부지원 과정의 경우 과목별 최초 수강 진행 시 본인인증(휴대폰 또는 아이핀)이 필수 항목이며, 본인인증이 불가능 할 경우 학습 진행이 불가합니다.</p><p>휴대폰 인증의 경우 본인명의 휴대폰으로만 인증가능하며 해외 근무자는 로밍 이용자에 한하여 인증 가능합니다.</p></div>
+                            <div>2. 수료기준 <br>정부지원 과정은 훈련과정의 학습시간 변경, 평가, 과제 등 수료기준의 변경이 불가하오니 신청 과정의 수료기준을 반드시 확인하시고 신청하시기 바랍니다.</div>
+                            <div>3. 결제 및 수강취소 유의사항<p>본인 명의로 발급받은 국민내일배움카드(NH/신한)로 결제하셔야 합니다.</p><p>수강취소는 학습시작일 전 일 까지만 가능합니다.</p></div>
+                            <div>
+                                4. 국민내일배움카드 계좌 잔액의 차감
+                                <table class="mt10">
+                                    <colgroup>
+                                        <col>
+                                        <col width="60px">
+                                        <col width="140px">
+                                    </colgroup>
+                                    <tr>
+                                        <th colspan="2">구분</th>
+                                        <th>차감액</th>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="3">1. 질병ㆍ사고, 훈련기관 사정, 천재지변 등  <br>불가피한 사유 없이 중도에  훈련 수강을 그만둔 경우</td>
+                                        <td>1회</td>
+                                        <td>20만 원</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2회</td>
+                                        <td>50만 원</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3회 이상</td>
+                                        <td>100만 원</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="right">
+                            <div>5. 국민내일배움카드 수강신청 시 유의사항 <br>소득세법 제59조의4, 국민 평생 직업능력 개발법 제2조에 따라 HRDe의 교육비 자부담금은 교육비 항목으로 공제 불가합니다.</div>
+                            <div>
+                                6. 개인정보 수집 및 제3자 제공에 관한 동의
+                                <p>제공받는자 : 한국산업인력공단, 고용노동부</p>
+                                <p>이용목적 : 국민내일배움카드 훈련과정, 사업주 훈련 교육과정에 대한 고용노동부 행정지원시스템 수강정보 등록, 수강생 모니터링, 부정수급 방지, 훈련품질 향상을 위한 설문조사, 훈련수강과 관련된 사실관계 확인</p>
+                                <p>제공항목 : 이름, 생년월일, 성별, 로그인ID, 비밀번호, 자택 전화번호, 자택 주소, 휴대전화번호, 이메일, 회사명, 사업자등록번호, 회사주소, 우편물 수신주소, 서비스 이용기록, 접속로그, 쿠키, 접속IP, 학습이력정보, 결제 카드사, 결제 카드 앞/뒤 4자리 등</p>
+                                <p>보유 및 이용기간 : 수집 후 3년, 자료분석 후 5년</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="agree">
+                        <input type="checkbox" name="agree1A" id="agree1A">
+                        <label for="">미수료, 수강포기 등 중도탈락에 따른 국민내일배움카드 잔액 차감에 대한 기준을 확인하였음을 동의합니다. </label>
+                    </div>
+                    <div class="agree">
+                        <input type="checkbox" name="agree2A" id="agree2A">
+                        <label for="">상기 내용을 정확히 숙지하고 이에 동의합니다. </label>
+                    </div>
+                </div>
+                <!--//안내사항-->
+            </div>
+            <!--//TypeA-->
+            
+            <!--TypeD(평생교육바우처)-->
+            <div id="TypeD" style="display: none;">
+                <div class="con pay_method">
+                    <div class="title">결제방법</div>
+                    <div class="content">
+                        <span class="subtitle">결제수단선택</span> 
+                        <input type="radio" name="payMethodB" id="payMethodB"><label for="">평생교육바우처</label> 
+                        <span class="fcred ml40">*평생교육바우처로 결제하지 않을 시 자동 취소 처리 됩니다.</span>
+                    </div>
+                </div>
+                <!--//결제방법-->
+                <!--재직자확인-->
+                <div class="con confirm">
+                    <div class="title">재직자확인</div>
+                    <div class="content">
+                        <span class="subtitle">대상자확인</span> 
+                        <input type="radio" name="confirmB" id="confirmB"><label for="">개강일 기준 평생교육바우처 이용자에 해당됩니다.</label>
+                    </div>
+                </div>
+                <!--//재직자확인-->
+                <!--안내사항-->
+                <div class="con notice">
+                    <div class="title">안내사항</div>
+                    <div class="content">
+                        <span>본 과정은 국민 평생 직업능력 개발훈련 지원규정 개정으로 인해 추후 지원내용이 변경될 수 있습니다.</span>
+                    </div>
+                    <div class="content grid_box">
+                        <div class="left">
+                            <div>
+                                <b>1. 평생교육바우처 유의사항</b><br>
+                                <p>평생교육바우처카드는 이용자 본인만 사용 가능합니다.(본인을 제외한 가족도 사용 불가)</p>
+                                <p>평생교육바우처 이용자 선정 후, 2개월 이내 카드를 발급하여야 합니다.(평생교육바우처 이용자 선정결과 통과일로부터 2개월 동안 평생교육바우처 카드를 미발급 시 이용자격 박탈)</p>
+                                <p>평생교육희망카드로 결제하지 않을 시 자동 취소 처리됩니다.</p>
+                                <p>평생교육바우처 카드 발급 이후 별도 공지일까지 사용가능합니다.(이 기간동안 사용하지 않은 금액은 자동 소멸되며, 다음 년도 이월이나 현금 인출 불가)</p>
+                                <p>결제 전 평생교육바우처 사용 유효기간 및 잔액을 확인 부탁드립니다.</p>
+                                <p>수강료가 35만원을 넘을 경우, 초과 비용에 대해서는 본인부담합니다.</p>
+                                <p>평생교육희망카드는 간편결제(PAYCO, 삼성페이 등)가 불가합니다.</p>
+                                <p>평생교육바우처 35만원 미사용시 다음 연도 이용에 제한을 받으실 수 있습니다.</p>
+                                <p>평생교육바우처카드로 결제한 강좌의 80%이상 수강 시 다음연도 대상자 선발 시 가산점을 받을 수 있습니다.</p>
+                            </div>
+                            <div>
+                                <b>2. 평생교육바우처 수강취소</b><br>
+                                <p>평생교육희망카드로 결제하지 않을 시 자동 취소 처리됩니다.</p>
+                                <p>수강취소는 학습시작 당일까지 가능하며, 학습취소는 고객센터로 접수바랍니다.</p>
+                                <p>평생교육바우처카드 잔액 부족일 경우 (수강료가 35만원을 넘을 경우, 초과 비용에 대해서는 본인부담 가능)</p>
+                                <p>평생교육바우처카드 유효기간 만료의 경우</p>
+                                <p>평생교육바우처 부분취소 불가</p>
+                            </div>
+                        </div>
+                        <div class="right">
+                            <div>
+                                <b>3.환불규정</b><br>교육비 환불 요청 시 평생교육법 시행령 학습비 반환기준에 따라 환불이 진행됩니다.
+                                <table class="mt10">
+                                    <colgroup>
+                                        <col width="33.3%">
+                                        <col width="33.3%">
+                                        <col width="33.3%">
+                                    </colgroup>
+                                    <tr>
+                                        <th>구분</th>
+                                        <th>반환사유 발생일</th>
+                                        <th>반환금액</th>
+                                    </tr>
+                                    <tr>
+                                        <td>1. 법 제28조 제4항 제1호 및 제2호에 따른 반환사유의 경우</td>
+                                        <td>수업을 할 수 없거나, 수업장소를 제공할 수 없게 된 날</td>
+                                        <td>이미 낸 학습비를 일 단위로 계산한 금액</td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="4">2.법 제28조 제4항 제3호에 따른 반환사유의 경우</td>
+                                        <td>1) 학습기간 시작 전</td>
+                                        <td>이미 낸 학습비 전액</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2) 진도율 0%~33%</td>
+                                        <td>이미 낸 학습비의 2/3에 해당하는 금액</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3) 진도율 34%~50%</td>
+                                        <td>이미 낸 학습비의 1/2에 해당하는 금액</td>
+                                    </tr>
+                                    <tr>
+                                        <td>4) 진도율 51% 이상</td>
+                                        <td>반환하지 아니함</td>
+                                    </tr>
+                                </table>
+                                <span class="fcred">* 학습기간(=교육기간)이 종료된 이후에는 환불이 불가합니다. <br>* 교재는 환불되지 않습니다. </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="agree">
+                        <input type="checkbox" name="agree1B" id="agree1B">
+                        <label for="">미수료, 수강포기 등 중도탈락에 따른 평생바우처 잔액 차감에 대한 기준을 확인하였음을 동의합니다. </label>
+                    </div>
+                    <div class="agree">
+                        <input type="checkbox" name="agree2B" id="agree2B">
+                        <label for="">상기 내용을 정확히 숙지하고 이에 동의합니다. </label>
+                    </div>
+                </div>
+                <!--//안내사항-->
+            </div>
+            <!--//TypeD(평생교육바우처)-->
+        </div>
+    </div>
+</body>
+<? include "../include/footer.html"; ?>
+
+
+<!--신청유형 선택에 따라 show/hide -->
+<script>
+$(document).ready(function(){
+	var applyType = '<?=$applyType?>';
+	ApplyTypeChange(applyType);
+});
+
+function ApplyTypeChange(str) {	
+	//금액 계산
+	var price = $("#Price").val(); //판매가
+	var priceA = ""; //정부지원금
+	if(str =='B') priceA = '0'; else priceA = '<?=$Price01?>';
+	var priceB = price - priceA; //자비부담금
+	var priceC = priceB.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); //자비부담금 콤마처리
+	$("#RealPrice").val(priceB);
+	$("#expensePriceA").text(priceC+'원');
+    $("#expensePriceB").text(priceC+'원');
+
+	//신청유형 : 평생교육바우처
+    if (str == 'D') {
+    	$("#TypeA").hide(); //typeA문구(평생교육바우처 제외)
+        $("#TypeD").show(); //typeB문구(평생교육바우처)
+        $("#topDiv").hide(); //상단문구
+      	//정부지원금
+        $("#supportPriceA").text('<?=number_format($Price01,0)?>'+'원');
+        $("#supportPriceB").text('<?=number_format($Price01,0)?>'+'원');        
+
+	//신청유형 : 일반(수시) -- 정부지원금 없음.
+    }else if(str == 'B'){
+    	$("#TypeA").show();
+        $("#TypeD").hide();            
+        $("#topDiv").show();
+      	//정부지원금
+        $("#supportPriceA").text('0원'); 
+        $("#supportPriceB").text('0원');
+            
+    //신청유형 : 그외
+    }else{
+    	$("#TypeA").show();
+        $("#TypeD").hide();            
+        $("#topDiv").show();
+        //정부지원금
+        $("#supportPriceA").text('<?=number_format($Price01,0)?>'+'원');
+        $("#supportPriceB").text('<?=number_format($Price01,0)?>'+'원');
+    }
+}
+</script>
+
+
+<!-- 지식쿠폰 팝업 -->
+<script>
+jQuery(document).ready(function() {
+    $('.modal-btn').each(function() {    
+    	//쿠폰적용 버튼 클릭시 팝업띄우기
+    	$(this).on('click', function(e) {
+            e.preventDefault();
+
+            $('.modal-bg').fadeIn();            
+            $('#modal01').show();
+            $('html').css({overflow: 'hidden'});
+        });
+        //쿠폰적용
+        $('.apply').on('click', function() {
+        	$('.modal-bg').fadeOut();
+            $("#modal01").hide();
+            $("#modal01").removeAttr('style');
+            $('html').removeAttr('style');
+        });
+		//닫기기능
+        $('.close-btn, .cancel').on('click', function() {
+            $('.modal-bg').fadeOut();
+            $("#modal01").hide();
+            $("#modal01").removeAttr('style');
+            $('html').removeAttr('style');
+        });
+    });
+});
+</script>
+
+<style> 
+    .modal-bg {display:none;width:100%;height:100%;position:fixed;top:0;left:0;right:0;background: rgba(0, 0, 0, 0.8);z-index:999;}
+    .modal-wrap {display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;z-index:1000;padding: 50px; width: 800px;}
+    .close-btn{position: absolute;right: 30px;top: 22px; cursor: pointer;}
+    .close-btn i{font-size: 30px;}
+    .modal-wrap h2{font-size: 30px; font-weight: bold;display: block;border-bottom: 1px solid; line-height: 45px;padding-bottom: 10px; }
+    .modal-wrap select{    margin: 20px auto; width: 422px;display: block;font-size: 14px; }
+</style>
+<!--modal01-->
+<div class="modal-bg"></div> 
+<div id="modal01" class="modal-wrap">
+    <div class="close-btn">
+        <i class="ph-thin ph-x"></i>
+    </div>
+    <h2>지식쿠폰 적용</h2>
+    <div class="txt">
+        <p><i>·</i>사용가능한 쿠폰만 보여집니다.</p>
+        <p><i>·</i>상품별 쿠폰과 주문 쿠폰은 중복적용이 불가합니다.</p>
+    </div>
+    <select name="" id="">
+        <option value="">회원가입 축하 5% 할인쿠폰(최대할인 5,000원) (~2023-4-13)</option>
+    </select>
+    <div class="discount_amount">=총 쿠폰할인 금액: <strong>5,000</strong>원</div>
+    <div class="button_wrap">
+        <button class="apply">쿠폰 적용하기</button>
+        <button class="cancel">적용 취소하기</button>
+    </div>
+
+</div>
+<!--modal01-->

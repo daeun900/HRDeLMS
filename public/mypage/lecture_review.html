@@ -1,0 +1,104 @@
+<? include "../include/mypage_header.html"; ?>
+<? include "../include/login_check.php"; ?>
+<?
+$pg = Replace_Check_XSS2($pg);
+
+##-- 페이지 조건
+if(!$pg) $pg = 1;
+$page_size = 10;
+$block_size = 5;
+
+##-- 검색 조건
+$where = array();
+$where[] = "Del='N'";
+$where[] = "ID='$LoginMemberID'";
+
+$where = implode(" AND ",$where);
+if($where) $where = "WHERE $where";
+
+##-- 정렬조건
+if($orderby=="") {
+    $str_orderby = "ORDER BY RegDate DESC, idx DESC";
+}else{
+    $str_orderby = "ORDER BY $orderby";
+}
+
+##-- 검색 등록수
+$Sql = "SELECT COUNT(*) FROM Review $where";
+$Result = mysqli_query($connect, $Sql);
+$Row = mysqli_fetch_array($Result);
+$TOT_NO = $Row[0];
+
+##-- 페이지 클래스 생성
+include_once("../../include/include_page.php");
+
+$PAGE_CLASS = new Page($pg,$TOT_NO,$page_size,$block_size); ##-- 페이지 클래스
+$BLOCK_LIST = $PAGE_CLASS->blockList(); ##-- 페이지 이동관련
+$PAGE_UNCOUNT = $PAGE_CLASS->page_uncount; ##-- 게시물 번호 한개씩 감소
+?>
+<div class="mypage_content">
+    <div class="sb_box">
+        <h1>수강후기</h1>
+        <div class="navi">
+            <i class="ph-light ph-house-line"></i>&nbsp;<i class="ph ph-caret-right"></i>&nbsp;나의학습실<i class="ph ph-caret-right"></i>&nbsp;수강후기
+        </div>
+    </div>
+    <div class="content">
+        <h2>수강후기</h2>
+        <table>
+            <colgroup>
+                <col width="10%">
+                <col width="50%">
+                <col class="mh" width="10%">
+                <col class="mh" width="10%">
+                <col class="mh" width="10%">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>번호</th>
+                    <th>제목</th>
+                    <th class="mh">평점</th>
+                    <th class="mh">작성일</th>
+                    <th class="mh">조회수</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?
+			$i = 0;
+            $sql = "SELECT * FROM Review $where $str_orderby LIMIT $PAGE_CLASS->page_start, $page_size";
+			$query = mysqli_query($connect, $sql);
+			if($query && mysqli_num_rows($query)){
+				while($row = mysqli_fetch_array($query)){
+					extract($row);
+					$Title = strcut_utf8($Title, 45);
+					$Star = StarPointViewA($StarPoint);
+			?>
+            	<tr>
+                	<td><?=$PAGE_UNCOUNT--?></td>
+                    <td class="al"><a href="lecture_review_view.html?idx=<?=$idx?>"><span class="lecture_name"><?=$ContentsName?></span><?=$Title?></a></td>
+                    <td class="mh"><?=$Star?></td>
+                    <td class="mh"><?=substr($RegDate,0,10)?></td>
+                    <td class="mh"><?=$ViewCount?></td>
+                </tr>
+			<?
+					$i++;
+				}
+			}else{?>
+              	<tr><td colspan="5">작성하신 수강후기가 없습니다.</td></tr>
+			<?}?>
+            </tbody>
+        </table>
+    </div>
+    <?=$BLOCK_LIST?>
+    <!--content-->
+</div>
+<!--mypage_content-->
+</div>
+<!--wrap-->
+</body>
+<? include "../../common/include/footer.html"; ?>
+<script>
+    $(document).ready(function(){
+        $('.lecture_review').addClass("on");
+    });
+</script>

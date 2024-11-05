@@ -1,0 +1,549 @@
+<? include '../include/header.html'; ?>
+<?
+//사이트정보 세션에 담기
+unset($_SESSION["MainCode"]);
+$_SESSION["MainCode"] = "A";
+?>
+<body>
+    <!-- 메인배너 -->
+    <div class="mainbanner_wrap">
+        <!--mainbanner swiper-->
+        <div class="swiper mainbanner-swiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div class="mainbanner mainbanner_01" style="background-image: url(../img/main/banner1.png?ver=240823); background-color: #ffeea6; ">
+                        <div id="wrap" class="ac pb120">
+                            <span class="top">풀애니메이션으로 더욱 재미있게 볼 수 있는</span>
+                            <strong>법정의무교육</strong>
+                            <span class="bottom">모든 콘텐츠 고용노동부 인정 A등급</span>
+                            <button style="margin: 0 auto;background-color: #F27979;" onclick="location.href='../educourse/law_course.html'">법정의무교육 과정 보기</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="mainbanner mainbanner_02" style="background-image: url(../img/main/banner2.png?ver=240823);background-color: #b4c6f4;">
+                        <div id="wrap">
+                            <span class="top">빠르게 발급받고 손쉽게 사용하는!</span>
+                            <strong>기업직업훈련카드</strong>
+                            <span class="bottom">직급별 교육, 직무교육, 트렌디한 교육도 자부담금 없이 무료로 해결하세요 <br>
+                                재직자의 직무능력 향상을 위해 기업당 최대 500만 원까지 훈련바우처 지원 </span>
+                            <button style="background-color: #4D42DE;" onclick="location.href='../etc/card.html'">기업직업훈련카드 안내</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="mainbanner mainbanner_03" style="background-image: url(../img/main/banner3.png?ver=240823);    background-color: #d5d9de;">
+                        <div id="wrap">
+                            <span class="top">HRDe 평생교육원은</span>
+                            <strong>학습자 · 관리자 위주 <br>
+                                인터페이스 제공</strong>
+                            <span class="bottom">전차시 풀애니메이션으로 모든 콘텐츠 과몰입 유발!</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="mainbanner mainbanner_04" style="background-image: url(../img/main/banner4.png?ver=240823);    background-color: #959ea6;">
+                        <div id="wrap" class="fcwhite">
+                            <span class="top">똑똑하게 일하고 커리어 쌓는 방법</span>
+                            <strong>직무능력향상교육</strong>
+                            <span class="bottom">끊임 없이 계속해서 배워 나가며 발전하는 것이 무엇보다 중요합니다. <br>
+                                HRDe 평생교육원에는 역량 향상에 좋은 기회가 되는 여러 강의들이 준비되어 있습니다.</span>
+                            <button style="background-color: #E36F51;" onclick="location.href='../educourse/job_course.html'">직무능력향상교육 과정 보기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-button-wrap">
+                <div class="swiper-button-next mainbanner-btn-next"></div>
+                <div class="swiper-button-prev mainbanner-btn-prev"></div>
+            </div>
+        </div>
+        <!--mainbanner swiper-->
+    </div>
+    <!-- 메인배너 -->
+    <!--con1-->
+    <div class="main_con con1">
+        <div id="wrap">
+            <div class="title">
+                <span>
+                    법정의무교육 <br>
+                    <b>선택이 아닌 필수 입니다.</b>
+                </span>
+                <p>
+                    5대 법정교육은 법령에서 정한 의무교육입니다. <br>
+                    그러므로 1인 이상 사업장에 근무하는 근로자는 <b>1년에 한번 반드시 교육을 이수</b>해야 합니다.
+                </p>
+            </div>
+            <div class="content">
+                <!--maincon1 swiper-->
+                <div class="swiper maincon1-swiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="maincon1" style="background-image: url(../img/main/con1/image1.jpg);">
+                                <span>직장 내 성희롱 예방 교육</span>
+                                <div class="hover_box">
+                                    <ul>
+                                        <li><span>법령근거</span>남녀공용평등법 제 13조</li>
+                                        <li><span>대상자</span>전직원<br>(10인 미만 사업장)</li>
+                                        <li><span>교육시간</span>1회(60분)</li>
+                                        <li><span>패널티</span><p class="fcred">교육 미이수시 최대 500만 원</p></li>
+                                    </ul> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="maincon1" style="background-image: url(../img/main/con1/image2.jpg);">
+                                <span>직장 내 장애인 인식 개선 교육</span>
+                                <div class="hover_box">
+                                    <ul>
+                                        <li><span>법령근거</span>장애인고용촉진 및 직업재활법5 조의 2</li>
+                                        <li><span>대상자</span>전직원<br>(10인 미만 사업장)</li>
+                                        <li><span>교육시간</span>1회(60분)</li>
+                                        <li><span>패널티</span><p class="fcred">교육 미이수시 최대 300만 원</p></li>
+                                    </ul> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="maincon1" style="background-image: url(../img/main/con1/image3.jpg);">
+                                <span>퇴직연금교육</span>
+                                <div class="hover_box">
+                                    <ul>
+                                        <li><span>법령근거</span>근로자 퇴직급여보장법 제 32조</li>
+                                        <li><span>대상자</span>전 직원 (개인형퇴직연금제도를 제외한 퇴직연금제도를 설정한기업)</li>
+                                        <li><span>교육시간</span>연 1회 (60분 이상)</li>
+                                        <li><span>패널티</span><p class="fcred">교육 미이수시 최대1,000만 원</p></li>
+                                    </ul> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="maincon1" style="background-image: url(../img/main/con1/image4.jpg);">
+                                <span>직장 내 괴롭힘 방지 교육</span>
+                                <div class="hover_box">
+                                    <ul>
+                                        <li><span>법령근거</span>고용노동부 발표 취업규칙 표준안</li>
+                                        <li><span>대상자</span>10인 이상 사업장 모든 근로자</li>
+                                        <li><span>교육시간</span>1회</li>
+                                        <li><span>패널티</span><p class="fcred">권고 <br>
+                                            사건발생 사업주 형사처벌 가능</p></li>
+                                    </ul> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="maincon1" style="background-image: url(../img/main/con1/image5.jpg);">
+                                <span>개인정보보호교육</span>
+                                <div class="hover_box">
+                                    <ul>
+                                        <li><span>법령근거</span>개인정보보호법 제 28조</li>
+                                        <li><span>대상자</span>개인정보취급자 또는 업무에 따라 개인정보에 접근하여 처리하는 자</li>
+                                        <li><span>교육시간</span>연 1회 (60분 이상)</li>
+                                        <li><span>패널티</span><p class="fcred">보안사고 발생시 최대 5억 원-이하 과징금</p></li>
+                                    </ul> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="maincon1" style="background-image: url(../img/main/con1/image6.jpg);">
+                                <span>안전보건교육</span>
+                                <div class="hover_box">
+                                    <ul>
+                                        <li><span>법령근거</span>산업안전보건법 제31조</li>
+                                        <li><span>대상자</span>5인 이상 사업장 모든 근로자</li>
+                                        <li><span>교육시간</span>반기별 1회 (6~12시간 이상)</li>
+                                        <li><span>패널티</span><p class="fcred">교육 미이수시 최대 500만 원</p></li>
+                                    </ul> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="maincon1" style="background-image: url(../img/main/con1/image1.jpg);">
+                                <span>직장 내 성희롱 예방 교육</span>
+                                <div class="hover_box">
+                                    <ul>
+                                        <li><span>법령근거</span>남녀공용평등법 제 13조</li>
+                                        <li><span>대상자</span>전직원<br>(10인 미만 사업장)</li>
+                                        <li><span>교육시간</span>1회(60분)</li>
+                                        <li><span>패널티</span><p class="fcred">교육 미이수시 최대 500만 원</p></li>
+                                    </ul> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="maincon1" style="background-image: url(../img/main/con1/image2.jpg);">
+                                <span>직장 내 장애인 인식 개선 교육</span>
+                                <div class="hover_box">
+                                    <ul>
+                                        <li><span>법령근거</span>장애인고용촉진 및 직업재활법5 조의 2</li>
+                                        <li><span>대상자</span>전직원<br>(10인 미만 사업장)</li>
+                                        <li><span>교육시간</span>1회(60분)</li>
+                                        <li><span>패널티</span><p class="fcred">교육 미이수시 최대 300만 원</p></li>
+                                    </ul> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="maincon1" style="background-image: url(../img/main/con1/image3.jpg);">
+                                <span>퇴직연금교육</span>
+                                <div class="hover_box">
+                                    <ul>
+                                        <li><span>법령근거</span>근로자 퇴직급여보장법 제 32조</li>
+                                        <li><span>대상자</span>전 직원 (개인형퇴직연금제도를 제외한 퇴직연금제도를 설정한기업)</li>
+                                        <li><span>교육시간</span>연 1회 (60분 이상)</li>
+                                        <li><span>패널티</span><p class="fcred">교육 미이수시 최대1,000만 원</p></li>
+                                    </ul> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="maincon1" style="background-image: url(../img/main/con1/image4.jpg);">
+                                <span>직장 내 괴롭힘 방지 교육</span>
+                                <div class="hover_box">
+                                    <ul>
+                                        <li><span>법령근거</span>고용노동부 발표 취업규칙 표준안</li>
+                                        <li><span>대상자</span>10인 이상 사업장 모든 근로자</li>
+                                        <li><span>교육시간</span>1회</li>
+                                        <li><span>패널티</span><p class="fcred">권고 <br>
+                                            사건발생 사업주 형사처벌 가능</p></li>
+                                    </ul> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="maincon1" style="background-image: url(../img/main/con1/image5.jpg);">
+                                <span>개인정보보호교육</span>
+                                <div class="hover_box">
+                                    <ul>
+                                        <li><span>법령근거</span>개인정보보호법 제 28조</li>
+                                        <li><span>대상자</span>개인정보취급자 또는 업무에 따라 개인정보에 접근하여 처리하는 자</li>
+                                        <li><span>교육시간</span>연 1회 (60분 이상)</li>
+                                        <li><span>패널티</span><p class="fcred">보안사고 발생시 최대 5억 원-이하 과징금</p></li>
+                                    </ul> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="maincon1" style="background-image: url(../img/main/con1/image6.jpg);">
+                                <span>안전보건교육</span>
+                                <div class="hover_box">
+                                    <ul>
+                                        <li><span>법령근거</span>산업안전보건법 제31조</li>
+                                        <li><span>대상자</span>5인 이상 사업장 모든 근로자</li>
+                                        <li><span>교육시간</span>반기별 1회 (6~12시간 이상)</li>
+                                        <li><span>패널티</span><p class="fcred">교육 미이수시 최대 500만 원</p></li>
+                                    </ul> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div>
+                <div class="swiper-button-wrap">
+                    <div class="swiper-button-next maincon1-btn-next"></div>
+                    <div class="swiper-button-prev maincon1-btn-prev"></div>
+                </div>
+                <!--maincon1 swiper-->
+            </div>
+        </div>
+        <!--wrap-->
+    </div>
+    <!--con1-->
+    <!--con2-->
+    <div class="main_con con2">
+        <div id="wrap">
+            <div class="title">
+                <span><b>안전보건교육! </b><br>
+                    각 분야별 맞는 콘텐츠를 사용하고 계신가요?
+                </span>
+                <p><?=$SiteName?>은 <b>6개 분야의 모든콘텐츠</b>를 보유하고 있습니다.</p>
+            </div>
+            <div class="content">
+                <img src="../img/main/con2/icon.png" alt="제조,건설,보건,유통,서비스,기타">
+            </div>
+        </div>
+        <!--wrap-->
+    </div>
+    <!--con2-->
+    <!--con3-->
+    <div class="main_con con3">
+        <div id="wrap">
+            <div class="title">
+                <span>법정의무교육 어느 교육기관이나 동일한 것 아닌가요?</span>
+                <p class="block">법정의무교육은 <b>믿을 수 있는 교육기관</b>에서 이수해야 합니다.</p>
+                <p><b>부정훈련 예방</b><?=$SiteName?>이 실천합니다.</p>
+            </div>
+            <div class="content">
+                <div>
+                    <div class="left">
+                        <img src="../img/main/con3/man2.png" alt="">
+                        <span>경기도 화성 (주)OO설비</span>
+                    </div>
+                    <div class="right">
+                        강사가 파견되어 무료로 법정교육을 시켜준다고 합니다. <br>
+                        도시락도 제공하고요. 그런데 강의는 A보험 영업과 <br>
+                        상조회사 영업을 합니다.
+                    </div>
+                </div>
+                <div>
+                    <div class="left">
+                        <img src="../img/main/con3/man1.png" alt="">
+                        <span>서울 구로 OO주식회사</span>
+                    </div>
+                    <div class="right">한 시간 강의하고 전 근로자가 교육받은 것으로<br>
+                        1년치 수료증을 발급 받았습니다. 그런데 고용노동부의 점검으로 <br>
+                        강사가 무자격이라는 것과 근로자의 인터뷰로<br>
+                        부정교육이라는 것이 밝혀져 무효되었어요
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--wrap-->
+    </div>
+    <!--con3-->
+    <!--con4-->
+    <div class="main_con con4">
+        <div id="wrap">
+            <div class="title">
+                <span>HRDe <b>ONE-STOP</b> PROCESS</span>
+                <p>어차피 받아야 하는 안전보건교육, <b>퀄리티 있는 교육</b>으로 받으세요 <br>
+                    <?=$SiteName?>은 고용노동부 인지정교육기관으로 <b>전 콘텐츠를 자체 개발</b>합니다. <br>
+                    학습관리에서 결과보고까지 <b>원스탑으로 이용</b>해보세요</p>
+            </div>
+            <div class="content">
+                <div>
+                    <div class="step">
+                        <span>STEP</span>
+                        <strong>01</strong>
+                    </div>
+                    <div class="circle"></div>
+                    <div class="icon">
+                        <img src="../img/main/con4/icon1.png" alt="">
+                        <span>교육 선택 및 계약 체결</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="step">
+                        <span>STEP</span>
+                        <strong>02</strong>
+                    </div>
+                    <div class="circle"></div>
+                    <div class="icon">
+                        <img src="../img/main/con4/icon2.png" alt="">
+                        <span>학습진행</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="step">
+                        <span>STEP</span>
+                        <strong>03</strong>
+                    </div>
+                    <div class="circle"></div>
+                    <div class="icon">
+                        <img src="../img/main/con4/icon3.png" alt="">
+                        <span>결과 보고서 제공</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--wrap-->
+    </div>
+    <!--con4 -->
+    <!--con5-->
+    <div class="main_con con5">
+        <div id="wrap">
+            <div class="title">
+                <em>회원가입은 어떻게 해요? 평가는 언제 진행하나요?</em>
+                <span>어떻게 하는지 모르겠어요</span>
+                <p>궁금하신 사항은 아래 <b>자주하는 질문</b>이나 <br>
+                    <b>학습자 매뉴얼</b>을 참고하시면 더욱 편하게 이용하실 수 있습니다.</p>
+                <div class="button_wrap">
+                    <button class="video" onclick="window.open('https://www.youtube.com/watch?v=lXu0Mns7zi8&feature=youtu.be')">학습자 메뉴얼 영상 보기</button>
+                    <button class="ebook" onclick="window.open('https://drive.google.com/file/u/0/d/1Z1zBGdtBNk725oUrJgJPSHolP6jU5e6K/view?usp=sharing&pli=1')">학습자 매뉴얼 e-book</button>
+                </div>
+            </div>
+        </div>
+        <!--wrap-->
+    </div>
+    <!--con5-->
+    <!--con6-->
+    <div class="main_con main_con6">
+        <div id="wrap">
+            <div class="content1">
+                <div class="qna">
+                    <strong>자주묻는 질문</strong>
+                    <a href="../../public/support/faq.html" class="more">전체보기 <i class="ph ph-caret-right"></i></a>
+                    <ul>
+                    	<?
+                        $i = 0;
+                        $SQL = "SELECT * FROM Faq WHERE Del='N' AND UseYN='Y' ORDER BY OrderByNum ASC, RegDate ASC LIMIT 3";
+						$QUERY = mysqli_query($connect, $SQL);
+                        if($QUERY && mysqli_num_rows($QUERY)){
+                            while($ROW = mysqli_fetch_array($QUERY)){
+                                extract($ROW);
+                                $Title = strcut_utf8($Title,45);
+                        ?>
+                        <li><a href="../../public/support/faq.html?MainSend=Y&view_num=<?=$i?>&idx=<?=$idx?>"><?=$Title?></a></li>
+                        <?
+                        	$i++;
+                            }
+                        }
+                        ?>
+                    </ul>
+                </div>
+                <div class="notice">
+                    <strong>공지사항</strong>
+                    <a href="../../public/support/notice.html" class="more">전체보기 <i class="ph ph-caret-right"></i></a>
+                    <ul>
+                    	<?
+                        $i = 0;
+                        $SQL = "SELECT * FROM Notice WHERE Del='N' AND UseYN='Y' AND Notice='N' ORDER BY RegDate DESC, idx DESC LIMIT 3";
+						$QUERY = mysqli_query($connect, $SQL);
+                        if($QUERY && mysqli_num_rows($QUERY)){
+                            while($ROW = mysqli_fetch_array($QUERY)){
+                                extract($ROW);
+                                $Title = strcut_utf8($Title,45);
+                        ?>
+                        <li><a href="../../public/support/notice_view.html?idx=<?=$idx?>"><?=$Title?></a> <span><?=substr($RegDate,0,10)?></span></li>
+                        <?
+                        	$i++;
+                            }
+                        }
+                        ?>
+                    </ul>
+                </div>
+            </div>
+            <div class="content2">
+                <div class="left">
+                    <div class="chatbot">
+                        <span>채팅 상담을 도와드려요</span>
+                        <p>학습 관련 궁금한 사항은<br>
+                            HRDe 챗봇 러비에게 질문해 주세요</p>
+                        <div class="img">
+                            <img src="../img/main/con6/chatbot.png" alt="챗봇">
+                        </div>
+                    </div>
+                    <div class="remote" onclick="location.href='/public/support/remote.html'">
+                        <span>원격 지원 서비스</span>
+                        <p>학습 지원 및 장애 발생시<br>신속히 처리해 드리겠습니다.</p>
+                        <div class="img"><img src="../img/main/con6/computer.png" alt="원격지원"></div>
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="left">
+                        <span>학습지원센터</span>
+                        <div class="point">학습 지원 · 장애 처리</div>
+                        <p>평일(월~금) 09:00~18:00</p>
+                        <p>점심시간 12:00~13:00</p>
+                    </div>
+                    <div class="right">
+                        <strong><?=$SitePhone?></strong>
+                        <div class="img">
+                            <img src="../img/main/con6/adviser.png" alt="상담시간이 아닌 경우 카톡상담 또는 챗봇 러비를 통해 문의 바랍니다.">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--wrap-->
+    </div>
+    <!--con6-->
+    <!--하단배너-->
+    <div class="bottom_banner">
+        <div id="wrap">
+            <div class="title">
+                <b>정부지원교육</b>도 <br>
+                <?=$SiteName?>과 함께하세요
+            </div>
+            <div class="content">
+                <div class="img">
+                    <img src="../img/main/bottom_banner1.png" alt="아이콘">
+                </div>
+                <div class="txt">
+                    <span>고용보험환급교육</span>
+                    <button style="background-color:#00D1E2;" onclick="location.href='../etc/refund.html'">자세히보기</button>
+                </div>
+            </div>
+            <div class="content">
+                <div class="img">
+                    <img src="../img/main/bottom_banner2.png" alt="아이콘">
+                </div>
+                <div class="txt">
+                    <span>기업직업훈련카드</span>
+                    <button style="background-color:#2C6CBF;" onclick="location.href='../etc/card.html'">자세히보기</button>
+                </div>
+            </div>
+            <div class="content">
+                <div class="img">
+                    <img src="../img/main/bottom_banner3.png" alt="아이콘">
+                </div>
+                <div class="txt">
+                    <span>내일배움카드</span>
+                    <button style="background-color:#8265BE;" onclick="location.href='../../cyber/card/card.html'">자세히보기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+<? include $_SERVER['DOCUMENT_ROOT'] . "/popup/include_popup.php"; ?>
+<? include "../include/footer.html"; ?>
+
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
+
+<script>
+//메인배너
+var swiper = new Swiper(".mainbanner-swiper", {
+    slidesPerView: 1,
+    spaceBetween: 0,
+    speed: 1000,
+    loop: true,
+     autoplay: {
+       delay: 3000,
+         disableOnInteraction: false,
+     },
+    navigation: {
+        nextEl: ".mainbanner-btn-next",
+        prevEl: ".mainbanner-btn-prev",
+    }
+});
+
+//메인컨텐츠1
+var swiper = new Swiper(".maincon1-swiper", {
+    slidesPerView: 4,
+    spaceBetween: 0,
+    speed: 1000,
+    loop: true,
+    navigation: {
+        nextEl: ".maincon1-btn-next",
+        prevEl: ".maincon1-btn-prev",
+    },
+    breakpoints: {
+        1300: {
+                slidesPerView: 4,
+                spaceBetween: 20
+            },
+            930: {
+                slidesPerView: 3,
+                spaceBetween: 20
+            },
+            640: {
+                slidesPerView: 2,
+                spaceBetween: 10
+            },
+            320: {
+                slidesPerView: 1,
+                spaceBetween: 10
+            },
+            120: {
+                slidesPerView: 1,
+                spaceBetween: 10
+            }
+        }
+});
+</script>
+
