@@ -33,6 +33,7 @@ include $_SERVER['DOCUMENT_ROOT'] . "/include/include_function.php"; //DB연결 
     <script>
         var SiteName = "<?=$SiteName?>";
         var SiteNum = "<?=$SitePhone?>"
+        var SiteKakaoURL = "<?=$SiteKakaoURL?>"
     </script>
     <script type="text/javascript" src="/chatbot/constants.js" ></script>
 	<script type="text/javascript" src="/chatbot/chatbot.js" ></script>
@@ -48,7 +49,7 @@ include $_SERVER['DOCUMENT_ROOT'] . "/include/include_function.php"; //DB연결 
 </head>
 <!--플로팅배너-->
 <ul class="float_banner">
-    <li><a href="https://pf.kakao.com/_kEcWxj/chat" target="_blank"><img src="../../common/img/floating_kakao.png"></a></li>
+    <li><a href="<?=$SiteKakaoURL?>" target="_blank"><img src="../../common/img/floating_kakao.png"></a></li>
     <!--<li><a href="https://pf.kakao.com/_kEcWxj/chat" target="_blank"><img src="/images/common/floating_chatbot.png"></a></li>-->
     <li><img src="../../common/img/chatbot gif.gif" class="chatbot" style="width:70px;" /></li>
     <li class="float_banner2"></li>

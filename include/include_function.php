@@ -109,6 +109,7 @@ if($Row) {
     $SitePersonalInformationManager = $Row['PersonalInformationManager'];
     $SiteAddress = $Row['Address'];
     $SiteCopyright = $Row['Copyright'];
+    $SiteKakaoURL = $Row['KakaoURL'];
 }
 mysqli_free_result($Result);
 
