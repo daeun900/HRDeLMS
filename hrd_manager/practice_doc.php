@@ -117,12 +117,12 @@ body {-webkit-print-color-adjust: exact;}
     						<td colspan="3"><?=$CompanyName?></td>
 						</tr>
 						<?
-						if($lecture1_value !== '' && $lecture1_value != 'undefined')$TOT1_NO = count($lecture1_array); else $TOT1_NO=0;
-						if($lecture2_value !== '' && $lecture2_value != 'undefined') $TOT2_NO = 1; else $TOT2_NO=0;
-						if($lecture3_value !== '' && $lecture3_value != 'undefined') $TOT3_NO = 1; else $TOT3_NO=0;
-						if($lecture4_value !== '' && $lecture4_value != 'undefined') $TOT4_NO = 1; else $TOT4_NO=0;
-						if($lecture5_value !== '' && $lecture5_value != 'undefined') $TOT5_NO = 1; else $TOT5_NO=0;
-						if($lecture6_value !== '' && $lecture6_value != 'undefined') $TOT6_NO = 1; else $TOT6_NO=0;
+						if($lecture1_value !== '' && $lecture1_value != undefined) $TOT1_NO = count($lecture1_array); else $TOT1_NO=0;
+						if($lecture2_value !== '' && $lecture2_value != undefined) $TOT2_NO = 1; else $TOT2_NO=0;
+						if($lecture3_value !== '' && $lecture3_value != undefined) $TOT3_NO = 1; else $TOT3_NO=0;
+						if($lecture4_value !== '' && $lecture4_value != undefined) $TOT4_NO = 1; else $TOT4_NO=0;
+						if($lecture5_value !== '' && $lecture5_value != undefined) $TOT5_NO = 1; else $TOT5_NO=0;
+						if($lecture6_value !== '' && $lecture6_value != undefined) $TOT6_NO = 1; else $TOT6_NO=0;
 						$TOT_NO = $TOT1_NO+$TOT2_NO+$TOT3_NO+$TOT4_NO+$TOT5_NO+$TOT6_NO;
 						//echo $TOT_NO;
 						
@@ -278,7 +278,7 @@ body {-webkit-print-color-adjust: exact;}
 						<tr>
 						<td style="border:0"></td>
 						<td width="60" style="border:0"><img src="/images/logo_mark.png" align="absmiddle" width="55" height="55" /></td>
-						<td style="border:0;text-align:left; width:220px;">
+						<td style="border:0;text-align:left; width:260px;">
 							<div style="font-size:19px;margin-bottom:5px;">고용노동부 인증</div>
 							<div style="font-size:28px;"><?=$CertSiteName?></div>
 						</td>
@@ -319,32 +319,27 @@ body {-webkit-print-color-adjust: exact;}
 						<tr>
 							<td>2</td>
 							<td style="text-align: left;">
-								<br><img src="/hrd_manager/images/image01.png"><br><br>
-								상단 직업훈련 탭 클릭 후 HRD-NET 사이트로 접속
+								<br><img style="width:100%" src="/hrd_manager/images/images01.jpg"><br><br>
+								상단 직업능력 개발 > 사업주훈련 클릭
 							</td>
 						</tr>
 						<tr>
 							<td>3</td>
 							<td style="text-align: left;">
-								<br><img src="/hrd_manager/images/image02.png"><br><br>
-								HRD-NET 홈페이지 ⇨ 사업주 훈련 ⇨ 사업주 계좌 순서로 클릭
+								<br><img style="width:100%" src="/hrd_manager/images/images02.jpg"><br><br>
+								사업주계좌 등록 ⇨ 계좌추가 클릭
 							</td>
 						</tr>
 						<tr>
 							<td>4</td>
 							<td style="text-align: left;">
-								<br><img src="/hrd_manager/images/image03.png"><br><br>
-								목록에서 계좌 추가 버튼을 통해 계좌 등록<br>
-								- 목록에 조회되는 계좌가 있는 경우 HRD에 기존에 등록해서 사용/확인된 계좌<br>
-								- 은행명, 계좌번호, 예금주명 같은건 여러개 존재 가능(계좌식별번호 다른 경우 해당)<br>
-							</td>
-						</tr>
-						<tr>
-							<td>5</td>
-							<td style="text-align: left;">
-								위탁훈련비용 지급 계좌 선택<br>
-								- 계좌 선택 ’Y’로 설정 후 계좌 선택 저장 (‘Y’ 설정은 한건만 가능)<br> 
-                                - ‘Y’로 선택된 계좌: 위탁 훈련비 지급될 계좌								
+								<br><img style="width:100%" src="/hrd_manager/images/images03.jpg"><br><br>
+							
+								➀ 계좌선택여부 ‘Y’로 설정 후 예금주명, 계좌번호를 입력합니다.<br>
+
+								➁ 여기를 클릭을 선택하여 ‘통장사본’을 등록합니다.<br>
+
+								➂ 저장을 클릭하면 계좌등록이 완료됩니다. (계좌등록은 1건만 가능합니다.)
 							</td>
 						</tr>
 						<tr>
@@ -397,7 +392,7 @@ body {-webkit-print-color-adjust: exact;}
 							<th>입금계좌 안내</th>
 						</tr>
 						<tr>
-							<td><br><img src="/hrd_manager/images/image04.png"><br><br></td>
+							<td><br><img src="/hrd_manager/images/image04.jpg"><br><br></td>
 						</tr>
 					</table>
 				</div>
@@ -772,7 +767,7 @@ body {-webkit-print-color-adjust: exact;}
 						?>
 						<tr>
 							<td>소속</td>
-							<td>(주)HRDe solution</td>
+							<td><?=$SiteName?></td>
 						</tr>
 						<tr>
 							<td>성명</td>
@@ -1084,16 +1079,8 @@ body {-webkit-print-color-adjust: exact;}
 							<td colspan="2">개강1일전 발송되는 교육담당자 메일을 확인해주세요.</td>
 						</tr>
 						<tr>
-							<td rowspan="4">본인인증 절차</td>
-							<td>법정교육</td>
-							<td>본인인증을 하지 않습니다.<br>(비밀번호 변경시 필요)</td>
-						</tr>
-						<tr>
-							<td>안전보건교육</td>
-							<td>본인인증을 하지 않습니다.<br>(비밀번호 변경시 필요)</td>
-						</tr>
-						<tr>
-							<td rowspan="2">직무교육</td>
+							<td rowspan="2">본인인증 절차</td>
+							<td rowspan="2">법정교육, 안전보건교육, 직무교육</td>
 							<td><span style="color:blue;text-decoration: underline;">반드시 </span> 본인 인증이 필요합니다.</td>
 						</tr>
 						<tr>
