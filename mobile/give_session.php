@@ -4,7 +4,7 @@ include "../include/include_function.php";
 $data = json_decode(file_get_contents('php://input'), true);
 
 $id = $data['id'] ?? null;
-$studySeq = $data['seq'] ?? null;
+// $studySeq = $data['seq'] ?? null;
 
 $response = [];
 

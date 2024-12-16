@@ -8,9 +8,52 @@ function sign_in(){
 			data: JSON.stringify(data),
 			contentType: 'application/json',
 			success: (response) => {
-				console.log(response.result);
+				console.log(response);
 				document.getElementById('sign_in_return_value').innerHTML = response.result;
 				document.getElementById('userNm').innerHTML = response.name;
+			},
+			error: (jqXHR, textStatus, errorThrown) => {
+			    console.log('Error:', textStatus, errorThrown);
+			}
+	});		
+}
+
+function termsAgree4App(){
+	let Agree01 = document.afterJoinTermForm.Agree01.value;
+	let Agree02 = document.afterJoinTermForm.Agree02.value;
+	let Agree03 = document.afterJoinTermForm.Agree03.value;
+	let Mailling = document.afterJoinTermForm.Mailling.value;
+	let Marketing = document.afterJoinTermForm.Marketing.value;
+	let chk4Email = document.afterJoinTermForm.chk4Email.value;
+	let chk4Sms = document.afterJoinTermForm.chk4Sms.value;
+	let id = document.afterJoinTermForm.id4Term.value;
+	let data = { Agree01, Agree02, Agree03, Mailling, Marketing, chk4Email, chk4Sms, id };
+	$.ajax({
+			url: './after_join_term.php', 
+			type: 'POST',
+			data: JSON.stringify(data),
+			contentType: 'application/json',
+			success: (response) => {
+				console.log(response);
+			},
+			error: (jqXHR, textStatus, errorThrown) => {
+			    console.log('Error:', textStatus, errorThrown);
+			}
+	});		
+}
+
+function updateDefaultPw(){
+	let newPw1 = document.updateDefaultPwForm.newPw1.value;
+	let newPw2 = document.updateDefaultPwForm.newPw2.value;
+	let id = document.updateDefaultPwForm.id.value;
+	let data = { newPw1, newPw2, id };
+	$.ajax({
+			url: './update_default_pw.php', 
+			type: 'POST',
+			data: JSON.stringify(data),
+			contentType: 'application/json',
+			success: (response) => {
+				console.log(response);
 			},
 			error: (jqXHR, textStatus, errorThrown) => {
 			    console.log('Error:', textStatus, errorThrown);

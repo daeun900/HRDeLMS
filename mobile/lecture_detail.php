@@ -78,7 +78,9 @@ if($query4chapter){
         $response['chapterInfo'][] = [$contentsTitle, $chapterType, $canTakeContent, $chapterProgress];//컨텐츠명, 챕터 타입, 수강하기 버튼 활성화여부 데이터, 챕터별 진도율
         $response['returnBack'][] = [$LectureCode, $studySeq, $chapterSeq, $contentsIdx, $progressIdx, $playMode, $progressStep];//강의수강하기 버튼 누르면 프론트가 백에게 주어야하는 데이터
         
-        $i++;
+        if($chapterType == 'A'){
+            $i++;            
+        }
     }
 }
 

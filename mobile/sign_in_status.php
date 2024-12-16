@@ -5,7 +5,7 @@ include "../include/include_function.php";
 $response = [];
 
 //세션이 상실되었으면
-if(empty($_SESSION['LoginMemberID'])) {
+if(!isset($_SESSION['LoginMemberID'])) {
     $response['result'] = 'Empty';
 }else{
     $id= $_SESSION['LoginMemberID'];
@@ -21,6 +21,13 @@ if(empty($_SESSION['LoginMemberID'])) {
         $response['result'] = 'N';
     }else{
         $response['result'] = 'Y';
+    }
+    
+    $sql4DeviceId = "SELECT Device FROM LoginHistory lh WHERE ID = '$id' ORDER BY RegDate DESC LIMIT 1";
+    $query4DeviceId = mysqli_query($connect, $sql4DeviceId);
+    if($row = mysqli_fetch_assoc($query4DeviceId)){
+        $deviceId = $row['Device'];
+        $response['deviceId'] = $deviceId;
     }
 }
 

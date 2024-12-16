@@ -93,7 +93,7 @@ if($row && ($row['ContentsURLSelect'] == 'A' && $row['ContentsURLSelectGlobal'] 
         }
         
         if(($ChapterLimit == "Y" && $TestID == "N") && $TodayProgressCnt > 7){
-            $alert = 'Error : Over Taken Status';
+            $alert = 'over8Chapters';
         }
         
     }elseif($mode == 'C'){ //이어보기 STARTS ------------------------------------------------------------------
@@ -131,18 +131,18 @@ if($row && ($row['ContentsURLSelect'] == 'A' && $row['ContentsURLSelectGlobal'] 
             }
             
             //1,9,17...차시인경우
-            if($chapterNum % 8 == 1){
-                //최초 수강인지 체크
-                $sql4auth2 = "SELECT COUNT(*) cnt2 FROM Progress WHERE ID='$id' AND LectureCode='$lectureCode' AND Chapter_Number='$chapterNum' AND Study_Seq=$studySeq";
-                $query4auth2 = mysqli_query($connect, $sql4auth2);
-                $row = mysqli_fetch_assoc($query4auth2);
-                $progressCnt2 = $row['cnt2'];
+//             if($chapterNum % 8 == 1){
+//                 //최초 수강인지 체크
+//                 $sql4auth2 = "SELECT COUNT(*) cnt2 FROM Progress WHERE ID='$id' AND LectureCode='$lectureCode' AND Chapter_Number='$chapterNum' AND Study_Seq=$studySeq";
+//                 $query4auth2 = mysqli_query($connect, $sql4auth2);
+//                 $row = mysqli_fetch_assoc($query4auth2);
+//                 $progressCnt2 = $row['cnt2'];
                 
-                if($progressCnt2<1){
-                    $needMobileAuth2 = "Y";
-                    $authMsg = "학습 진행 시 본인인증이 필요합니다.";
-                }
-            }
+//                 if($progressCnt2<1){
+//                     $needMobileAuth2 = "Y";
+//                     $authMsg = "학습 진행 시 본인인증이 필요합니다.";
+//                 }
+//             }
         }
     }
     //아래는 pc 버전 일 경우에 사용.
@@ -162,6 +162,7 @@ if($row && ($row['ContentsURLSelect'] == 'A' && $row['ContentsURLSelectGlobal'] 
     if($ServiceType==1 || $ServiceType==4) {
         $CompleteTime = $LectureTimeSec;
     }
+//주석해놓으면 진도시간 기준이 다 먹히는거고, 주석해제 해놓으면 진도시간 기준이 환급일 때는 안먹힘#####################################################
 
     if($needMobileAuth == 'N' && $needMobileAuth2 == 'N' && $authMsg == '' && $alert == ''){
         $_SESSION['IsPlaying'] = 'Y';

@@ -2,7 +2,7 @@
 include "../include/include_function.php";
 
 $data = json_decode(file_get_contents('php://input'), true);
-$encData = Replace_Check($data['encData']);
+$encData = $_REQUEST["EncodeData"];
 
 // 응답 초기화
 $response = [];
@@ -14,19 +14,25 @@ $response = [];
 //인증 후 결과값이 null로 나오는 부분은 관리담당자에게 문의 바랍니다.
 //**************************************************************************************************************
 
-//session_start();
+// session_start();
 
 $siteCode = $CheckPlus_sitecode;					// NICE로부터 부여받은 사이트 코드
 $sitePwd = $CheckPlus_sitepasswd;				// NICE로부터 부여받은 사이트 패스워드
 $encodePath = $Auth_Mobile_path;
-
 //문자열 점검
 if(preg_match('~[^0-9a-zA-Z+/=]~', $encData, $match)) {echo "입력 값 확인이 필요합니다 : ".$match[0]; exit;} // 문자열 점검 추가.
 if(base64_encode(base64_decode($encData))!=$encData) {echo "입력 값 확인이 필요합니다"; exit;}
 
+$Sql4Test = "INSERT INTO test(column1,column2 ) VALUES('encData','$encData')";
+mysqli_query($connect, $Sql4Test);
+
 if ($encData != "") {
     $plainData = `$encodePath DEC $siteCode $sitePwd $encData`;		// 암호화된 결과 데이터의 복호화
-    
+
+    $Sql4Test = "INSERT INTO test(column1,column2 ) VALUES('plainData','$plainData')";
+    mysqli_query($connect, $Sql4Test);
+        
+
     //echo "[plaindata]  " . $plainData . "<br>";
     
     if($plainData == -1){
@@ -56,9 +62,12 @@ if ($encData != "") {
         $mobileNo = GetValue($plainData , "MOBILE_NO");
         $mobileCo = GetValue($plainData , "MOBILE_CO");
         
+        $Sql4Test = "INSERT INTO test(column1,column2 ) VALUES('REQ_SEQ2', '$requestNumber')";
+        mysqli_query($connect, $Sql4Test);
+
         $name = iconv("EUC-KR","UTF-8",$name);
         
-        if(strcmp($_SESSION["REQ_SEQ"], $requestNumber) != 0){
+       /* if(strcmp($_SESSION["REQ_SEQ"], $requestNumber) != 0){
             //echo "세션값이 다릅니다. 올바른 경로로 접근하시기 바랍니다.<br>";
             $requestNumber = "";
             $responseNumber = "";
@@ -71,7 +80,7 @@ if ($encData != "") {
             $connInfo = "";
             $mobileNo = "";
             $mobileCo = "";
-        }
+        }*/
     }
 }
 
@@ -113,11 +122,34 @@ $mobileDB = str_replace("-","",$mobileDB); //회원정보의 휴대폰 번호
 $birthDayDB = str_replace("-","",$birthDayDB);
 $mobileNo = str_replace("-","",$mobileNo); //NICE에서 리턴받은 휴대폰번호
 
-if(($mobileDB != $mobileNo) || ($NameDB != $name) || ($birthDayDB != $birthDate)){
+if (empty($mobileDB) || empty($mobileNo) || empty($NameDB) || empty($name) || empty($birthDayDB) || empty($birthDate)) {
+    $response['result'] = 'Error: One or more values are empty';
+} else if (($mobileDB !== $mobileNo) || ($NameDB !== $name) || ($birthDayDB !== $birthDate)) {
+    $response['result'] = 'Unequal';
+} else {
     $response['result'] = 'Equal';
 }
 
+$logData = [//나이스 측으로 받은 정보들 담기.  로그인 시, 비교해야하는 데이터들 함께 넘겨주기. 프론트에서는 storage 에 저장하기. 여기서 리턴해준 데이터와 로그인시 넘겨준 데이터를  비교하는 로직은 프론트가.
+    'mobileDB' => $mobileDB,
+    'mobileNo' => $mobileNo,
+    'NameDB' => $NameDB,
+    'name' =>  $name,
+    'birthDayDB' => $birthDayDB,
+    'birthDate' => $birthDate,
+];
+
+/*
 // JSON 응답 전송
 header('Content-Type: application/json');
 echo json_encode($response);
+*/
+
+// JSON 데이터를 React Native로 전송
+header("Content-Type: text/html; charset=utf-8");
+
+echo "<script>
+    window.ReactNativeWebView.postMessage('" . json_encode($logData, JSON_UNESCAPED_UNICODE) . "');
+</script>";
+exit;
 ?>

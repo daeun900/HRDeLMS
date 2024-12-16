@@ -6,16 +6,21 @@ require_once ('./include/KISA_SHA256.php');
 
 $data = json_decode(file_get_contents('php://input'), true);
 
-// 아이디와 비밀번호 추출
+session_start();
+
+$deviceId = Replace_Check_XSS2($data['deviceId']);
 $id = Replace_Check_XSS2($data['id']);
 $pwd = Replace_Check_XSS2($data['pwd']);
 $encryptedPwd = encrypt_SHA256($pwd);
 
+ 
 // 응답 초기화
 $response = [];
 $result = '';
 
-$sql4select = "SELECT * FROM Member WHERE BINARY(ID)='$id' AND UseYN='Y'";
+$sql4select = "SELECT ID, Pwd, Sleep, Name, TestID, EduManager, PassChange, Mandatory, 
+                    AES_DECRYPT(UNHEX(Mobile),'$DB_Enc_Key') AS Mobile, AES_DECRYPT(UNHEX(BirthDay),'$DB_Enc_Key') AS BirthDay 
+                FROM Member WHERE BINARY(ID)='$id' AND UseYN='Y'";
 $query4select = mysqli_query($connect, $sql4select);
 $row = mysqli_fetch_array($query4select);
 if($row){ //회원 정보가 있으면
@@ -27,6 +32,8 @@ if($row){ //회원 정보가 있으면
     $eduManager = $row['EduManager'];
     $pwchg = $row['PassChange'];
     $agreement = $row['Mandatory'];
+    $Mobile = $row['Mobile'];
+    $BirthDay = $row['BirthDay'];
     
     if($sleepYN == 'Y'){
         $response['result'] = 'N3'; //휴면계정
@@ -49,7 +56,7 @@ if($row){ //회원 정보가 있으면
         mysqli_query($connect, $sql4Update);
         
         //로그인 히스토리 등록
-        $Sql4History = "INSERT INTO LoginHistory(ID, Device, IP, RegDate) VALUES('$id', 'APP', '$UserIP', NOW())";
+        $Sql4History = "INSERT INTO LoginHistory(ID, Device, IP, RegDate) VALUES('$id', 'APP_$deviceId', '$UserIP', NOW())";
         mysqli_query($connect, $Sql4History);
         
         //로그인 중복처리를 위한
@@ -66,11 +73,14 @@ if($row){ //회원 정보가 있으면
         $_SESSION["LoginName"] = $nm;
         $_SESSION["LoginEduManager"] = $eduManager;
         $_SESSION["LoginTestID"] = $testID;
+//         $_SESSION["DeviceId"] = $deviceId;
         
         $_SESSION["IsPlaying"] = "N";
         
         $response['result'] = $result;
         $response['name'] = $nm;
+        $response['mobile'] = $Mobile;
+        $response['birthday'] = $BirthDay;
         
     }elseif($pwdFromDB != $encryptedPwd){
         $response['result'] = 'N2';//비번불일치

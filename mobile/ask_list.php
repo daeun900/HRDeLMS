@@ -12,7 +12,7 @@ $query4select = mysqli_query($connect, $sql4select);
 if($query4select && mysqli_num_rows($query4select)){
     while($row = mysqli_fetch_array($query4select)){
         extract($row);
-        $response['askList'][] =  [$Title, $RegDate, $Status, $idx];
+        $response['askList'][] =  [$Title, $Contents, $RegDate, $Status, $idx];
     }
 }
 

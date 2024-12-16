@@ -4,6 +4,8 @@ include "../include/include_function.php";
 $data = json_decode(file_get_contents('php://input'), true);
 $lectureCode = Replace_Check($data['lectureCode']);
 
+session_start();
+
 // 응답 초기화
 $response = [];
 
@@ -23,7 +25,7 @@ $reqSeq = $lectureCode."_".date('YmdHis');     // 요청 번호, 이는 성공/�
 
 // CheckPlus(본인인증) 처리 후, 결과 데이타를 리턴 받기위해 다음예제와 같이 http부터 입력합니다.
 // 리턴url은 인증 전 인증페이지를 호출하기 전 url과 동일해야 합니다. ex) 인증 전 url : http://www.~ 리턴 url : http://www.~
-$returnUrl = $MobileSiteURL."/checkplus_success.php";	// 성공시 이동될 URL
+$returnUrl = $SiteURL."/mobile/checkplus_success.php";	// 성공시 이동될 URL
 $errorUrl = $MobileSiteURL."/checkplus_fail.php";		// 실패시 이동될 URL
 
 // reqseq값은 성공페이지로 갈 경우 검증을 위하여 세션에 담아둔다.
@@ -56,6 +58,11 @@ if( $encData == -1 ){
 }
 
 $response['encData'] = $encData;
+
+$response['$encodePath'] = $encodePath;
+$response['$siteCode'] = $siteCode;
+$response['$sitePwd'] = $sitePwd;
+$response['$plainData'] = $plainData;
 
 // JSON 응답 전송
 header('Content-Type: application/json');

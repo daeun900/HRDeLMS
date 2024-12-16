@@ -98,28 +98,28 @@ if($row){
         $response['test'] = 'out';
     }
     
-    if($prvProgressProgress < $chapterProgress){ //Progress테이블의 Progress와 비교한 것. 
+//     if($prvProgressProgress < $chapterProgress){ //Progress테이블의 Progress와 비교한 것. 
         //수강현황 로그 작성
         $sql4Log = "INSERT INTO ProgressLog(ID, LectureCode, Study_Seq, Chapter_Seq, Contents_idx, ContentsDetail_Seq, LastStudy, 
                                             Progress, StudyTime, UserIP, RegDate, TriggerYN, Chapter_Number, TotalProgress) 
                     VALUES('$id', '$lectureCode', $studySeq, $chapterSeq, $contentsIdx, $contentsDetailSeq, '$lastStudy', 
                             $chapterProgress, $progressTime, '$UserIP', NOW(), '$triggerYN', '$chapterNumber', $prgPct)";
         $row4ProgressLog = mysqli_query($connect, $sql4Log);
-    }else{
-        $response['alert'] .= 'Error : Previous Data is bigger (L101)';
-    }
+//     }else{
+//         $response['alert'] .= 'Error : Previous Data is bigger (L101)';
+//     }
     
     if($p3Cnt > 0){ //현재 수강중인 차시가 존재하는지 (update)
-        if($prvProgressProgress < $chapterProgress){//기존에 저장되어 있는 Progress테이블의 Progress가 현재 넣으려 하는 chapterProgress보다 작을 때.
+//         if($prvProgressProgress < $chapterProgress){//기존에 저장되어 있는 Progress테이블의 Progress가 현재 넣으려 하는 chapterProgress보다 작을 때.
             $sql4Update = "UPDATE Progress
                             SET ContentsDetail_Seq=$contentsDetailSeq, LastStudy='$lastStudy', StudyTime=$progressTime, UserIP='$UserIP',
                                 $set4RegDate Progress=$chapterProgress, TriggerYN='$triggerYN', Chapter_Number='$chapterNumber'
                             WHERE ID='$id' AND LectureCode='$lectureCode' AND Study_Seq=$studySeq
                                 AND Chapter_Seq=$chapterSeq AND Contents_idx=$contentsIdx";
             $row4Progress = mysqli_query($connect, $sql4Update);
-        }else{
-            $response['alert'] .= 'Error : Previous Data is bigger (L113)';
-        }
+//         }else{
+//             $response['alert'] .= 'Error : Previous Data is bigger (L113)';
+//         }
     }else{ // (insert)
         $sql4Insert = "INSERT INTO Progress(ID, LectureCode, Study_Seq, Chapter_Seq, Contents_idx, ContentsDetail_Seq, LastStudy,
                                             Progress, StudyTime, UserIP, RegDate, TriggerYN, Chapter_Number)
