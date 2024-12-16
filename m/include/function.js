@@ -1,11 +1,11 @@
 //공통 함수 ------------------------------------------------------------------------------------------------------
 
-if(location.protocol == "http:"){
-	location.href = location.href.replace("http://","https://");
-}
-if(location.hostname != "m.hrdelms.com"){
-	location.href = location.href.replace(location.hostname,"m.hrdelms.com");
-}
+// if(location.protocol == "http:"){
+// 	location.href = location.href.replace("http://","https://");
+// }
+// if(location.hostname != "m.hrdelms.com"){
+// 	location.href = location.href.replace(location.hostname,"m.hrdelms.com");
+// }
 
 
 function MenuOpen() {
@@ -391,4 +391,87 @@ function CounselSubmit() {
 		CounselForm.submit();
 	}
 
+}
+
+//회원가입 관련------------------------------------------------------------------------------------------------------
+
+//전체 선택
+function JoinAgreeAllCheck() {
+	if ($('#AllCheck').is(':checked') == true) {
+		$('#Agree01').prop('checked', true);
+		$('#Agree02').prop('checked', true);
+		$('#Agree03').prop('checked', true);
+		$('#Mailling').prop('checked', true);
+		$('#Marketing').prop('checked', true);
+		$('#chk5Email').prop('checked', true);
+		$('#chk5Sms').prop('checked', true);
+	} else {
+		$('#Agree01').prop('checked', false);
+		$('#Agree02').prop('checked', false);
+		$('#Agree03').prop('checked', false);
+		$('#Mailling').prop('checked', false);
+		$('#Marketing').prop('checked', false);
+		$('#chk5Email').prop('checked', false);
+		$('#chk5Sms').prop('checked', false);
+	}
+}
+
+//동의여부 체크
+function JoinAgreeCheck() {	
+	if(($('#Agree01').is(':checked') == false)||($('#Agree02').is(':checked') == false)||($('#Agree03').is(':checked') == false)||($('#Mailling').is(':checked') == false)||($('#Marketing').is(':checked') == false)){
+		$('#AllCheck').prop('checked', false);
+		if(($('#Marketing').is(':checked') == false)){
+			$('#chk5Email').prop('checked', false);
+			$('#chk5Sms').prop('checked', false);
+		}
+	}else{
+		$('#AllCheck').prop('checked', true);
+		if(($('#Marketing').is(':checked') == true)){
+			$('#chk5Email').prop('checked', true);
+			$('#chk5Sms').prop('checked', true);
+		}
+	}
+}
+
+// 동의 여부 체크 - 이메일/SMS
+function JoinAgreeCheckA() {	
+    if ($('#chk5Sms').is(':checked') || $('#chk5Email').is(':checked')) {
+        $('#Marketing').prop('checked', true);
+    } else {
+        $('#Marketing').prop('checked', false);
+    }
+
+    // 필수 항목 확인
+    if ($('#Agree01').is(':checked') && 
+        $('#Agree02').is(':checked') && 
+        $('#Agree03').is(':checked') && 
+        $('#Mailling').is(':checked') && 
+        $('#Marketing').is(':checked')) {
+        $('#AllCheck').prop('checked', true);
+    } else {
+        $('#AllCheck').prop('checked', false);
+    }
+}
+
+
+//필수동의여부 체크하지 않은경우, 동의여부 체크
+function termsAgree() {
+	var pwchg_value = $("#pwchg").val();
+	
+	if ($('#Agree01').is(':checked') == false) {
+		alert('이용약관에 동의하여야 회원가입이 가능합니다.');
+		return false;
+	}	
+	if ($('#Agree02').is(':checked') == false) {
+		alert('개인정보 수집 및 이용에 동의하여야 회원가입이 가능합니다.');
+		return false;
+	}
+	if ($('#Agree03').is(':checked') == false) {
+		alert('개인정보의 제3자 제공에 동의하여야 회원가입이 가능합니다.');
+		return false;
+	}
+	
+	document.AfterAgreeForm.pwchg.value = pwchg_value;
+	document.AfterAgreeForm.action = '/public/member/term_state_update.php';
+	document.AfterAgreeForm.submit();
 }
